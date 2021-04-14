@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
+<th:block layout:fragment="contentFragment">
+
+<h1>테스트 계정</h1>
+
+<table border="1">
+<thead>
+	<tr><th>cmpny_user_id</th><th>cmpny_id</th><th>user_nm</th><th>login_id</th><th>pwd</th></tr>
+</thead>
+<tbody>
+	<tr><td>ADMIN_001</td><td></td><td>관리자_유저1</td><td>ADMIN_001_id</td><td>1</td></tr>
+	<tr><td>C00001_001</td><td>C00001</td><td>건설1_유저1</td><td>C00001_001_id</td><td>1</td></tr>
+	<tr><td>C00001_002</td><td>C00001</td><td>건설1_유저2</td><td>C00001_002_id</td><td>1</td></tr>
+	<tr><td>C00002_001</td><td>C00002</td><td>건설2_유저1</td><td>C00002_001_id</td><td>1</td></tr>
+	<tr><td>V00001_001</td><td>V00001</td><td>자재1_유저1</td><td>V00001_001_id</td><td>1</td></tr>
+	<tr><td>V00002_001</td><td>V00002</td><td>자재2_유저1</td><td>V00002_001_id</td><td>1</td></tr>
+</tbody>
+</table>
+
+</th:block>

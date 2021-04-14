@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
+<th:block layout:fragment="contentFragment">
+
+<h1>업체 자재단가 공급업체 가격상세 목록</h1>
+
+<table border="1">
+<thead>
+	<tr>
+       <th>matrlLctgId 대분류ID</th><th>lctgNm 대분류명</th>
+       <th>matrlCtgId 소분류ID</th><th>ctgNm 소분류명</th>
+       <th>matrlItemId 품목ID</th><th>itemNm 품목명</th>
+       <th>matrlId 자재ID</th><th>matrlStd 자재규격</th><th>unitCd 단위</th><th>matrlDesc 자재설명</th>
+       <th>buyTypeCd 구매타입코드</th>
+       <th>priceExistYn 가격존재여부</th>
+       <th>leasePerdCd 임대기간코드</th><th>price 가격</th><th>leasePrice 임대가격</th>
+	</tr>
+</thead>
+<tbody>
+    <tr th:each="mi : ${miList}">
+        <td th:text="${mi.matrlLctgId}">matrlLctgId</td>
+        <td th:text="${mi.lctgNm}">lctgNm</td>
+        <td th:text="${mi.matrlCtgId}">matrlCtgId</td>
+        <td th:text="${mi.ctgNm}">ctgNm</td>
+        <td th:text="${mi.matrlItemId}">matrlItemId</td>
+        <td th:text="${mi.itemNm}">itemNm</td>
+        <td th:text="${mi.matrlId}">matrlId</td>
+        <td th:text="${mi.matrlStd}">matrlStd</td>
+        <td th:text="${mi.unitCd}">unitCd</td>
+        <td th:text="${mi.matrlDesc}">matrlDesc</td>
+        <td th:text="${mi.buyTypeCd}">buyTypeCd</td>
+        <td th:text="${mi.priceExistYn}">priceExistYn</td>
+        <td th:text="${mi.leasePerdCd}">leasePerdCd</td>
+        <td th:text="${mi.price}">price</td>
+        <td th:text="${mi.leasePrice}">leasePrice</td>
+    </tr>
+</tbody>
+</table>
+
+</th:block>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<th:block th:fragment="headerFragment">
+<style type="text/css">
+header { background-color: #666; font-size: 14px; }
+header div { padding:5px; }
+header div.main { background-color: #eee; }
+header div.sub { background-color: #118; color: white; }
+header div.sub a { color: white; }
+header div.info { background-color: #333; color: white; }
+header div.info a:visited { color: white; }
+</style>
+<header>
+<div class="main">
+<a href="/">INFACEHUB</a>
+<a href="/main">MAIN</a>
+<a href="#">공지사항</a>
+<a href="#">자유게시판</a>
+<a href="/login">로그인</a>
+<a href="/auth/logout">로그아웃</a>
+</div>
+
+<div class="sub">
+어드민
+<br />
+<a href="/admin/matrl/matrlItemList">자재목록</a>
+</div>
+<div class="sub">
+건설사
+<br />
+<a href="/cmpny/matrl/matrlItemList">자재품목설정</a>
+<a href="/cmpny/matrl/cmpnyMatrlItemList">자재품목</a>
+<a href="/cmpny/matrl/cmpnyMatrlList">자재</a>
+<br />
+<a href="/cmpny/price/cmpnyMatrlPriceVenList">업체단가관리</a>
+<a href="#">단가요청등록</a>
+<a href="#">자재청구목록</a>
+<a href="#">자재청구등록</a>
+<a href="#">자재발주목록</a>
+</div>
+<div class="sub">
+공급업체
+<br />
+<a href="/vendor/matrl/matrlItemList">자재품목설정</a>
+<a href="/vendor/matrl/cmpnyMatrlItemList">자재품목</a>
+<a href="/vendor/matrl/cmpnyMatrlList">자재</a>
+</div>
+<div class="info">
+Today : 2020.01.01
+접속IP : 1.2.3.4
+사용자 :
+<span sec:authorize="!isAuthenticated()"><a href="/login">비로그인</a></span>
+<span sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>
+    (
+	<span sec:authorize="hasRole('ROLE_ADMIN')">관리자</span>
+	<span sec:authorize="hasRole('ROLE_COMPANY')">건설사</span>
+	<span sec:authorize="hasRole('ROLE_VENDOR')">자재공급업체</span>
+    )
+<!--     <span sec:authentication="principal.accountNonExpired"></span> -->
+<!--     <span sec:authentication="principal.accountNonLocked"></span> -->
+<!--     <span sec:authentication="principal.credentialsNonExpired"></span> -->
+<!--     <span sec:authentication="principal.enabled"></span> -->
+<!--     <span sec:authentication="principal"></span> -->
+</span>
+</div>
+</header>
+</html>

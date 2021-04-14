@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
+<th:block layout:fragment="contentFragment">
+
+<h1>자재품목 공급업체 목록</h1>
+
+cntrtStatCd 계약상태코드 : 10 - 검토중, 20 - 거래중, 40 - 거래중지, 90 - 삭제
+
+<table border="1">
+<thead>
+    <tr>
+       <th>splCmpnyId 공급업체ID</th><th>splCmpnyNm 공급업체명</th>
+       <th>cntrtStatCd 계약상태코드</th>
+       <th>계약상태관리</th>
+       <th>modDts 수정일시</th>
+    </tr>
+</thead>
+<tbody>
+    <tr th:each="mi : ${miList}">
+        <td th:text="${mi.splCmpnyId}">splCmpnyId</td>
+        <td th:text="${mi.splCmpnyNm}">splCmpnyNm</td>
+        <td th:text="${mi.cntrtStatCd}">cntrtStatCd</td>
+        <td>
+            <a href="#" th:href="@{/cmpny/matrl/updMatrlItemCntrtStat(matrlItemId=${param.matrlItemId}, splCmpnyId=${mi.splCmpnyId}, buyTypeCd=${param.buyTypeCd}, cntrtStatCd=20)}">거래중</a>
+            <a href="#" th:href="@{/cmpny/matrl/updMatrlItemCntrtStat(matrlItemId=${param.matrlItemId}, splCmpnyId=${mi.splCmpnyId}, buyTypeCd=${param.buyTypeCd}, cntrtStatCd=40)}">거래중지</a>
+        </td>
+        <td th:text="${mi.modDts}">modDts</td>
+    </tr>
+</tbody>
+</table>
+
+</th:block>

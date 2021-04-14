@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.pe.inface.hub.service.matrl.MatrlPriceMapper">
+
+<!-- 업체 자재단가 공급업체 목록 -->
+<select id="getCmpnyMatrlPriceVenList" parameterType="String" resultType="MatrlPriceVO"><![CDATA[
+SELECT
+        CC.CMPNY_ID, CC.SPL_CMPNY_ID
+      , C.CMPNY_NM AS SPL_CMPNY_NM
+      , CMPRM.APL_STRT_DT, CMPRM.APL_END_DT
+      , CMPRM2.APL_STRT_DT AS REQ_APL_STRT_DT
+      , CMPRM2.APL_END_DT AS REQ_APL_END_DT
+      , CMPRM2.REQ_STAT_CD, CMPRM2.REQ_DT, CMPRM2.CONFIRM_DT
+FROM    (
+            SELECT
+                    DISTINCT
+                    CMIC.CMPNY_ID, CMIC.SPL_CMPNY_ID
+            FROM
+                    CMPNY_MATRL_ITEM_CNTRT CMIC
+            WHERE   1 = 1
+            AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+            AND     CMIC.CNTRT_STAT_CD = '20'
+        ) CC
+        LEFT OUTER JOIN CMPNY_MATRL_PRICE_REQ_MST CMPRM
+            ON  CC.CMPNY_ID = CMPRM.CMPNY_ID
+            AND CC.SPL_CMPNY_ID = CMPRM.SPL_CMPNY_ID
+            AND CMPRM.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            AND CMPRM.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            AND CMPRM.REQ_STAT_CD = '20'
+        LEFT OUTER JOIN CMPNY_MATRL_PRICE_REQ_MST CMPRM2
+            ON  CC.CMPNY_ID = CMPRM2.CMPNY_ID
+            AND CC.SPL_CMPNY_ID = CMPRM2.SPL_CMPNY_ID
+            AND CMPRM2.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+      , CMPNY C
+WHERE   1 = 1
+AND     CC.SPL_CMPNY_ID = C.CMPNY_ID
+]]></select>
+
+
+<!-- 업체 자재단가 공급업체 가격상세 목록 -->
+<select id="getCmpnyMatrlPriceVenDtlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
+SELECT
+        CC.*
+      , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN
+      , CMP.LEASE_PERD_CD
+      , COALESCE(CMP.PRICE, 0) AS PRICE
+      , COALESCE(CMP.LEASE_PRICE, 0) AS LEASE_PRICE
+FROM    (
+            SELECT
+                    CMIC.CMPNY_ID, CMIC.SPL_CMPNY_ID, CMIC.BUY_TYPE_CD
+                  , VMI.MATRL_LCTG_ID, VMI.LCTG_NM, VMI.LCTG_DISP_ORDR
+                  , VMI.MATRL_CTG_ID, VMI.CTG_NM, VMI.CTG_DISP_ORDR
+                  , VMI.MATRL_ITEM_ID, VMI.ITEM_NM, VMI.DISP_ORDR
+                  , M.MATRL_ID, M.MATRL_STD, M.UNIT_CD, M.MATRL_DESC
+            FROM
+                    CMPNY_MATRL_ITEM_CNTRT CMIC
+                  , MATRL M
+                  , V_MATRL_ITEM VMI
+            WHERE   1 = 1
+            AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+            AND     CMIC.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+            AND     CMIC.CNTRT_STAT_CD = '20'
+            AND     CMIC.MATRL_ITEM_ID = M.MATRL_ITEM_ID
+            AND     M.USE_YN = 'Y'
+            AND     M.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID
+        ) CC
+        LEFT OUTER JOIN CMPNY_MATRL_PRICE CMP
+	        ON  CC.CMPNY_ID = CMP.CMPNY_ID
+	        AND CC.SPL_CMPNY_ID = CMP.SPL_CMPNY_ID
+	        AND CC.MATRL_ID = CMP.MATRL_ID
+	        AND CC.BUY_TYPE_CD = CMP.BUY_TYPE_CD
+            AND CMP.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            AND CMP.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+ORDER BY
+        CC.BUY_TYPE_CD
+      , CC.LCTG_DISP_ORDR, CC.MATRL_LCTG_ID
+      , CC.CTG_DISP_ORDR, CC.MATRL_CTG_ID
+      , CC.DISP_ORDR, CC.MATRL_ITEM_ID
+      , CC.MATRL_ID DESC
+]]></select>
+
+</mapper>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
+<th:block layout:fragment="contentFragment">
+
+<h1>자재DB 카테고리 목록</h1>
+
+<table border="1">
+<thead>
+    <tr>
+       <th>matrlLctgId 대분류ID</th><th>lctgNm 대분류명</th><th>lctgDesc 대분류설명</th>
+       <th>matrlCtgId 소분류ID</th><th>ctgNm 소분류명</th><th>ctgDesc 소분류설명</th>
+       <th>matrlItemId 품목ID</th><th>itemNm 품목명</th><th>itemDesc 품목설명</th><th>itemImg 품목이미지</th>
+       <th>나의 자재</th>
+    </tr>
+</thead>
+<tbody>
+    <tr th:each="mi : ${miList}">
+        <td th:text="${mi.matrlLctgId}">matrlLctgId</td>
+        <td th:text="${mi.lctgNm}">lctgNm</td>
+        <td th:text="${mi.lctgDesc}">lctgDesc</td>
+        <td th:text="${mi.matrlCtgId}">matrlCtgId</td>
+        <td th:text="${mi.ctgNm}">ctgNm</td>
+        <td th:text="${mi.ctgDesc}">ctgDesc</td>
+        <td th:text="${mi.matrlItemId}">matrlItemId</td>
+        <td th:text="${mi.itemNm}">itemNm</td>
+        <td th:text="${mi.itemDesc}">itemDesc</td>
+        <td th:text="${mi.itemImg}">itemImg</td>
+        <td>
+            <a href="#" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${mi.matrlItemId}, useYn=Y)}" th:unless="${mi.myItemYn == 'Y'}">사용</a>
+            <a href="#" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${mi.matrlItemId}, useYn=N)}"     th:if="${mi.myItemYn == 'Y'}">사용중지</a>
+        </td>
+    </tr>
+</tbody>
+</table>
+
+</th:block>

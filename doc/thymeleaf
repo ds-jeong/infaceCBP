@@ -1,0 +1,11 @@
+임의로 값을 구성하고 싶을때..
+[[${cmdEnum.values()[0].tablename}]]
+th:href="|#${cmdEnum.values()[0].tablename}|"
+
+=======================
+<div th:each="cmdEnum : ${T(com.inface.device.sdk.zk.service.CmdEnumConst).getT()}">
+    <ul>
+        <li><a th:href="|#${cmdEnum.values()[0].tablename}|" th:text="${cmdEnum.values()[0].tablename}" /></li>
+    </ul>
+    [[${cmdEnum.values()[0].tablename}]]
+</div>

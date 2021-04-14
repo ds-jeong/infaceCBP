@@ -1,0 +1,38 @@
+package kr.pe.inface.hub.service.matrl.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+public class MatrlVO {
+
+	private String matrlLctgId;
+	private String lctgNm;
+	private String lctgDesc;
+
+	private String matrlCtgId;
+	private String ctgNm;
+	private String ctgDesc;
+
+	private String matrlItemId;
+	private String itemNm;
+	private String itemDesc;
+	private String itemImg;
+	private String buyTypeCd;
+
+	private String matrlId;
+	private String matrlStd;
+	private String unitCd;
+	private String matrlDesc;
+
+	private String cmpnyId;
+	private String myItemYn;
+	private String cntrtCmpnyCnt10;
+	private String cntrtCmpnyCnt20;
+	private String useYn;
+	private String userId;
+
+}
