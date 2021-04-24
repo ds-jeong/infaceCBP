@@ -7,7 +7,7 @@
 <table border="1">
 <thead>
     <tr>
-       <th>matrlLctgId 대분류ID</th><th>lctgNm 대분류명</th><th>lctgDesc 대분류설명</th>
+       <th>matrlMctgId 중분류ID</th><th>mctgNm 중분류명</th><th>mctgDesc 중분류설명</th>
        <th>matrlCtgId 소분류ID</th><th>ctgNm 소분류명</th><th>ctgDesc 소분류설명</th>
        <th>matrlItemId 품목ID</th><th>itemNm 품목명</th><th>itemDesc 품목설명</th><th>itemImg 품목이미지</th>
        <th>나의 자재</th>
@@ -15,9 +15,9 @@
 </thead>
 <tbody>
     <tr th:each="mi : ${miList}">
-        <td th:text="${mi.matrlLctgId}">matrlLctgId</td>
-        <td th:text="${mi.lctgNm}">lctgNm</td>
-        <td th:text="${mi.lctgDesc}">lctgDesc</td>
+        <td th:text="${mi.matrlMctgId}">matrlMctgId</td>
+        <td th:text="${mi.mctgNm}">mctgNm</td>
+        <td th:text="${mi.mctgDesc}">mctgDesc</td>
         <td th:text="${mi.matrlCtgId}">matrlCtgId</td>
         <td th:text="${mi.ctgNm}">ctgNm</td>
         <td th:text="${mi.ctgDesc}">ctgDesc</td>

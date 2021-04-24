@@ -9,8 +9,9 @@ public class Role implements GrantedAuthority {
 
 	public static enum ROLE_NAME {
 		  ADMIN   // 관리자
-		, COMPANY // 건설사
-		, VENDOR  // 자재공급업체
+		, COMPANY // 건설사_본사
+		, COMPANY_SITE // 건설사_현장
+		, VENDOR // 자재공급업체
 	};
 
 	String name;

@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.config;
+package kr.pe.inface.hub.config.security;
 
 /**
  *

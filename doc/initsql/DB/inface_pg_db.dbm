@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="626,854" last-zoom="1" max-obj-count="44"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="45"
 	 default-schema="public" default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
@@ -84,7 +84,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<comment><![CDATA[자재_분류]]></comment>
 	<position x="920" y="160"/>
 	<column name="matrl_ctg_id" alias="자재_분류_ID" not-null="true">
-		<type name="varchar" length="4"/>
+		<type name="varchar" length="8"/>
 		<comment><![CDATA[자재_분류_ID]]></comment>
 	</column>
 	<column name="ctg_nm" alias="분류_이름">
@@ -108,11 +108,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="matrl_lctg_id" index="1"/>
+		<object name="matrl_mctg_id" index="9"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="matrl_lctg_fk" index="1"/>
+		<object name="matrl_mctg_fk" index="1"/>
 	</customidxs>
 </table>
 
@@ -122,7 +122,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<comment><![CDATA[자재_품목]]></comment>
 	<position x="920" y="600"/>
 	<column name="matrl_item_id" alias="자재_품목_ID" not-null="true">
-		<type name="varchar" length="7"/>
+		<type name="varchar" length="9"/>
 		<comment><![CDATA[자재_품목_ID]]></comment>
 	</column>
 	<column name="item_nm" alias="품목_이름">
@@ -301,7 +301,7 @@ V00001]]></comment>
 </table>
 
 <textbox name="자재" layer="0" z-value="0" font-size="9">
-	<position x="140" y="40"/>
+	<position x="80" y="40"/>
 	<comment><![CDATA[자재, 자재가격. 이력 테이블 생성해야 됨.
 영역별 schema 나눌까..
 상태코드들..정리해서 합친다?
@@ -491,22 +491,22 @@ ex. 동3문?]]></comment>
 	</constraint>
 </table>
 
-<table name="matrl_lctg" layer="0" alias="자재_대분류" collapse-mode="2" max-obj-count="10" z-value="0">
+<table name="matrl_mctg" layer="0" alias="자재_중분류" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<comment><![CDATA[자재_대분류]]></comment>
+	<comment><![CDATA[자재_중분류]]></comment>
 	<position x="1340" y="180"/>
-	<column name="matrl_lctg_id" alias="자재_대분류_ID" not-null="true">
-		<type name="varchar" length="2"/>
-		<comment><![CDATA[자재_대분류_ID]]></comment>
+	<column name="matrl_mctg_id" alias="자재_중분류_ID" not-null="true">
+		<type name="varchar" length="7"/>
+		<comment><![CDATA[자재_중분류_ID]]></comment>
 	</column>
-	<column name="lctg_nm" alias="대분류_이름">
+	<column name="mctg_nm" alias="중분류_이름">
 		<type name="varchar" length="50"/>
-		<comment><![CDATA[대분류_이름]]></comment>
+		<comment><![CDATA[중분류_이름]]></comment>
 	</column>
-	<column name="lctg_desc" alias="대분류_설명">
+	<column name="mctg_desc" alias="중분류_설명">
 		<type name="varchar" length="200"/>
-		<comment><![CDATA[대분류_설명]]></comment>
+		<comment><![CDATA[중분류_설명]]></comment>
 	</column>
 	<column name="disp_ordr" alias="노출_순서" default-value="0">
 		<type name="smallint" length="0"/>
@@ -516,20 +516,20 @@ ex. 동3문?]]></comment>
 		<type name="varchar" length="1"/>
 		<comment><![CDATA[사용_여부]]></comment>
 	</column>
-	<constraint name="matrl_lctg_pk" type="pk-constr" table="public.matrl_lctg">
-		<columns names="matrl_lctg_id" ref-type="src-columns"/>
+	<constraint name="matrl_mctg_pk" type="pk-constr" table="public.matrl_mctg">
+		<columns names="matrl_mctg_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <textbox name="자재상위" layer="0" z-value="0" font-size="9">
 	<position x="1340" y="60"/>
-	<comment><![CDATA[카테고리개편도 고려..
-카테고리를 재귀구조로 가져가는게 나을지.
-depth 가 변경될 경우 장점이 있으나
-변경이 없다면 불편할 수도..
-한테이블로 집계?
-pk 구조가 xxyy 상위id 연동..개편 힘들려나..
-뎁스별 가능수량 체크..]]></comment>
+	<comment><![CDATA[카테고리를 재귀구조로 가져가는게 나을지.
+한테이블로 집계? view 활용.
+pk 구조가 xxyy 상위id 연동..개편이 잦을것으로 예상..각자 가자..
+뎁스별 가능수량 체크..
+나중에는 더 상위개념인.. 직종 을 만든다?
+형틀, 골조..등 건설사는 해당되는 직종의 카테고리를 연동하도록..
+공통 카테고리를 만들어서..이건 누구나 접근. ( ex, 안전관련 )]]></comment>
 </textbox>
 
 <table name="comm_grp_cd" layer="1" alias="공통_그룹_코드" collapse-mode="2" max-obj-count="9" z-value="0">
@@ -789,7 +789,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 그렇다면.. 현장주소 이력관리 필요할듯.]]></comment>
 </textbox>
 
-<table name="cmpny_user" layer="0" alias="업체_사용자" collapse-mode="2" max-obj-count="21" z-value="0">
+<table name="cmpny_user" layer="0" alias="업체_사용자" collapse-mode="2" max-obj-count="22" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[업체_사용자
@@ -805,8 +805,10 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 		<type name="varchar" length="4"/>
 		<comment><![CDATA[사용자_유형_코드
 00 - 관리자
-10 - (업체_유형_코드)건설사
-20 - (업체_유형_코드)자재공급업체]]></comment>
+10 - 건설사
+11 - 건설사-본사
+12 - 건설사-현장, 작업_현장_ID 필수
+20 - 자재공급업체]]></comment>
 	</column>
 	<column name="user_nm" alias="사용자_이름">
 		<type name="varchar" length="20"/>
@@ -863,11 +865,13 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="cmpny_id" index="1"/>
+		<object name="cmpny_id" index="2"/>
+		<object name="work_site_id" index="3"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="cmpny_fk" index="2"/>
+		<object name="cmpny_fk" index="1"/>
+		<object name="work_site_fk" index="2"/>
 	</customidxs>
 </table>
 
@@ -914,7 +918,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 <relationship name="자재_대분류_copies_테이블기본컬럼" type="reldep" layer="1"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#be3eaf"
-	 src-table="public.matrl_lctg"
+	 src-table="public.matrl_mctg"
 	 dst-table="public.base_column"/>
 
 <relationship name="company_matrl_item_copies_테이블기본컬럼" type="reldep" layer="1"
@@ -989,12 +993,12 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	 src-table="public.comm_cd"
 	 dst-table="public.base_column"/>
 
-<relationship name="matrl_lctg_has_many_matrl_ctg" type="rel1n" layer="0"
+<relationship name="matrl_mctg_has_many_matrl_ctg" type="rel1n" layer="0"
 	 src-col-pattern="{sc}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#94752e"
-	 src-table="public.matrl_lctg"
+	 src-table="public.matrl_mctg"
 	 dst-table="public.matrl_ctg"
 	 src-required="false" dst-required="false"
 	upd-action="NO ACTION"
@@ -1330,18 +1334,29 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	<position x="1200" y="480"/>
 	<reference>
 		<expression><![CDATA[SELECT
-        ML.MATRL_LCTG_ID, ML.LCTG_NM, ML.LCTG_DESC, ML.DISP_ORDR AS LCTG_DISP_ORDR, ML.USE_YN AS LCTG_USE_YN
+        MM.MATRL_MCTG_ID, MM.MCTG_NM, MM.MCTG_DESC, MM.DISP_ORDR AS MCTG_DISP_ORDR, MM.USE_YN AS MCTG_USE_YN
       , MC.MATRL_CTG_ID, MC.CTG_NM, MC.CTG_DESC, MC.DISP_ORDR AS CTG_DISP_ORDR, MC.USE_YN AS CTG_USE_YN
       , MI.MATRL_ITEM_ID, MI.ITEM_NM, MI.ITEM_DESC, MI.ITEM_IMG, MI.DISP_ORDR, MI.USE_YN
 FROM
-        MATRL_LCTG ML
+        MATRL_MCTG MM
       , MATRL_CTG MC
       , MATRL_ITEM MI
 WHERE   1 = 1
-AND     ML.MATRL_LCTG_ID = MC.MATRL_LCTG_ID
-AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID]]></expression>
+AND     MM.MATRL_MCTG_ID = MC.MATRL_MCTG_ID
+AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	</reference>
 </view>
+
+<relationship name="work_site_has_many_cmpny_user" type="rel1n" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c2f8ef"
+	 src-table="public.work_site"
+	 dst-table="public.cmpny_user"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION"/>
 
 <constraint name="spl_compny_fk" type="fk-constr" alias="공급_업체_fk" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cmpny" table="public.cmpny_matrl_price">

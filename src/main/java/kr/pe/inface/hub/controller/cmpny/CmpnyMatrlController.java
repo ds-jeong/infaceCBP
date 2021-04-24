@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.controller.company;
+package kr.pe.inface.hub.controller.cmpny;
 
 import java.util.List;
 

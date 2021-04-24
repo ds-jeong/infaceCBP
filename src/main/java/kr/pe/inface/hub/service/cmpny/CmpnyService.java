@@ -1,5 +1,7 @@
 package kr.pe.inface.hub.service.cmpny;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,13 @@ public class CmpnyService extends BaseService {
 
 	@Autowired
 	private CmpnyUserMapper mainMapper;
+
+	/**
+	 * @return
+	 */
+	public List<CmpnyUserVO> getCmpnyUserList() {
+		return mainMapper.getCmpnyUserList();
+	};
 
 	/**
 	 * @param id

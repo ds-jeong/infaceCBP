@@ -9,9 +9,9 @@ import lombok.ToString;
 @ToString
 public class MatrlVO {
 
-	private String matrlLctgId;
-	private String lctgNm;
-	private String lctgDesc;
+	private String matrlMctgId;
+	private String mctgNm;
+	private String mctgDesc;
 
 	private String matrlCtgId;
 	private String ctgNm;

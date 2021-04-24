@@ -6,7 +6,7 @@
 <!-- 공통자재분류 목록 조회 -->
 <select id="getMatrlItemList" parameterType="String" resultType="MatrlVO"><![CDATA[
 SELECT
-        VMI.MATRL_LCTG_ID, VMI.LCTG_NM, VMI.LCTG_DESC
+        VMI.MATRL_MCTG_ID, VMI.MCTG_NM, VMI.MCTG_DESC
       , VMI.MATRL_CTG_ID, VMI.CTG_NM, VMI.CTG_DESC
       , VMI.MATRL_ITEM_ID, VMI.ITEM_NM, VMI.ITEM_DESC, VMI.ITEM_IMG
       , CASE WHEN CMI.CMPNY_ID IS NOT NULL THEN 'Y' ELSE 'N' END AS MY_ITEM_YN
@@ -19,11 +19,11 @@ FROM
             AND CMI.USE_YN = 'Y'
             AND #{cmpnyId, jdbcType=VARCHAR} IS NOT NULL -- 파라미터가 없는 경우, 쿼리가 수행되지 않도록.
 WHERE   1 = 1
-AND     VMI.LCTG_USE_YN = 'Y'
+AND     VMI.MCTG_USE_YN = 'Y'
 AND     VMI.CTG_USE_YN = 'Y'
 AND     VMI.USE_YN = 'Y'
 ORDER BY
-        VMI.LCTG_DISP_ORDR, VMI.MATRL_LCTG_ID
+        VMI.MCTG_DISP_ORDR, VMI.MATRL_MCTG_ID
       , VMI.CTG_DISP_ORDR, VMI.MATRL_CTG_ID
       , VMI.DISP_ORDR, VMI.MATRL_ITEM_ID
 ]]></select>
@@ -70,7 +70,7 @@ SET     BUY_TYPE_CD = #{buyTypeCd, jdbcType=VARCHAR}
 <!-- 업체 자재품목 목록 -->
 <select id="getCmpnyMatrlItemList" parameterType="String" resultType="MatrlVO"><![CDATA[
 SELECT
-        VMI.MATRL_LCTG_ID, VMI.LCTG_NM
+        VMI.MATRL_MCTG_ID, VMI.MCTG_NM
       , VMI.MATRL_CTG_ID, VMI.CTG_NM
       , VMI.MATRL_ITEM_ID, VMI.ITEM_NM
       , CMI.BUY_TYPE_CD, CMI.CMPNY_ID
@@ -96,7 +96,7 @@ AND     CMI.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
 AND     CMI.USE_YN = 'Y'
 AND     CMI.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID
 ORDER BY
-        VMI.LCTG_DISP_ORDR, VMI.MATRL_LCTG_ID
+        VMI.MCTG_DISP_ORDR, VMI.MATRL_MCTG_ID
       , VMI.CTG_DISP_ORDR, VMI.MATRL_CTG_ID
       , VMI.DISP_ORDR, VMI.MATRL_ITEM_ID
 ]]></select>
@@ -105,7 +105,7 @@ ORDER BY
 <!-- 업체 자재 목록 -->
 <select id="getCmpnyMatrlList" parameterType="String" resultType="MatrlVO"><![CDATA[
 SELECT
-        VMI.MATRL_LCTG_ID, VMI.LCTG_NM
+        VMI.MATRL_MCTG_ID, VMI.MCTG_NM
       , VMI.MATRL_CTG_ID, VMI.CTG_NM
       , VMI.MATRL_ITEM_ID, VMI.ITEM_NM
       , CMI.BUY_TYPE_CD, CMI.CMPNY_ID
@@ -120,7 +120,7 @@ AND     CMI.USE_YN = 'Y'
 AND     CMI.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID
 AND     CMI.MATRL_ITEM_ID = M.MATRL_ITEM_ID
 ORDER BY
-        VMI.LCTG_DISP_ORDR, VMI.MATRL_LCTG_ID
+        VMI.MCTG_DISP_ORDR, VMI.MATRL_MCTG_ID
       , VMI.CTG_DISP_ORDR, VMI.MATRL_CTG_ID
       , VMI.DISP_ORDR, VMI.MATRL_ITEM_ID
 ]]></select>

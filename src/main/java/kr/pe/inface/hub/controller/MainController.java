@@ -1,27 +1,28 @@
 package kr.pe.inface.hub.controller;
 
-import java.security.Principal;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import lombok.extern.slf4j.Slf4j;
+import kr.pe.inface.hub.service.cmpny.CmpnyService;
+import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
 
-@Slf4j
+//@Slf4j
 @Controller
 @RequestMapping(value = "/")
 public class MainController {
 
-//	@Autowired
-//	private MainService mainService;
+	@Autowired
+	private CmpnyService cmpnyService;
 
 	@GetMapping({ "/", "/main" })
-	public String main(Principal principal, Model model) {
-		if (principal != null) {
-			log.debug(principal.getName());
-		}
+	public String main(Model model) {
+		List<CmpnyUserVO> cuList = cmpnyService.getCmpnyUserList();
+		model.addAttribute("cuList", cuList);
 
 		return "main";
 	}

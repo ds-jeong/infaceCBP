@@ -3,19 +3,43 @@
 
 <mapper namespace="kr.pe.inface.hub.service.cmpny.CmpnyUserMapper">
 
-<select id="getCmpnyUser" parameterType="String" resultType="CmpnyUserVO">
+
+<select id="getCmpnyUserList" resultType="CmpnyUserVO">
 SELECT
-        CU.CMPNY_USER_ID, CU.CMPNY_ID
-      , CU.USER_TYPE_CD, CU.USER_NM
-      , CU.LOGIN_ID, CU.PWD
-      , C.CMPNY_TYPE_CD, C.CMPNY_NM
+        CU.CMPNY_USER_ID
+      , CU.USER_TYPE_CD, CU.CMPNY_ID, CU.WORK_SITE_ID
+      , C.CMPNY_TYPE_CD, C.CMPNY_NM, WS.SITE_NM
+      , CU.USER_NM, CU.LOGIN_ID, CU.PWD
       , CU.STAT_CD, CU.JOIN_DT
       , CU.DEPT_NM, CU.POSI_NM
       , CU.TEL_NO, CU.FAX_NO, CU.HP_NO, CU.EMAIL
       , CU.REG_DTS, CU.REGPE_ID
       , CU.MOD_DTS, CU.MODPE_ID
-FROM    CMPNY_USER CU
+FROM
+        CMPNY_USER CU
         LEFT OUTER JOIN CMPNY C ON CU.CMPNY_ID = C.CMPNY_ID
+        LEFT OUTER JOIN WORK_SITE WS ON CU.WORK_SITE_ID = WS.WORK_SITE_ID
+WHERE   1 = 1
+ORDER BY
+        CU.USER_TYPE_CD, CU.CMPNY_ID
+      , CU.WORK_SITE_ID, CU.CMPNY_USER_ID
+</select>
+
+<select id="getCmpnyUser" parameterType="String" resultType="CmpnyUserVO">
+SELECT
+        CU.CMPNY_USER_ID
+      , CU.USER_TYPE_CD, CU.CMPNY_ID, CU.WORK_SITE_ID
+      , C.CMPNY_TYPE_CD, C.CMPNY_NM, WS.SITE_NM
+      , CU.USER_NM, CU.LOGIN_ID, CU.PWD
+      , CU.STAT_CD, CU.JOIN_DT
+      , CU.DEPT_NM, CU.POSI_NM
+      , CU.TEL_NO, CU.FAX_NO, CU.HP_NO, CU.EMAIL
+      , CU.REG_DTS, CU.REGPE_ID
+      , CU.MOD_DTS, CU.MODPE_ID
+FROM
+        CMPNY_USER CU
+        LEFT OUTER JOIN CMPNY C ON CU.CMPNY_ID = C.CMPNY_ID
+        LEFT OUTER JOIN WORK_SITE WS ON CU.WORK_SITE_ID = WS.WORK_SITE_ID
 WHERE   1 = 1
 AND     CU.LOGIN_ID = #{loginId, jdbcType=VARCHAR}
 </select>

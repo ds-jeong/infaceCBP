@@ -27,8 +27,9 @@ public class CmpnyUserVO implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private String cmpnyUserId;
-	private String cmpnyId;
 	private String userTypeCd;
+	private String cmpnyId;
+	private String workSiteId;
 	private String userNm;
 	private String loginId;
 	private String pwd;
@@ -45,12 +46,22 @@ public class CmpnyUserVO implements UserDetails {
 	private Date modDts;
 	private String modpeId;
 
+	private String cmpnyTypeCd;
+	private String cmpnyNm;
+	private String siteNm;
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		log.debug("getAuthorities called..");
 		// TODO Auto-generated method stub
-		// userTypeCd 사용자_유형_코드 : 00-관리자, 10-건설사, 20-자재공급업체
+		// userTypeCd 사용자_유형_코드
+		//		00 - 관리자
+		//		10 - 건설사
+		//		11 - 건설사-본사
+		//		12 - 건설사-현장, 작업_현장_ID 필수
+		//		20 - 자재공급업체
 		List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
+		// TODO 코드 상수 처리..
 		switch (userTypeCd) {
 		case "00":
 			// 관리자는 모든 권한을 할당.
@@ -58,9 +69,14 @@ public class CmpnyUserVO implements UserDetails {
 				auths.add(new Role(role));
 			}
 			break;
-		case "10":
-			// 10 - 건설사
+		case "11":
+			// 11 - 건설사_본사 ( 모든 현장 권한 가능 )
 			auths.add(new Role(ROLE_NAME.COMPANY));
+			auths.add(new Role(ROLE_NAME.COMPANY_SITE));
+			break;
+		case "12":
+			// 12 - 건설사_현장
+			auths.add(new Role(ROLE_NAME.COMPANY_SITE));
 			break;
 		case "20":
 			// 20 - 자재공급업체

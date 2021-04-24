@@ -1,0 +1,6 @@
+matrl_mctg_id,mctg_nm,mctg_desc,disp_ordr,use_yn,reg_dts,regpe_id,mod_dts,modpe_id
+1000001,"잡철,잡자재",,1,Y,2021-03-29 00:39,regpe_id,2021-03-29 00:39,modpe_id
+1000002,개인보호구,,2,Y,2021-03-29 00:39,regpe_id,2021-03-29 00:39,modpe_id
+1000003,AL폼타이,,3,Y,2021-03-29 00:39,regpe_id,2021-03-29 00:39,modpe_id
+1000004,"각재,합판",,4,Y,2021-03-29 00:39,regpe_id,2021-03-29 00:39,modpe_id
+1000005,"지수재,지수판",,5,Y,2021-03-29 00:39,regpe_id,2021-03-29 00:39,modpe_id

@@ -26,7 +26,7 @@ header div.info a:visited { color: white; }
 <a href="/admin/matrl/matrlItemList">자재목록</a>
 </div>
 <div class="sub">
-건설사
+건설사-본사
 <br />
 <a href="/cmpny/matrl/matrlItemList">자재품목설정</a>
 <a href="/cmpny/matrl/cmpnyMatrlItemList">자재품목</a>
@@ -35,8 +35,14 @@ header div.info a:visited { color: white; }
 <a href="/cmpny/price/cmpnyMatrlPriceVenList">업체단가관리</a>
 <a href="#">단가요청등록</a>
 <a href="#">자재청구목록</a>
-<a href="#">자재청구등록</a>
 <a href="#">자재발주목록</a>
+</div>
+<div class="sub">
+건설사-현장
+<br />
+<a href="/site/matrl/cmpnyMatrlList">자재</a>
+<a href="#">자재청구목록</a>
+<a href="#">자재청구등록</a>
 </div>
 <div class="sub">
 공급업체
@@ -54,7 +60,8 @@ Today : 2020.01.01
     <span sec:authentication="principal.username"></span>
     (
 	<span sec:authorize="hasRole('ROLE_ADMIN')">관리자</span>
-	<span sec:authorize="hasRole('ROLE_COMPANY')">건설사</span>
+	<span sec:authorize="hasRole('ROLE_COMPANY')">건설사_본사</span>
+	<span sec:authorize="hasRole('ROLE_COMPANY_SITE')">건설사_현장</span>
 	<span sec:authorize="hasRole('ROLE_VENDOR')">자재공급업체</span>
     )
 <!--     <span sec:authentication="principal.accountNonExpired"></span> -->

@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.config;
+package kr.pe.inface.hub.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import kr.pe.inface.hub.config.security.CmpnyUserDetailsService;
 
 /**
  *
@@ -45,9 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				// 순서대로 먼저 적용되는 항목이 적용됨.
-				.antMatchers("/admin/**").hasAnyRole("ADMIN")
-				.antMatchers("/cmpny/**").hasAnyRole("COMPANY") // "ADMIN", 기능이 다르니까..굳이 권한이 필요 없을 듯?
-				.antMatchers("/vendor/**").hasAnyRole("VENDOR") // "ADMIN",
+				.antMatchers("/admin/**").hasAnyRole("ADMIN") // Role별 메뉴가 다르므로, 모든 메뉴에 "ADMIN" 줄 필요는 없을 듯
+				.antMatchers("/cmpny/**").hasAnyRole("COMPANY")
+				.antMatchers("/site/**").hasAnyRole("COMPANY_SITE")
+				.antMatchers("/vendor/**").hasAnyRole("VENDOR")
 				.antMatchers("/auth/**").permitAll()
 				.antMatchers("/*").permitAll() // root 경로 허용.
 				.antMatchers("/**").denyAll()  // 2depth 이상 기본 거부
@@ -85,7 +84,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.userDetailsService(cmpnyUserDetailsService)
 			.passwordEncoder(passwordEncoder())
 			.and()
-
 		;
 	}
 }
