@@ -8,8 +8,8 @@
 <thead>
     <tr>
        <th>cmpnyUserId</th><th>userTypeCd</th>
-       <th>cmpnyId</th><th>cmpnyTypeCd</th><th></th>
-       <th>workSiteId</th><th>siteNm</th>
+       <th>cmpnyId</th><th>cmpnyTypeCd</th><th>cmpnyNm</th>
+       <th>workSite</th>
        <th>userNm</th>
        <th>loginId</th>
        <th>statCd</th>
@@ -29,8 +29,9 @@
         <td th:text="${cu.cmpnyId}">cmpnyId</td>
         <td th:text="${cu.cmpnyTypeCd}">cmpnyTypeCd</td>
         <td th:text="${cu.cmpnyNm}">cmpnyNm</td>
-        <td th:text="${cu.workSiteId}">workSiteId</td>
-        <td th:text="${cu.siteNm}">siteNm</td>
+        <td>
+            <span th:each="si : ${cu.siteList}"><span th:text="${si.siteNm}"></span><br /></span>
+        </td>
         <td th:text="${cu.userNm}">userNm</td>
         <td style="background-color: #A33; color: yellow;" th:text="${cu.loginId}">loginId</td>
         <td th:text="${cu.statCd}">statCd</td>

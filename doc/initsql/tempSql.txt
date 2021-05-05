@@ -103,6 +103,409 @@ VALUES
 
 
 --====================================================
+-- cmpny_user 업체_사용자
+--====================================================
+-- 관리자
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'ADMIN_001'
+          , NULL
+          , '00'
+          , '관리자_유저1'
+          , 'ADMIN_001_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '관리자'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+
+-- 건설사
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_001'
+          , 'C00001'
+          , '11'
+          , '건설1_본사_담당자'
+          , 'C00001_001_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '담당자'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_002'
+          , 'C00001'
+          , '11'
+          , '건설1_본사_이사'
+          , 'C00001_002_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '이사'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_003'
+          , 'C00001'
+          , '12'
+          , '건설1_현장1_담당자'
+          , 'C00001_003_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '담당자'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_004'
+          , 'C00001'
+          , '12'
+          , '건설1_현장1_소장'
+          , 'C00001_004_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '소장'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_005'
+          , 'C00001'
+          , '12'
+          , '건설1_현장1_이사'
+          , 'C00001_005_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '이사'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_006'
+          , 'C00001'
+          , '12'
+          , '건설1_현장2_담당자'
+          , 'C00001_006_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '담당자'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_007'
+          , 'C00001'
+          , '12'
+          , '건설1_현장2_소장'
+          , 'C00001_007_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '소장'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00001_008'
+          , 'C00001'
+          , '12'
+          , '건설1_현장2_이사'
+          , 'C00001_008_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '이사'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+
+
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00002_001'
+          , 'C00002'
+          , '11'
+          , '건설2_본사_담당자'
+          , 'C00002_001_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '담당자'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'C00002_002'
+          , 'C00002'
+          , '11'
+          , '건설2_본사_이사'
+          , 'C00002_002_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , '이사'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+
+
+-- 자재업체
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'V00001_001'
+          , 'V00001'
+          , '20'
+          , '자재1_유저1'
+          , 'V00001_001_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user
+        (
+            cmpny_user_id, cmpny_id, user_type_cd
+          , user_nm, login_id, pwd
+          , stat_cd, join_dt, dept_nm, posi_nm
+          , tel_no, fax_no, hp_no,email
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (   'V00002_001'
+          , 'V00002'
+          , '20'
+          , '자재2_유저1'
+          , 'V00002_001_id'
+          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
+          , '20'
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , NULL
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+
+
+--====================================================
 -- work_site 작업_현장
 --====================================================
 INSERT
@@ -211,98 +614,19 @@ VALUES  (
 
 
 --====================================================
--- cmpny_user 업체_사용자
+-- cmpny_user_site 업체_사용자_현장
 --====================================================
--- 관리자
 INSERT
-INTO    cmpny_user
+INTO    cmpny_user_site
         (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
+            cmpny_user_id, work_site_id, posi_nm, use_yn
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
-VALUES
-        (   'ADMIN_001'
-          , NULL
-          , '00'
-          , NULL
-          , '관리자_유저1'
-          , 'ADMIN_001_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
-          , '관리자'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , current_timestamp
-          , 'regpe_id'
-          , current_timestamp
-          , 'modpe_id'
-        )
-;
-
--- 건설사
-INSERT
-INTO    cmpny_user
-        (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
-          , reg_dts, regpe_id, mod_dts, modpe_id
-        )
-VALUES
-        (   'C00001_001'
-          , 'C00001'
-          , '11'
-          , NULL
-          , '건설1_본사_담당자'
-          , 'C00001_001_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
-          , '담당자'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , current_timestamp
-          , 'regpe_id'
-          , current_timestamp
-          , 'modpe_id'
-        )
-;
-INSERT
-INTO    cmpny_user
-        (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
-          , reg_dts, regpe_id, mod_dts, modpe_id
-        )
-VALUES
-        (   'C00001_002'
-          , 'C00001'
-          , '11'
-          , NULL
-          , '건설1_본사_이사'
-          , 'C00001_002_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
+VALUES  (
+            'C00001_003'
+          , '00000003'
           , '이사'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
+          , 'Y'
           , current_timestamp
           , 'regpe_id'
           , current_timestamp
@@ -310,30 +634,16 @@ VALUES
         )
 ;
 INSERT
-INTO    cmpny_user
+INTO    cmpny_user_site
         (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
+            cmpny_user_id, work_site_id, posi_nm, use_yn
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
-VALUES
-        (   'C00001_003'
-          , 'C00001'
-          , '12'
+VALUES  (
+            'C00001_003'
           , '00000002'
-          , '건설1_현장1_담당자'
-          , 'C00001_003_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
           , '담당자'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
+          , 'Y'
           , current_timestamp
           , 'regpe_id'
           , current_timestamp
@@ -341,30 +651,16 @@ VALUES
         )
 ;
 INSERT
-INTO    cmpny_user
+INTO    cmpny_user_site
         (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
+            cmpny_user_id, work_site_id, posi_nm, use_yn
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
-VALUES
-        (   'C00001_004'
-          , 'C00001'
-          , '12'
+VALUES  (
+            'C00001_004'
           , '00000002'
-          , '건설1_현장1_소장'
-          , 'C00001_004_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
           , '소장'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
+          , 'Y'
           , current_timestamp
           , 'regpe_id'
           , current_timestamp
@@ -372,30 +668,16 @@ VALUES
         )
 ;
 INSERT
-INTO    cmpny_user
+INTO    cmpny_user_site
         (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
+            cmpny_user_id, work_site_id, posi_nm, use_yn
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
-VALUES
-        (   'C00001_005'
-          , 'C00001'
-          , '12'
+VALUES  (
+            'C00001_005'
           , '00000002'
-          , '건설1_현장1_이사'
-          , 'C00001_005_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
           , '이사'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
+          , 'Y'
           , current_timestamp
           , 'regpe_id'
           , current_timestamp
@@ -403,30 +685,16 @@ VALUES
         )
 ;
 INSERT
-INTO    cmpny_user
+INTO    cmpny_user_site
         (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
+            cmpny_user_id, work_site_id, posi_nm, use_yn
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
-VALUES
-        (   'C00001_006'
-          , 'C00001'
-          , '12'
+VALUES  (
+            'C00001_006'
           , '00000003'
-          , '건설1_현장2_담당자'
-          , 'C00001_006_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
           , '담당자'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
+          , 'Y'
           , current_timestamp
           , 'regpe_id'
           , current_timestamp
@@ -434,61 +702,16 @@ VALUES
         )
 ;
 INSERT
-INTO    cmpny_user
+INTO    cmpny_user_site
         (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
+            cmpny_user_id, work_site_id, posi_nm, use_yn
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
-VALUES
-        (   'C00001_007'
-          , 'C00001'
-          , '12'
+VALUES  (
+            'C00001_007'
           , '00000003'
-          , '건설1_현장2_소장'
-          , 'C00001_007_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
           , '소장'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , current_timestamp
-          , 'regpe_id'
-          , current_timestamp
-          , 'modpe_id'
-        )
-;
-INSERT
-INTO    cmpny_user
-        (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
-          , reg_dts, regpe_id, mod_dts, modpe_id
-        )
-VALUES
-        (   'C00001_008'
-          , 'C00001'
-          , '12'
-          , '00000003'
-          , '건설1_현장2_이사'
-          , 'C00001_008_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
-          , '이사'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
+          , 'Y'
           , current_timestamp
           , 'regpe_id'
           , current_timestamp
@@ -496,131 +719,3 @@ VALUES
         )
 ;
 
-
-INSERT
-INTO    cmpny_user
-        (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
-          , reg_dts, regpe_id, mod_dts, modpe_id
-        )
-VALUES
-        (   'C00002_001'
-          , 'C00002'
-          , '11'
-          , NULL
-          , '건설2_본사_담당자'
-          , 'C00002_001_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
-          , '담당자'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , current_timestamp
-          , 'regpe_id'
-          , current_timestamp
-          , 'modpe_id'
-        )
-;
-INSERT
-INTO    cmpny_user
-        (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
-          , reg_dts, regpe_id, mod_dts, modpe_id
-        )
-VALUES
-        (   'C00002_002'
-          , 'C00002'
-          , '11'
-          , NULL
-          , '건설2_본사_이사'
-          , 'C00002_002_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
-          , '이사'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , current_timestamp
-          , 'regpe_id'
-          , current_timestamp
-          , 'modpe_id'
-        )
-;
-
-
--- 자재업체
-INSERT
-INTO    cmpny_user
-        (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
-          , reg_dts, regpe_id, mod_dts, modpe_id
-        )
-VALUES
-        (   'V00001_001'
-          , 'V00001'
-          , '20'
-          , NULL
-          , '자재1_유저1'
-          , 'V00001_001_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , current_timestamp
-          , 'regpe_id'
-          , current_timestamp
-          , 'modpe_id'
-        )
-;
-INSERT
-INTO    cmpny_user
-        (
-            cmpny_user_id, cmpny_id, user_type_cd, work_site_id
-          , user_nm, login_id, pwd
-          , stat_cd, join_dt, dept_nm, posi_nm
-          , tel_no, fax_no, hp_no,email
-          , reg_dts, regpe_id, mod_dts, modpe_id
-        )
-VALUES
-        (   'V00002_001'
-          , 'V00002'
-          , '20'
-          , NULL
-          , '자재2_유저1'
-          , 'V00002_001_id'
-          , '$2a$10$pf3CyqufNwuf7WWLaDrWlOz7IeTmFiTnxPRUrOVntgi4X508R2MZG'
-          , '20'
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , NULL
-          , current_timestamp
-          , 'regpe_id'
-          , current_timestamp
-          , 'modpe_id'
-        )
-;

@@ -1,5 +1,7 @@
 package kr.pe.inface.hub.config.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import kr.pe.inface.hub.service.cmpny.CmpnyUserMapper;
+import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserSiteVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
 
 @Service
@@ -27,6 +30,17 @@ public class CmpnyUserDetailsService implements UserDetailsService {
 			// TODO 코드값을 상수로 정의해야 할텐데..
 			if (!"20".equals(vo.getStatCd())) {
 				vo = null;
+			}
+
+			// 건설사_현장 사용자인 경우, 현장목록을 조회.
+			// TODO 코드값을 상수로 정의해야 할텐데..
+			if ("12".equals(vo.getUserTypeCd())) {
+				List<CmpnyUserSiteVO> siteList = cmpnyUserMapper.getCmpnyUserSiteList(vo.getCmpnyUserId());
+				vo.setSiteList(siteList);
+
+				if (siteList == null || siteList.size() == 0) {
+					// TODO 관리현장이 없는 경우..
+				}
 			}
 		}
 		return vo;

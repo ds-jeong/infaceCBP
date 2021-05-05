@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="45"
-	 default-schema="public" default-owner="postgres"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="619,0" last-zoom="1" max-obj-count="46"
+	 default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
 </database>
@@ -68,14 +68,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="matrl_pk" type="pk-constr" table="public.matrl">
 		<columns names="matrl_id" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="matrl_item_id" index="1"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="matrl_item_fk" index="1"/>
-	</customidxs>
 </table>
 
 <table name="matrl_ctg" layer="0" alias="자재_분류" collapse-mode="2" max-obj-count="12" z-value="0">
@@ -106,14 +98,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="matrl_ctg_pk" type="pk-constr" table="public.matrl_ctg">
 		<columns names="matrl_ctg_id" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="matrl_mctg_id" index="9"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="matrl_mctg_fk" index="1"/>
-	</customidxs>
 </table>
 
 <table name="matrl_item" layer="0" alias="자재_품목" collapse-mode="2" max-obj-count="13" z-value="0">
@@ -148,14 +132,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="matrl_item_pk" type="pk-constr" table="public.matrl_item">
 		<columns names="matrl_item_id" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="matrl_ctg_id" index="1"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="matrl_ctg_fk" index="1"/>
-	</customidxs>
 </table>
 
 <table name="cmpny" layer="0" alias="업체" collapse-mode="2" max-obj-count="16" z-value="0">
@@ -243,9 +219,9 @@ V00001]]></comment>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="cmpny_fk" index="1"/>
-		<object name="cmpny_matrl_item_pk" index="0"/>
-		<object name="matrl_item_fk" index="2"/>
+		<object name="cmpny_fk" index="2"/>
+		<object name="cmpny_matrl_item_pk" index="1"/>
+		<object name="matrl_item_fk" index="0"/>
 	</customidxs>
 </table>
 
@@ -295,8 +271,8 @@ V00001]]></comment>
 
 	<customidxs object-type="constraint">
 		<object name="cmpny_fk" index="1"/>
-		<object name="cmpny_matrl_price_pk" index="0"/>
-		<object name="matrl_fk" index="2"/>
+		<object name="cmpny_matrl_price_pk" index="2"/>
+		<object name="matrl_fk" index="3"/>
 	</customidxs>
 </table>
 
@@ -333,22 +309,14 @@ V00001]]></comment>
 	<constraint name="work_site_pk" type="pk-constr" table="public.work_site">
 		<columns names="work_site_id" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="cmpny_id" index="3"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="cmpny_fk" index="1"/>
-	</customidxs>
 </table>
 
 <table name="matrl_clm" layer="0" alias="자재_청구" collapse-mode="2" max-obj-count="18" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[자재_청구]]></comment>
-	<position x="1760" y="620"/>
-	<column name="matrl_clm_no" alias="자재_청구_번호">
+	<position x="1800" y="160"/>
+	<column name="matrl_clm_no" alias="자재_청구_번호" not-null="true">
 		<type name="varchar" length="15"/>
 		<comment><![CDATA[자재_청구_번호
 결재ID 와는 다른 각 영역별로 유니크한 문서번호 부여..?]]></comment>
@@ -389,25 +357,20 @@ ex. 동3문?]]></comment>
 		<type name="varchar" length="300"/>
 		<comment><![CDATA[입고_비고]]></comment>
 	</column>
-
-	<customidxs object-type="column">
-		<object name="aprv_id" index="0"/>
-		<object name="work_site_id" index="3"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="aprv_fk" index="1"/>
-		<object name="matrl_clm_pk" index="0"/>
-		<object name="matrl_clm_uq" index="2"/>
-		<object name="work_site_fk" index="3"/>
-	</customidxs>
+	<constraint name="matrl_clm_pk" type="pk-constr" table="public.matrl_clm">
+		<columns names="matrl_clm_no" ref-type="src-columns"/>
+	</constraint>
 </table>
 
-<table name="matrl_clm_dtl" layer="0" alias="자재_청구_상세" collapse-mode="2" max-obj-count="13" z-value="0">
+<table name="matrl_clm_dtl" layer="0" alias="자재_청구_상세" collapse-mode="2" max-obj-count="14" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[자재_청구_상세]]></comment>
-	<position x="2180" y="660"/>
+	<position x="1800" y="660"/>
+	<column name="matrl_clm_dtl_no" alias="자재_청구_상세_번호" not-null="true">
+		<type name="varchar" length="20"/>
+		<comment><![CDATA[자재_청구_상세_번호]]></comment>
+	</column>
 	<column name="prev_clm_qty" alias="기청구_수량" default-value="0">
 		<type name="smallint" length="0"/>
 		<comment><![CDATA[기청구_수량
@@ -432,63 +395,15 @@ ex. 동3문?]]></comment>
 	</column>
 
 	<customidxs object-type="column">
-		<object name="aprv_id" index="0"/>
+		<object name="matrl_clm_no" index="0"/>
 		<object name="matrl_id" index="1"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="matrl_clm_dtl_pk" index="0"/>
-		<object name="matrl_clm_fk" index="1"/>
-		<object name="matrl_fk" index="2"/>
+		<object name="matrl_clm_dtl_pk" index="1"/>
+		<object name="matrl_clm_fk" index="2"/>
+		<object name="matrl_fk" index="0"/>
 	</customidxs>
-</table>
-
-<table name="aprv" layer="0" alias="결재" collapse-mode="2" max-obj-count="13" z-value="0">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<comment><![CDATA[결재
-각 결재종류에 따른 상세정보는 각각의 테이블에 저장., 여기는 결재선등의 공통정보만..
-별도 모듈로 구현..
-각 영역에서는 결재ID 만 공유하고. 결재에 관한 정보는 모두 여기서 처리.]]></comment>
-	<position x="1760" y="140"/>
-	<column name="aprv_id" alias="결재_ID" not-null="true">
-		<type name="varchar" length="10"/>
-		<comment><![CDATA[결재_ID]]></comment>
-	</column>
-	<column name="arpv_kind_cd" alias="결재_종류_코드">
-		<type name="varchar" length="4"/>
-		<comment><![CDATA[결재_종류_코드
-자재청구, 발주청구
-각종 결재 프로세스..]]></comment>
-	</column>
-	<column name="stat_cd" alias="상태_코드">
-		<type name="varchar" length="4"/>
-		<comment><![CDATA[상태_코드
-작성중
-결재중,
-완료
-반려
-등.]]></comment>
-	</column>
-	<column name="title" alias="제목">
-		<type name="varchar" length="100"/>
-		<comment><![CDATA[제목]]></comment>
-	</column>
-	<column name="drftr_id" alias="기안자_ID">
-		<type name="varchar" length="10"/>
-		<comment><![CDATA[기안자_ID]]></comment>
-	</column>
-	<column name="drft_dts" alias="기안_일시">
-		<type name="timestamp" length="0"/>
-		<comment><![CDATA[기안_일시]]></comment>
-	</column>
-	<column name="remark" alias="비고">
-		<type name="varchar" length="300"/>
-		<comment><![CDATA[비고]]></comment>
-	</column>
-	<constraint name="aprv_pk" type="pk-constr" table="public.aprv">
-		<columns names="aprv_id" ref-type="src-columns"/>
-	</constraint>
 </table>
 
 <table name="matrl_mctg" layer="0" alias="자재_중분류" collapse-mode="2" max-obj-count="10" z-value="0">
@@ -583,14 +498,6 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 	<constraint name="comm_cd_pk" type="pk-constr" table="public.comm_cd">
 		<columns names="comm_cd" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="comm_grp_cd" index="1"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="comm_grp_cd_fk" index="1"/>
-	</customidxs>
 </table>
 
 <textbox name="자재_품목_주석" layer="0" z-value="0" font-size="9">
@@ -646,11 +553,12 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 </table>
 
 <textbox name="업체_자재_가격_비고" layer="0" z-value="0" font-size="9">
-	<position x="1340" y="1040"/>
+	<position x="1340" y="1020"/>
 	<comment><![CDATA[건설사별 공급업체 가격..
 공급업체별로 가격관리해서
 복사할수 있는 기능 필요?
-- 업체단가요청후 자재추가시?]]></comment>
+- 업체단가요청후 자재추가시?..
+미래단가가 등록되지 않은 상품만 처리 가능하도록 해야 할듯.]]></comment>
 </textbox>
 
 <table name="cmpny_matrl_price_req" layer="0" alias="업체_자재_가격_요청" collapse-mode="2" max-obj-count="22" z-value="0">
@@ -718,9 +626,9 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="cmpny_matrl_price_req_mst_fk" index="1"/>
-		<object name="cmpny_matrl_price_req_pk" index="0"/>
-		<object name="matrl_fk" index="2"/>
+		<object name="cmpny_matrl_price_req_mst_fk" index="2"/>
+		<object name="cmpny_matrl_price_req_pk" index="1"/>
+		<object name="matrl_fk" index="0"/>
 	</customidxs>
 </table>
 
@@ -733,20 +641,16 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 추후 추가되는 자재도 있을 수 있으므로, 개별 상태관리 필요]]></comment>
 </textbox>
 
-<table name="aprv_line" layer="0" alias="결재_결재선" collapse-mode="2" max-obj-count="13" z-value="0">
+<table name="matrl_clm_aprv" layer="0" alias="자재_청구_결재" collapse-mode="2" max-obj-count="13" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<comment><![CDATA[결재_결재선
-결재, 합의.. 구분 필요할까..
-단순 순서만 있으면 될지.]]></comment>
-	<position x="2180" y="140"/>
-	<column name="aprv_line_seq" alias="결재선_순번" not-null="true" default-value="1">
+	<comment><![CDATA[자재_청구_결재]]></comment>
+	<position x="2200" y="160"/>
+	<column name="aprv_seq" alias="결재_순번" not-null="true" default-value="1">
 		<type name="smallint" length="0"/>
-		<comment><![CDATA[결재선_순번
-순서만 있으면될까.. 순서를 수정하는 경우가 필요할까..
-삭제후 다시 넣기?]]></comment>
+		<comment><![CDATA[결재_순번]]></comment>
 	</column>
-	<column name="aprvr_id" alias="결재자_ID">
+	<column name="aprvr_id" alias="결재자_ID" not-null="true">
 		<type name="varchar" length="10"/>
 		<comment><![CDATA[결재자_ID]]></comment>
 	</column>
@@ -772,24 +676,25 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	</column>
 
 	<customidxs object-type="column">
-		<object name="aprv_id" index="0"/>
+		<object name="matrl_clm_no" index="0"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="aprv_fk" index="1"/>
-		<object name="aprv_line_pk" index="0"/>
+		<object name="matrl_clm_aprv_pk" index="0"/>
+		<object name="matrl_clm_fk" index="1"/>
 	</customidxs>
 </table>
 
 <textbox name="자재청구_비고" layer="0" z-value="0" font-size="9">
-	<position x="1760" y="540"/>
+	<position x="1800" y="60"/>
 	<comment><![CDATA[현장ID,업체ID 등.반정규화필요할까..
 현장별, 업체별로 보게 될거 같은데..
 입고주소..는 현장의 주소? 작성시점에 복사해와야할까..
-그렇다면.. 현장주소 이력관리 필요할듯.]]></comment>
+그렇다면.. 현장주소 이력관리 필요할듯.
+결재선을 그냥.. 컬럼으로 만들까..]]></comment>
 </textbox>
 
-<table name="cmpny_user" layer="0" alias="업체_사용자" collapse-mode="2" max-obj-count="22" z-value="0">
+<table name="cmpny_user" layer="0" alias="업체_사용자" collapse-mode="2" max-obj-count="21" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[업체_사용자
@@ -807,7 +712,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 00 - 관리자
 10 - 건설사
 11 - 건설사-본사
-12 - 건설사-현장, 작업_현장_ID 필수
+12 - 건설사-현장, cmpny_user_site 참조
 20 - 자재공급업체]]></comment>
 	</column>
 	<column name="user_nm" alias="사용자_이름">
@@ -863,16 +768,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	<constraint name="login_id_uq" type="uq-constr" table="public.cmpny_user">
 		<columns names="login_id" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="cmpny_id" index="2"/>
-		<object name="work_site_id" index="3"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="cmpny_fk" index="1"/>
-		<object name="work_site_fk" index="2"/>
-	</customidxs>
 </table>
 
 <textbox name="컬럼용어" layer="0" z-value="-1" font-size="9">
@@ -951,16 +846,10 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	 src-table="public.matrl_clm"
 	 dst-table="public.base_column"/>
 
-<relationship name="결재_copies_테이블기본컬럼" type="reldep" layer="1"
-	 pk-pattern="{dt}_pk"
-	 custom-color="#8f9db3"
-	 src-table="public.aprv"
-	 dst-table="public.base_column"/>
-
 <relationship name="결재_결재선_copies_테이블기본컬럼" type="reldep" layer="1"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#99fafe"
-	 src-table="public.aprv_line"
+	 src-table="public.matrl_clm_aprv"
 	 dst-table="public.base_column"/>
 
 <relationship name="자재청구_내역_copies_테이블기본컬럼" type="reldep" layer="1"
@@ -1040,35 +929,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	 src-table="public.work_site"
 	 dst-table="public.base_column"/>
 
-<relationship name="결재_has_many_결재_결재선" type="rel1n" layer="0"
-	 src-col-pattern="{sc}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#eeb1dd"
-	 src-table="public.aprv"
-	 dst-table="public.aprv_line"
-	 src-required="false" dst-required="false"
-	upd-action="NO ACTION"
-	del-action="NO ACTION">
-	<constraint name="결재_결재선_pk" type="pk-constr" table="public.aprv_line">
-		<columns names="aprv_line_seq" ref-type="src-columns"/>
-	</constraint>
-	<special-pk-cols indexes="0"/>
-</relationship>
-
-<relationship name="자재청구_has_one_결재" type="rel11" layer="0"
-	 src-col-pattern="{sc}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#68dbef"
-	 src-table="public.aprv"
-	 dst-table="public.matrl_clm"
-	 src-required="false" dst-required="false"
-	upd-action="NO ACTION"
-	del-action="NO ACTION">
-	<special-pk-cols indexes="0"/>
-</relationship>
-
 <relationship name="work_site_has_many_자재청구" type="rel1n" layer="0"
 	 src-col-pattern="{sc}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
@@ -1080,19 +940,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	upd-action="NO ACTION"
 	del-action="NO ACTION"/>
 
-<relationship name="자재청구_has_many_자재청구_내역" type="rel1n" layer="0"
-	 src-col-pattern="{sc}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#1fe028"
-	 src-table="public.matrl_clm"
-	 dst-table="public.matrl_clm_dtl"
-	 src-required="false" dst-required="false"
-	upd-action="NO ACTION"
-	del-action="NO ACTION">
-	<special-pk-cols indexes="0"/>
-</relationship>
-
 <relationship name="matrl_has_many_자재청구_내역" type="rel1n" layer="0"
 	 src-col-pattern="{sc}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
@@ -1103,8 +950,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	 src-required="false" dst-required="false"
 	upd-action="NO ACTION"
 	del-action="NO ACTION">
-	<constraint name="matrl_clm_dtl_pk" type="pk-constr" alias="자재_청구_상세_pk" protected="true" table="public.matrl_clm_dtl">
-		</constraint>
 	<special-pk-cols indexes="0"/>
 </relationship>
 
@@ -1215,7 +1060,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	del-action="NO ACTION"/>
 
 <textbox name="업체_자재" layer="0" bold="true" color="#ff0000" z-value="0" font-size="9">
-	<position x="1340" y="1000"/>
+	<position x="1340" y="980"/>
 	<comment><![CDATA[공급업체별로.. 자재공급여부가 다를수 있으므로 설정기능필요?
 단가요청이나..등등 기능에서 영향이 없을지..]]></comment>
 </textbox>
@@ -1262,8 +1107,8 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="cmpny_fk" index="0"/>
-		<object name="cmpny_matrl_price_req_mst_pk" index="2"/>
+		<object name="cmpny_fk" index="2"/>
+		<object name="cmpny_matrl_price_req_mst_pk" index="1"/>
 	</customidxs>
 </table>
 
@@ -1347,16 +1192,118 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	</reference>
 </view>
 
-<relationship name="work_site_has_many_cmpny_user" type="rel1n" layer="0"
+<table name="cmpny_user_site" layer="0" alias="업체_사용자_현장" collapse-mode="2" max-obj-count="9" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[업체_사용자_현장]]></comment>
+	<position x="520" y="900"/>
+	<column name="posi_nm" alias="직책_이름">
+		<type name="varchar" length="50"/>
+		<comment><![CDATA[직책_이름]]></comment>
+	</column>
+	<column name="use_yn" alias="사용_여부" default-value="'N'">
+		<type name="varchar" length="1"/>
+		<comment><![CDATA[사용_여부]]></comment>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="cmpny_user_id" index="0"/>
+		<object name="work_site_id" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="cmpny_user_fk" index="2"/>
+		<object name="cmpny_user_site_pk" index="0"/>
+		<object name="work_site_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="work_site_has_many_cmpny_user_site" type="rel1n" layer="0"
 	 src-col-pattern="{sc}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
-	 custom-color="#c2f8ef"
+	 custom-color="#284cd0"
 	 src-table="public.work_site"
-	 dst-table="public.cmpny_user"
+	 dst-table="public.cmpny_user_site"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="cmpny_user_has_many_cmpny_user_site" type="rel1n" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#43c0ee"
+	 src-table="public.cmpny_user"
+	 dst-table="public.cmpny_user_site"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION">
+	<constraint name="cmpny_user_site_pk" type="pk-constr" alias="업체_사용자_현장_pk" protected="true" table="public.cmpny_user_site">
+		</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="cmpny_user_site_copies_base_column" type="reldep" layer="1"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#1bbee7"
+	 src-table="public.cmpny_user_site"
+	 dst-table="public.base_column"/>
+
+<textbox name="cmpny_user_site_text" layer="0" z-value="0" font-size="9">
+	<position x="520" y="860"/>
+	<comment><![CDATA[직책을 코드로 관리할까..]]></comment>
+</textbox>
+
+<textbox name="work_site_textbox" layer="0" z-value="0" font-size="9">
+	<position x="520" y="460"/>
+	<comment><![CDATA[업체현장은.. 여러 업체(건설사)에서
+공통으로 사용할 수 있을까..]]></comment>
+</textbox>
+
+<relationship name="cmpny_has_many_matrl_clm" type="rel1n" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#134201"
+	 src-table="public.cmpny"
+	 dst-table="public.matrl_clm"
 	 src-required="false" dst-required="false"
 	upd-action="NO ACTION"
 	del-action="NO ACTION"/>
+
+<relationship name="matrl_clm_has_many_matrl_clm_dtl" type="rel1n" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#4927df"
+	 src-table="public.matrl_clm"
+	 dst-table="public.matrl_clm_dtl"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION">
+	<constraint name="matrl_clm_dtl_pk" type="pk-constr" alias="자재_청구_상세_pk" protected="true" table="public.matrl_clm_dtl">
+		</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="matrl_clm_has_many_matrl_clm_aprv" type="rel1n" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d4e295"
+	 src-table="public.matrl_clm"
+	 dst-table="public.matrl_clm_aprv"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION">
+	<constraint name="matrl_clm_aprv_pk" type="pk-constr" table="public.matrl_clm_aprv">
+		<columns names="aprv_seq" ref-type="src-columns"/>
+	</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
 
 <constraint name="spl_compny_fk" type="fk-constr" alias="공급_업체_fk" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cmpny" table="public.cmpny_matrl_price">
@@ -1379,19 +1326,19 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 		<comment><![CDATA[공급_업체_fk]]></comment>
 </constraint>
 
-<relationship name="rel_cmpny_matrl_item_cntrt_cmpny" type="relfk" layer="0"
-	 src-table="public.cmpny_matrl_item_cntrt"
-	 dst-table="public.cmpny" reference-fk="spl_cmpny_fk"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_cmpny_matrl_price_cmpny" type="relfk" layer="0"
 	 src-table="public.cmpny_matrl_price"
 	 dst-table="public.cmpny" reference-fk="spl_compny_fk"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_cmpny_matrl_item_cntrt_cmpny" type="relfk" layer="0"
+	 src-table="public.cmpny_matrl_item_cntrt"
+	 dst-table="public.cmpny" reference-fk="spl_cmpny_fk"
+	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_cmpny_matrl_price_req_mst_cmpny" type="relfk" layer="0"
 	 src-table="public.cmpny_matrl_price_req_mst"
 	 dst-table="public.cmpny" reference-fk="spl_cmpny_fk"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="true"/>
 
 </dbmodel>

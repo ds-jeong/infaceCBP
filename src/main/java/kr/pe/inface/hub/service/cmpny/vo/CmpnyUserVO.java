@@ -29,7 +29,6 @@ public class CmpnyUserVO implements UserDetails {
 	private String cmpnyUserId;
 	private String userTypeCd;
 	private String cmpnyId;
-	private String workSiteId;
 	private String userNm;
 	private String loginId;
 	private String pwd;
@@ -48,7 +47,7 @@ public class CmpnyUserVO implements UserDetails {
 
 	private String cmpnyTypeCd;
 	private String cmpnyNm;
-	private String siteNm;
+	private List<CmpnyUserSiteVO> siteList;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -3,13 +3,13 @@
 
 <mapper namespace="kr.pe.inface.hub.service.cmpny.CmpnyUserMapper">
 
-
-<select id="getCmpnyUserList" resultType="CmpnyUserVO">
+<!-- 업체 사용자 목록 -->
+<select id="getCmpnyUserList" resultType="CmpnyUserVO"><![CDATA[
 SELECT
         CU.CMPNY_USER_ID
-      , CU.USER_TYPE_CD, CU.CMPNY_ID, CU.WORK_SITE_ID
-      , C.CMPNY_TYPE_CD, C.CMPNY_NM, WS.SITE_NM
-      , CU.USER_NM, CU.LOGIN_ID, CU.PWD
+      , CU.USER_TYPE_CD, CU.CMPNY_ID
+      , C.CMPNY_TYPE_CD, C.CMPNY_NM
+      , CU.USER_NM, CU.LOGIN_ID
       , CU.STAT_CD, CU.JOIN_DT
       , CU.DEPT_NM, CU.POSI_NM
       , CU.TEL_NO, CU.FAX_NO, CU.HP_NO, CU.EMAIL
@@ -18,18 +18,18 @@ SELECT
 FROM
         CMPNY_USER CU
         LEFT OUTER JOIN CMPNY C ON CU.CMPNY_ID = C.CMPNY_ID
-        LEFT OUTER JOIN WORK_SITE WS ON CU.WORK_SITE_ID = WS.WORK_SITE_ID
 WHERE   1 = 1
 ORDER BY
-        CU.USER_TYPE_CD, CU.CMPNY_ID
-      , CU.WORK_SITE_ID, CU.CMPNY_USER_ID
-</select>
+        CU.CMPNY_ID, CU.USER_TYPE_CD
+      , CU.CMPNY_USER_ID
+]]></select>
 
-<select id="getCmpnyUser" parameterType="String" resultType="CmpnyUserVO">
+<!-- 로그인 업체 사용자 정보 조회 -->
+<select id="getCmpnyUser" parameterType="String" resultType="CmpnyUserVO"><![CDATA[
 SELECT
         CU.CMPNY_USER_ID
-      , CU.USER_TYPE_CD, CU.CMPNY_ID, CU.WORK_SITE_ID
-      , C.CMPNY_TYPE_CD, C.CMPNY_NM, WS.SITE_NM
+      , CU.USER_TYPE_CD, CU.CMPNY_ID
+      , C.CMPNY_TYPE_CD, C.CMPNY_NM
       , CU.USER_NM, CU.LOGIN_ID, CU.PWD
       , CU.STAT_CD, CU.JOIN_DT
       , CU.DEPT_NM, CU.POSI_NM
@@ -39,9 +39,23 @@ SELECT
 FROM
         CMPNY_USER CU
         LEFT OUTER JOIN CMPNY C ON CU.CMPNY_ID = C.CMPNY_ID
-        LEFT OUTER JOIN WORK_SITE WS ON CU.WORK_SITE_ID = WS.WORK_SITE_ID
 WHERE   1 = 1
 AND     CU.LOGIN_ID = #{loginId, jdbcType=VARCHAR}
-</select>
+]]></select>
+
+<!-- 업체 사용자 현장 목록 -->
+<select id="getCmpnyUserSiteList" parameterType="String" resultType="cmpnyusersitevo"><![CDATA[
+SELECT
+        CUS.CMPNY_USER_ID
+      , CUS.WORK_SITE_ID, WS.SITE_NM
+      , CUS.POSI_NM
+      , CUS.USE_YN
+FROM
+        CMPNY_USER_SITE CUS
+        LEFT OUTER JOIN WORK_SITE WS ON CUS.WORK_SITE_ID = WS.WORK_SITE_ID
+WHERE   1 = 1
+AND     CUS.CMPNY_USER_ID = #{cmpnyUserId, jdbcType=VARCHAR}
+AND     CUS.USE_YN = 'Y'
+]]></select>
 
 </mapper>

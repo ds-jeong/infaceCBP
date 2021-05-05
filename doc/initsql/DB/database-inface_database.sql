@@ -4,23 +4,23 @@
 -- Project Site: pgmodeler.io
 -- Model Author: ---
 
--- Database creation must be performed outside a multi lined SQL file. 
+-- Database creation must be performed outside a multi lined SQL file.
 -- These commands were put in this file only as a convenience.
--- 
+--
 -- object: inface_database | type: DATABASE --
 -- DROP DATABASE IF EXISTS inface_database;
 CREATE DATABASE inface_database
-	ENCODING = 'UTF8';
+    ENCODING = 'UTF8';
 -- ddl-end --
 
 
 -- object: public.base_column | type: TABLE --
 -- DROP TABLE IF EXISTS public.base_column CASCADE;
 CREATE TABLE public.base_column (
-	reg_dts timestamp NOT NULL DEFAULT current_timestamp,
-	regpe_id varchar(10) NOT NULL,
-	mod_dts timestamp NOT NULL DEFAULT current_timestamp,
-	modpe_id varchar(10) NOT NULL
+    reg_dts timestamp NOT NULL DEFAULT current_timestamp,
+    regpe_id varchar(10) NOT NULL,
+    mod_dts timestamp NOT NULL DEFAULT current_timestamp,
+    modpe_id varchar(10) NOT NULL
 );
 -- ddl-end --
 COMMENT ON COLUMN public.base_column.reg_dts IS E'등록_일시';
@@ -37,15 +37,15 @@ ALTER TABLE public.base_column OWNER TO postgres;
 -- object: public.matrl | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl CASCADE;
 CREATE TABLE public.matrl (
-	LIKE public.base_column,
-	matrl_id varchar(10) NOT NULL,
-	matrl_item_id varchar(7),
-	matrl_std varchar(100),
-	unit_cd varchar(4),
-	matrl_desc varchar(200),
-	matrl_img varchar(300),
-	use_yn varchar(1) DEFAULT 'N',
-	CONSTRAINT matrl_pk PRIMARY KEY (matrl_id)
+    LIKE public.base_column,
+    matrl_id varchar(10) NOT NULL,
+    matrl_std varchar(100),
+    unit_cd varchar(4),
+    matrl_desc varchar(200),
+    matrl_img varchar(300),
+    use_yn varchar(1) DEFAULT 'N',
+    matrl_item_id varchar(9),
+    CONSTRAINT matrl_pk PRIMARY KEY (matrl_id)
 
 );
 -- ddl-end --
@@ -69,14 +69,14 @@ ALTER TABLE public.matrl OWNER TO postgres;
 -- object: public.matrl_ctg | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_ctg CASCADE;
 CREATE TABLE public.matrl_ctg (
-	LIKE public.base_column,
-	matrl_ctg_id varchar(4) NOT NULL,
-	matrl_lctg_id varchar(2),
-	ctg_nm varchar(50),
-	ctg_desc varchar(200),
-	disp_ordr smallint DEFAULT 0,
-	use_yn varchar(1) DEFAULT 'N',
-	CONSTRAINT matrl_ctg_pk PRIMARY KEY (matrl_ctg_id)
+    LIKE public.base_column,
+    matrl_ctg_id varchar(8) NOT NULL,
+    ctg_nm varchar(50),
+    ctg_desc varchar(200),
+    disp_ordr smallint DEFAULT 0,
+    use_yn varchar(1) DEFAULT 'N',
+    matrl_mctg_id varchar(7),
+    CONSTRAINT matrl_ctg_pk PRIMARY KEY (matrl_ctg_id)
 
 );
 -- ddl-end --
@@ -98,15 +98,15 @@ ALTER TABLE public.matrl_ctg OWNER TO postgres;
 -- object: public.matrl_item | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_item CASCADE;
 CREATE TABLE public.matrl_item (
-	LIKE public.base_column,
-	matrl_item_id varchar(7) NOT NULL,
-	matrl_ctg_id varchar(4),
-	item_nm varchar(50),
-	item_img varchar(300),
-	item_desc varchar(200),
-	disp_ordr smallint DEFAULT 0,
-	use_yn varchar(1) DEFAULT 'N',
-	CONSTRAINT matrl_item_pk PRIMARY KEY (matrl_item_id)
+    LIKE public.base_column,
+    matrl_item_id varchar(9) NOT NULL,
+    item_nm varchar(50),
+    item_img varchar(300),
+    item_desc varchar(200),
+    disp_ordr smallint DEFAULT 0,
+    use_yn varchar(1) DEFAULT 'N',
+    matrl_ctg_id varchar(8),
+    CONSTRAINT matrl_item_pk PRIMARY KEY (matrl_item_id)
 
 );
 -- ddl-end --
@@ -130,18 +130,18 @@ ALTER TABLE public.matrl_item OWNER TO postgres;
 -- object: public.cmpny | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny CASCADE;
 CREATE TABLE public.cmpny (
-	LIKE public.base_column,
-	cmpny_id varchar(6) NOT NULL,
-	cmpny_type_cd varchar(4) NOT NULL,
-	biz_kind_cd varchar(4),
-	biz_reg_no varchar(15),
-	cmpny_nm varchar(100),
-	reppe_nm varchar(50),
-	biz_addr varchar(200),
-	biz_type_item varchar(100),
-	tax_bill_email varchar(100),
-	biz_reg_img varchar(300),
-	CONSTRAINT cmpny_pk PRIMARY KEY (cmpny_id)
+    LIKE public.base_column,
+    cmpny_id varchar(6) NOT NULL,
+    cmpny_type_cd varchar(4) NOT NULL,
+    biz_kind_cd varchar(4),
+    biz_reg_no varchar(15),
+    cmpny_nm varchar(100),
+    reppe_nm varchar(50),
+    biz_addr varchar(200),
+    biz_type_item varchar(100),
+    tax_bill_email varchar(100),
+    biz_reg_img varchar(300),
+    CONSTRAINT cmpny_pk PRIMARY KEY (cmpny_id)
 
 );
 -- ddl-end --
@@ -173,12 +173,12 @@ ALTER TABLE public.cmpny OWNER TO postgres;
 -- object: public.cmpny_matrl_item | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_item CASCADE;
 CREATE TABLE public.cmpny_matrl_item (
-	LIKE public.base_column,
-	cmpny_id varchar(6) NOT NULL,
-	matrl_item_id varchar(7) NOT NULL,
-	buy_type_cd varchar(4),
-	use_yn varchar(1) DEFAULT 'N',
-	CONSTRAINT cmpny_matrl_item_pk PRIMARY KEY (matrl_item_id,cmpny_id)
+    LIKE public.base_column,
+    cmpny_id varchar(6) NOT NULL,
+    matrl_item_id varchar(9) NOT NULL,
+    buy_type_cd varchar(4),
+    use_yn varchar(1) DEFAULT 'N',
+    CONSTRAINT cmpny_matrl_item_pk PRIMARY KEY (matrl_item_id,cmpny_id)
 
 );
 -- ddl-end --
@@ -194,17 +194,17 @@ ALTER TABLE public.cmpny_matrl_item OWNER TO postgres;
 -- object: public.cmpny_matrl_price | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_price CASCADE;
 CREATE TABLE public.cmpny_matrl_price (
-	LIKE public.base_column,
-	cmpny_id varchar(6) NOT NULL,
-	matrl_id varchar(10) NOT NULL,
-	spl_cmpny_id varchar(6) NOT NULL,
-	apl_strt_dt varchar(8) NOT NULL,
-	apl_end_dt varchar(8) NOT NULL,
-	buy_type_cd varchar(4),
-	lease_perd_cd varchar(4),
-	price int4 NOT NULL DEFAULT 0,
-	lease_price int4,
-	CONSTRAINT cmpny_matrl_price_pk PRIMARY KEY (spl_cmpny_id,apl_strt_dt,cmpny_id,matrl_id)
+    LIKE public.base_column,
+    cmpny_id varchar(6) NOT NULL,
+    matrl_id varchar(10) NOT NULL,
+    spl_cmpny_id varchar(6) NOT NULL,
+    apl_strt_dt varchar(8) NOT NULL,
+    apl_end_dt varchar(8) NOT NULL,
+    buy_type_cd varchar(4),
+    lease_perd_cd varchar(4),
+    price int4 NOT NULL DEFAULT 0,
+    lease_price int4,
+    CONSTRAINT cmpny_matrl_price_pk PRIMARY KEY (spl_cmpny_id,apl_strt_dt,cmpny_id,matrl_id)
 
 );
 -- ddl-end --
@@ -230,12 +230,12 @@ ALTER TABLE public.cmpny_matrl_price OWNER TO postgres;
 -- object: public.work_site | type: TABLE --
 -- DROP TABLE IF EXISTS public.work_site CASCADE;
 CREATE TABLE public.work_site (
-	LIKE public.base_column,
-	work_site_id varchar(8) NOT NULL,
-	site_nm varchar(100),
-	use_yn varchar(1) DEFAULT 'N',
-	cmpny_id varchar(6),
-	CONSTRAINT work_site_pk PRIMARY KEY (work_site_id)
+    LIKE public.base_column,
+    work_site_id varchar(8) NOT NULL,
+    site_nm varchar(100),
+    use_yn varchar(1) DEFAULT 'N',
+    cmpny_id varchar(6),
+    CONSTRAINT work_site_pk PRIMARY KEY (work_site_id)
 
 );
 -- ddl-end --
@@ -253,19 +253,19 @@ ALTER TABLE public.work_site OWNER TO postgres;
 -- object: public.matrl_clm | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_clm CASCADE;
 CREATE TABLE public.matrl_clm (
-	LIKE public.base_column,
-	aprv_id varchar(10) NOT NULL,
-	matrl_clm_no varchar(15),
-	clm_stat_cd varchar(4),
-	work_site_id varchar(8),
-	clm_dt varchar(8),
-	in_hope_dts timestamp,
-	in_addr varchar(200),
-	in_gate_no varchar(10),
-	in_charge_nm varchar(20),
-	in_charge_tel varchar(20),
-	in_remark varchar(300),
-	CONSTRAINT matrl_clm_pk PRIMARY KEY (aprv_id)
+    LIKE public.base_column,
+    matrl_clm_no varchar(15) NOT NULL,
+    clm_stat_cd varchar(4),
+    clm_dt varchar(8),
+    in_hope_dts timestamp,
+    in_addr varchar(200),
+    in_gate_no varchar(10),
+    in_charge_nm varchar(20),
+    in_charge_tel varchar(20),
+    in_remark varchar(300),
+    work_site_id varchar(8),
+    cmpny_id varchar(6),
+    CONSTRAINT matrl_clm_pk PRIMARY KEY (matrl_clm_no)
 
 );
 -- ddl-end --
@@ -295,19 +295,22 @@ ALTER TABLE public.matrl_clm OWNER TO postgres;
 -- object: public.matrl_clm_dtl | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_clm_dtl CASCADE;
 CREATE TABLE public.matrl_clm_dtl (
-	LIKE public.base_column,
-	aprv_id varchar(10) NOT NULL,
-	matrl_id varchar(10) NOT NULL,
-	prev_clm_qty smallint DEFAULT 0,
-	clm_qty smallint DEFAULT 0,
-	aprv_qty smallint DEFAULT 0,
-	req_desc varchar(300),
-	remark varchar(300),
-	CONSTRAINT matrl_clm_dtl_pk PRIMARY KEY (aprv_id,matrl_id)
+    LIKE public.base_column,
+    matrl_clm_no varchar(15) NOT NULL,
+    matrl_id varchar(10) NOT NULL,
+    matrl_clm_dtl_no varchar(20) NOT NULL,
+    prev_clm_qty smallint DEFAULT 0,
+    clm_qty smallint DEFAULT 0,
+    aprv_qty smallint DEFAULT 0,
+    req_desc varchar(300),
+    remark varchar(300),
+    CONSTRAINT matrl_clm_dtl_pk PRIMARY KEY (matrl_id,matrl_clm_no)
 
 );
 -- ddl-end --
 COMMENT ON TABLE public.matrl_clm_dtl IS E'자재_청구_상세';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_dtl.matrl_clm_dtl_no IS E'자재_청구_상세_번호';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_dtl.prev_clm_qty IS E'기청구_수량\n월별.현장의 기 청구수량?\n미리 집계? -> 컬럼 삭제?';
 -- ddl-end --
@@ -322,77 +325,43 @@ COMMENT ON COLUMN public.matrl_clm_dtl.remark IS E'비고';
 ALTER TABLE public.matrl_clm_dtl OWNER TO postgres;
 -- ddl-end --
 
--- object: public.aprv | type: TABLE --
--- DROP TABLE IF EXISTS public.aprv CASCADE;
-CREATE TABLE public.aprv (
-	LIKE public.base_column,
-	aprv_id varchar(10) NOT NULL,
-	arpv_kind_cd varchar(4),
-	stat_cd varchar(4),
-	title varchar(100),
-	drftr_id varchar(10),
-	drft_dts timestamp,
-	remark varchar(300),
-	CONSTRAINT aprv_pk PRIMARY KEY (aprv_id)
+-- object: public.matrl_mctg | type: TABLE --
+-- DROP TABLE IF EXISTS public.matrl_mctg CASCADE;
+CREATE TABLE public.matrl_mctg (
+    LIKE public.base_column,
+    matrl_mctg_id varchar(7) NOT NULL,
+    mctg_nm varchar(50),
+    mctg_desc varchar(200),
+    disp_ordr smallint DEFAULT 0,
+    use_yn varchar(1) DEFAULT 'N',
+    CONSTRAINT matrl_mctg_pk PRIMARY KEY (matrl_mctg_id)
 
 );
 -- ddl-end --
-COMMENT ON TABLE public.aprv IS E'결재\n각 결재종류에 따른 상세정보는 각각의 테이블에 저장., 여기는 결재선등의 공통정보만..\n별도 모듈로 구현..\n각 영역에서는 결재ID 만 공유하고. 결재에 관한 정보는 모두 여기서 처리.';
+COMMENT ON TABLE public.matrl_mctg IS E'자재_중분류';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv.aprv_id IS E'결재_ID';
+COMMENT ON COLUMN public.matrl_mctg.matrl_mctg_id IS E'자재_중분류_ID';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv.arpv_kind_cd IS E'결재_종류_코드\n자재청구, 발주청구\n각종 결재 프로세스..';
+COMMENT ON COLUMN public.matrl_mctg.mctg_nm IS E'중분류_이름';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv.stat_cd IS E'상태_코드\n작성중\n결재중,\n완료\n반려\n등.';
+COMMENT ON COLUMN public.matrl_mctg.mctg_desc IS E'중분류_설명';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv.title IS E'제목';
+COMMENT ON COLUMN public.matrl_mctg.disp_ordr IS E'노출_순서';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv.drftr_id IS E'기안자_ID';
+COMMENT ON COLUMN public.matrl_mctg.use_yn IS E'사용_여부';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv.drft_dts IS E'기안_일시';
--- ddl-end --
-COMMENT ON COLUMN public.aprv.remark IS E'비고';
--- ddl-end --
-ALTER TABLE public.aprv OWNER TO postgres;
--- ddl-end --
-
--- object: public.matrl_lctg | type: TABLE --
--- DROP TABLE IF EXISTS public.matrl_lctg CASCADE;
-CREATE TABLE public.matrl_lctg (
-	LIKE public.base_column,
-	matrl_lctg_id varchar(2) NOT NULL,
-	lctg_nm varchar(50),
-	lctg_desc varchar(200),
-	disp_ordr smallint DEFAULT 0,
-	use_yn varchar(1) DEFAULT 'N',
-	CONSTRAINT matrl_lctg_pk PRIMARY KEY (matrl_lctg_id)
-
-);
--- ddl-end --
-COMMENT ON TABLE public.matrl_lctg IS E'자재_대분류';
--- ddl-end --
-COMMENT ON COLUMN public.matrl_lctg.matrl_lctg_id IS E'자재_대분류_ID';
--- ddl-end --
-COMMENT ON COLUMN public.matrl_lctg.lctg_nm IS E'대분류_이름';
--- ddl-end --
-COMMENT ON COLUMN public.matrl_lctg.lctg_desc IS E'대분류_설명';
--- ddl-end --
-COMMENT ON COLUMN public.matrl_lctg.disp_ordr IS E'노출_순서';
--- ddl-end --
-COMMENT ON COLUMN public.matrl_lctg.use_yn IS E'사용_여부';
--- ddl-end --
-ALTER TABLE public.matrl_lctg OWNER TO postgres;
+ALTER TABLE public.matrl_mctg OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.comm_grp_cd | type: TABLE --
 -- DROP TABLE IF EXISTS public.comm_grp_cd CASCADE;
 CREATE TABLE public.comm_grp_cd (
-	LIKE public.base_column,
-	comm_grp_cd varchar(4) NOT NULL,
-	grp_cd_nm varchar(20),
-	use_yn varchar(1) DEFAULT 'N',
-	remark varchar(100),
-	CONSTRAINT comm_grp_cd_pk PRIMARY KEY (comm_grp_cd)
+    LIKE public.base_column,
+    comm_grp_cd varchar(4) NOT NULL,
+    grp_cd_nm varchar(20),
+    use_yn varchar(1) DEFAULT 'N',
+    remark varchar(100),
+    CONSTRAINT comm_grp_cd_pk PRIMARY KEY (comm_grp_cd)
 
 );
 -- ddl-end --
@@ -412,13 +381,13 @@ ALTER TABLE public.comm_grp_cd OWNER TO postgres;
 -- object: public.comm_cd | type: TABLE --
 -- DROP TABLE IF EXISTS public.comm_cd CASCADE;
 CREATE TABLE public.comm_cd (
-	LIKE public.base_column,
-	comm_cd varchar(4) NOT NULL,
-	comm_grp_cd varchar(4),
-	cd_nm varchar(20),
-	use_yn varchar(1) DEFAULT 'N',
-	remark varchar(100),
-	CONSTRAINT comm_cd_pk PRIMARY KEY (comm_cd)
+    LIKE public.base_column,
+    comm_cd varchar(4) NOT NULL,
+    cd_nm varchar(20),
+    use_yn varchar(1) DEFAULT 'N',
+    remark varchar(100),
+    comm_grp_cd varchar(4),
+    CONSTRAINT comm_cd_pk PRIMARY KEY (comm_cd)
 
 );
 -- ddl-end --
@@ -438,13 +407,13 @@ ALTER TABLE public.comm_cd OWNER TO postgres;
 -- object: public.cmpny_matrl_item_cntrt | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_item_cntrt CASCADE;
 CREATE TABLE public.cmpny_matrl_item_cntrt (
-	LIKE public.base_column,
-	cmpny_id varchar(6) NOT NULL,
-	matrl_item_id varchar(7) NOT NULL,
-	spl_cmpny_id varchar(6) NOT NULL,
-	buy_type_cd varchar(4) NOT NULL,
-	cntrt_stat_cd varchar(4),
-	CONSTRAINT cmpny_matrl_item_cntrt_pk PRIMARY KEY (spl_cmpny_id,buy_type_cd,matrl_item_id,cmpny_id)
+    LIKE public.base_column,
+    cmpny_id varchar(6) NOT NULL,
+    matrl_item_id varchar(9) NOT NULL,
+    spl_cmpny_id varchar(6) NOT NULL,
+    buy_type_cd varchar(4) NOT NULL,
+    cntrt_stat_cd varchar(4),
+    CONSTRAINT cmpny_matrl_item_cntrt_pk PRIMARY KEY (spl_cmpny_id,buy_type_cd,matrl_item_id,cmpny_id)
 
 );
 -- ddl-end --
@@ -462,23 +431,23 @@ ALTER TABLE public.cmpny_matrl_item_cntrt OWNER TO postgres;
 -- object: public.cmpny_matrl_price_req | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_price_req CASCADE;
 CREATE TABLE public.cmpny_matrl_price_req (
-	LIKE public.base_column,
-	cmpny_id varchar(6) NOT NULL,
-	matrl_id varchar(10) NOT NULL,
-	spl_cmpny_id varchar(6) NOT NULL,
-	apl_strt_dt varchar(8) NOT NULL,
-	req_stat_cd varchar(4),
-	req_dt varchar(8),
-	confirm_dt varchar(8),
-	buy_type_cd varchar(4),
-	lease_perd_cd varchar(4),
-	price int4 NOT NULL DEFAULT 0,
-	req_price int4 DEFAULT 0,
-	sugst_price int4 DEFAULT 0,
-	lease_price int4,
-	req_lease_price int4,
-	sugst_lease_price int4,
-	CONSTRAINT cmpny_matrl_price_req_pk PRIMARY KEY (matrl_id,apl_strt_dt,spl_cmpny_id,cmpny_id)
+    LIKE public.base_column,
+    cmpny_id varchar(6) NOT NULL,
+    matrl_id varchar(10) NOT NULL,
+    spl_cmpny_id varchar(6) NOT NULL,
+    apl_strt_dt varchar(8) NOT NULL,
+    req_stat_cd varchar(4),
+    req_dt varchar(8),
+    confirm_dt varchar(8),
+    buy_type_cd varchar(4),
+    lease_perd_cd varchar(4),
+    price int4 NOT NULL DEFAULT 0,
+    req_price int4 DEFAULT 0,
+    sugst_price int4 DEFAULT 0,
+    lease_price int4,
+    req_lease_price int4,
+    sugst_lease_price int4,
+    CONSTRAINT cmpny_matrl_price_req_pk PRIMARY KEY (matrl_id,apl_strt_dt,spl_cmpny_id,cmpny_id)
 
 );
 -- ddl-end --
@@ -509,58 +478,58 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req.sugst_lease_price IS E'제안_임
 ALTER TABLE public.cmpny_matrl_price_req OWNER TO postgres;
 -- ddl-end --
 
--- object: public.aprv_line | type: TABLE --
--- DROP TABLE IF EXISTS public.aprv_line CASCADE;
-CREATE TABLE public.aprv_line (
-	LIKE public.base_column,
-	aprv_id varchar(10) NOT NULL,
-	aprv_line_seq smallint NOT NULL DEFAULT 1,
-	aprvr_id varchar(10),
-	recv_dts timestamp,
-	aprv_dts timestamp,
-	aprv_stat_cd varchar(4),
-	remark varchar(200),
-	CONSTRAINT aprv_line_pk PRIMARY KEY (aprv_line_seq,aprv_id)
+-- object: public.matrl_clm_aprv | type: TABLE --
+-- DROP TABLE IF EXISTS public.matrl_clm_aprv CASCADE;
+CREATE TABLE public.matrl_clm_aprv (
+    LIKE public.base_column,
+    matrl_clm_no varchar(15) NOT NULL,
+    aprv_seq smallint NOT NULL DEFAULT 1,
+    aprvr_id varchar(10) NOT NULL,
+    recv_dts timestamp,
+    aprv_dts timestamp,
+    aprv_stat_cd varchar(4),
+    remark varchar(200),
+    CONSTRAINT matrl_clm_aprv_pk PRIMARY KEY (aprv_seq,matrl_clm_no)
 
 );
 -- ddl-end --
-COMMENT ON TABLE public.aprv_line IS E'결재_결재선\n결재, 합의.. 구분 필요할까..\n단순 순서만 있으면 될지.';
+COMMENT ON TABLE public.matrl_clm_aprv IS E'자재_청구_결재';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv_line.aprv_line_seq IS E'결재선_순번\n순서만 있으면될까.. 순서를 수정하는 경우가 필요할까..\n삭제후 다시 넣기?';
+COMMENT ON COLUMN public.matrl_clm_aprv.aprv_seq IS E'결재_순번';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv_line.aprvr_id IS E'결재자_ID';
+COMMENT ON COLUMN public.matrl_clm_aprv.aprvr_id IS E'결재자_ID';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv_line.recv_dts IS E'수신_일시\n결재자가 문서를 조회한 일시';
+COMMENT ON COLUMN public.matrl_clm_aprv.recv_dts IS E'수신_일시\n결재자가 문서를 조회한 일시';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv_line.aprv_dts IS E'결재_일시';
+COMMENT ON COLUMN public.matrl_clm_aprv.aprv_dts IS E'결재_일시';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv_line.aprv_stat_cd IS E'결재_상태_코드\n결재,반려';
+COMMENT ON COLUMN public.matrl_clm_aprv.aprv_stat_cd IS E'결재_상태_코드\n결재,반려';
 -- ddl-end --
-COMMENT ON COLUMN public.aprv_line.remark IS E'비고\n반려사유등.';
+COMMENT ON COLUMN public.matrl_clm_aprv.remark IS E'비고\n반려사유등.';
 -- ddl-end --
-ALTER TABLE public.aprv_line OWNER TO postgres;
+ALTER TABLE public.matrl_clm_aprv OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.cmpny_user | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_user CASCADE;
 CREATE TABLE public.cmpny_user (
-	LIKE public.base_column,
-	cmpny_user_id varchar(10) NOT NULL,
-	cmpny_id varchar(6),
-	user_type_cd varchar(4),
-	user_nm varchar(20),
-	login_id varchar(20) NOT NULL,
-	pwd varchar(100) NOT NULL,
-	stat_cd varchar(4),
-	join_dt varchar(8),
-	dept_nm varchar(50),
-	posi_nm varchar(50),
-	tel_no varchar(20),
-	fax_no varchar(20),
-	hp_no varchar(20),
-	email varchar(100),
-	CONSTRAINT cmpny_user_pk PRIMARY KEY (cmpny_user_id),
-	CONSTRAINT login_id_uq UNIQUE (login_id)
+    LIKE public.base_column,
+    cmpny_user_id varchar(10) NOT NULL,
+    user_type_cd varchar(4),
+    user_nm varchar(20),
+    login_id varchar(20) NOT NULL,
+    pwd varchar(100) NOT NULL,
+    stat_cd varchar(4),
+    join_dt varchar(8),
+    dept_nm varchar(50),
+    posi_nm varchar(50),
+    tel_no varchar(20),
+    fax_no varchar(20),
+    hp_no varchar(20),
+    email varchar(100),
+    cmpny_id varchar(6),
+    CONSTRAINT cmpny_user_pk PRIMARY KEY (cmpny_user_id),
+    CONSTRAINT login_id_uq UNIQUE (login_id)
 
 );
 -- ddl-end --
@@ -568,7 +537,7 @@ COMMENT ON TABLE public.cmpny_user IS E'업체_사용자\n근로자..와 구분�
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_user.cmpny_user_id IS E'업체_사용자_ID';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_user.user_type_cd IS E'사용자_유형_코드\n00 - 관리자\n10 - (업체_유형_코드)건설사\n20 - (업체_유형_코드)자재공급업체';
+COMMENT ON COLUMN public.cmpny_user.user_type_cd IS E'사용자_유형_코드\n00 - 관리자\n10 - 건설사\n11 - 건설사-본사\n12 - 건설사-현장, cmpny_user_site 참조\n20 - 자재공급업체';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_user.user_nm IS E'사용자_이름';
 -- ddl-end --
@@ -595,10 +564,10 @@ COMMENT ON COLUMN public.cmpny_user.email IS E'이메일';
 ALTER TABLE public.cmpny_user OWNER TO postgres;
 -- ddl-end --
 
--- object: matrl_lctg_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_ctg DROP CONSTRAINT IF EXISTS matrl_lctg_fk CASCADE;
-ALTER TABLE public.matrl_ctg ADD CONSTRAINT matrl_lctg_fk FOREIGN KEY (matrl_lctg_id)
-REFERENCES public.matrl_lctg (matrl_lctg_id) MATCH FULL
+-- object: matrl_mctg_fk | type: CONSTRAINT --
+-- ALTER TABLE public.matrl_ctg DROP CONSTRAINT IF EXISTS matrl_mctg_fk CASCADE;
+ALTER TABLE public.matrl_ctg ADD CONSTRAINT matrl_mctg_fk FOREIGN KEY (matrl_mctg_id)
+REFERENCES public.matrl_mctg (matrl_mctg_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
@@ -616,36 +585,10 @@ REFERENCES public.matrl_ctg (matrl_ctg_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: aprv_fk | type: CONSTRAINT --
--- ALTER TABLE public.aprv_line DROP CONSTRAINT IF EXISTS aprv_fk CASCADE;
-ALTER TABLE public.aprv_line ADD CONSTRAINT aprv_fk FOREIGN KEY (aprv_id)
-REFERENCES public.aprv (aprv_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: aprv_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS aprv_fk CASCADE;
-ALTER TABLE public.matrl_clm ADD CONSTRAINT aprv_fk FOREIGN KEY (aprv_id)
-REFERENCES public.aprv (aprv_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_clm_uq | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS matrl_clm_uq CASCADE;
-ALTER TABLE public.matrl_clm ADD CONSTRAINT matrl_clm_uq UNIQUE (aprv_id);
--- ddl-end --
-
 -- object: work_site_fk | type: CONSTRAINT --
 -- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
 ALTER TABLE public.matrl_clm ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
 REFERENCES public.work_site (work_site_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_clm_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm_dtl DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
-ALTER TABLE public.matrl_clm_dtl ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (aprv_id)
-REFERENCES public.matrl_clm (aprv_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
@@ -715,16 +658,16 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- object: public.cmpny_matrl_price_req_mst | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_price_req_mst CASCADE;
 CREATE TABLE public.cmpny_matrl_price_req_mst (
-	LIKE public.base_column,
-	cmpny_id varchar(6) NOT NULL,
-	spl_cmpny_id varchar(6) NOT NULL,
-	apl_strt_dt varchar(8) NOT NULL,
-	apl_end_dt varchar(8),
-	req_stat_cd varchar(4),
-	req_dt varchar(8),
-	confirm_dt varchar(8),
-	remark varchar(300),
-	CONSTRAINT cmpny_matrl_price_req_mst_pk PRIMARY KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
+    LIKE public.base_column,
+    cmpny_id varchar(6) NOT NULL,
+    spl_cmpny_id varchar(6) NOT NULL,
+    apl_strt_dt varchar(8) NOT NULL,
+    apl_end_dt varchar(8),
+    req_stat_cd varchar(4),
+    req_dt varchar(8),
+    confirm_dt varchar(8),
+    remark varchar(300),
+    CONSTRAINT cmpny_matrl_price_req_mst_pk PRIMARY KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
 
 );
 -- ddl-end --
@@ -771,23 +714,79 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- object: public.v_matrl_item | type: VIEW --
 -- DROP VIEW IF EXISTS public.v_matrl_item CASCADE;
 CREATE VIEW public.v_matrl_item
-AS 
+AS
 
 SELECT
-        ML.MATRL_LCTG_ID, ML.LCTG_NM, ML.LCTG_DESC, ML.DISP_ORDR AS LCTG_DISP_ORDR, ML.USE_YN AS LCTG_USE_YN
+        MM.MATRL_MCTG_ID, MM.MCTG_NM, MM.MCTG_DESC, MM.DISP_ORDR AS MCTG_DISP_ORDR, MM.USE_YN AS MCTG_USE_YN
       , MC.MATRL_CTG_ID, MC.CTG_NM, MC.CTG_DESC, MC.DISP_ORDR AS CTG_DISP_ORDR, MC.USE_YN AS CTG_USE_YN
       , MI.MATRL_ITEM_ID, MI.ITEM_NM, MI.ITEM_DESC, MI.ITEM_IMG, MI.DISP_ORDR, MI.USE_YN
 FROM
-        MATRL_LCTG ML
+        MATRL_MCTG MM
       , MATRL_CTG MC
       , MATRL_ITEM MI
 WHERE   1 = 1
-AND     ML.MATRL_LCTG_ID = MC.MATRL_LCTG_ID
+AND     MM.MATRL_MCTG_ID = MC.MATRL_MCTG_ID
 AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;
 -- ddl-end --
 COMMENT ON VIEW public.v_matrl_item IS E'뷰_자재_품목';
 -- ddl-end --
 ALTER VIEW public.v_matrl_item OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.cmpny_user_site | type: TABLE --
+-- DROP TABLE IF EXISTS public.cmpny_user_site CASCADE;
+CREATE TABLE public.cmpny_user_site (
+    LIKE public.base_column,
+    cmpny_user_id varchar(10) NOT NULL,
+    work_site_id varchar(8) NOT NULL,
+    posi_nm varchar(50),
+    use_yn varchar(1) DEFAULT 'N',
+    CONSTRAINT cmpny_user_site_pk PRIMARY KEY (work_site_id,cmpny_user_id)
+
+);
+-- ddl-end --
+COMMENT ON TABLE public.cmpny_user_site IS E'업체_사용자_현장';
+-- ddl-end --
+COMMENT ON COLUMN public.cmpny_user_site.posi_nm IS E'직책_이름';
+-- ddl-end --
+COMMENT ON COLUMN public.cmpny_user_site.use_yn IS E'사용_여부';
+-- ddl-end --
+ALTER TABLE public.cmpny_user_site OWNER TO postgres;
+-- ddl-end --
+
+-- object: work_site_fk | type: CONSTRAINT --
+-- ALTER TABLE public.cmpny_user_site DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
+ALTER TABLE public.cmpny_user_site ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
+REFERENCES public.work_site (work_site_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: cmpny_user_fk | type: CONSTRAINT --
+-- ALTER TABLE public.cmpny_user_site DROP CONSTRAINT IF EXISTS cmpny_user_fk CASCADE;
+ALTER TABLE public.cmpny_user_site ADD CONSTRAINT cmpny_user_fk FOREIGN KEY (cmpny_user_id)
+REFERENCES public.cmpny_user (cmpny_user_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: cmpny_fk | type: CONSTRAINT --
+-- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
+ALTER TABLE public.matrl_clm ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
+REFERENCES public.cmpny (cmpny_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: matrl_clm_fk | type: CONSTRAINT --
+-- ALTER TABLE public.matrl_clm_dtl DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
+ALTER TABLE public.matrl_clm_dtl ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
+REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: matrl_clm_fk | type: CONSTRAINT --
+-- ALTER TABLE public.matrl_clm_aprv DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
+ALTER TABLE public.matrl_clm_aprv ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
+REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: spl_compny_fk | type: CONSTRAINT --

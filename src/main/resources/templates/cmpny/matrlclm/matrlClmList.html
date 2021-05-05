@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
+<th:block layout:fragment="contentFragment">
+
+<h1>자재청구 목록</h1>
+
+<table border="1">
+<thead>
+    <tr>
+       <th>matrlClmNo 자재청구번호</th><th>cmpnyId 업체ID</th><th>workSiteId 작업현장ID</th>
+       <th>clmStatCd 청구상태코드</th><th>clmDt 청구일자</th>
+       <th>inHopeDts 입고희망일시</th><th>inAddr 입고주소</th><th>inGateNo 입고게이트번호</th>
+       <th>inChargeNm 입고담당자명</th><th>inChargeTel 입고담당자연락처</th><th>inRemark 입고_비고</th>
+    </tr>
+</thead>
+<tbody>
+    <tr th:each="mi : ${miList}">
+        <td th:text="${mi.matrlMctgId}">matrlClmNo</td>
+        <td th:text="${mi.mctgNm}">cmpnyId</td>
+        <td th:text="${mi.mctgDesc}">workSiteId</td>
+        <td th:text="${mi.matrlCtgId}">clmStatCd</td>
+        <td th:text="${mi.ctgNm}">clmDt</td>
+        <td th:text="${mi.ctgDesc}">inHopeDts</td>
+        <td th:text="${mi.matrlItemId}">inAddr</td>
+        <td th:text="${mi.itemNm}">inGateNo</td>
+        <td th:text="${mi.itemDesc}">inChargeNm</td>
+        <td th:text="${mi.itemImg}">inChargeTel</td>
+        <td th:text="${mi.itemImg}">inRemark</td>
+    </tr>
+</tbody>
+</table>
+
+</th:block>
