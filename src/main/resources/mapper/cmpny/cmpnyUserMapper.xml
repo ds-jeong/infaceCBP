@@ -5,6 +5,7 @@
 
 <!-- 업체 사용자 목록 -->
 <select id="getCmpnyUserList" resultType="CmpnyUserVO"><![CDATA[
+/* cmpny.CmpnyUserMapper.getCmpnyUserList */
 SELECT
         CU.CMPNY_USER_ID
       , CU.USER_TYPE_CD, CU.CMPNY_ID
@@ -26,6 +27,7 @@ ORDER BY
 
 <!-- 로그인 업체 사용자 정보 조회 -->
 <select id="getCmpnyUser" parameterType="String" resultType="CmpnyUserVO"><![CDATA[
+/* cmpny.CmpnyUserMapper.getCmpnyUser */
 SELECT
         CU.CMPNY_USER_ID
       , CU.USER_TYPE_CD, CU.CMPNY_ID
@@ -45,6 +47,7 @@ AND     CU.LOGIN_ID = #{loginId, jdbcType=VARCHAR}
 
 <!-- 업체 사용자 현장 목록 -->
 <select id="getCmpnyUserSiteList" parameterType="String" resultType="cmpnyusersitevo"><![CDATA[
+/* cmpny.CmpnyUserMapper.getCmpnyUserSiteList */
 SELECT
         CUS.CMPNY_USER_ID
       , CUS.WORK_SITE_ID, WS.SITE_NM

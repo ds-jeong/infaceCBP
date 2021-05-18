@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>INFACE HUB 자재공금통합솔루션</title>
+		<link rel="stylesheet" href="../css/style_hub.css" type="text/css"/>
+		<link rel="stylesheet" href="../css/button.css" type="text/css"/>
+	</head>
+	<body>
+		<div class="popup_frame" style="width:1000px;">
+			<h1 class="popup_title">
+				청구품목 설정
+				<a href="#" class="popup_close">닫기</a>
+			</h1>
+			<!-- popup content -->
+			<div class="pop_content">
+				<!-- 청구 품목설정 -->
+				<div class="list_top_area">
+					<div class="list_search_result">
+						<b>청구 품목설정</b>
+					</div>
+					<div class="list_top_btn_box">
+						<!-- 버튼이 있는 경우 노출 -->
+					</div>
+				</div>
+				<div class="pop_info_top">
+					<table>
+						<thead>
+							<tr>
+								<th class="sz_100">상태</th>
+								<th>청구상세번호</th>
+								<th>품목</th>
+								<th>세부품목</th>
+								<th class="sz_60">청구수량</th>
+								<th>용도</th>
+								<th class="sz_120">입고 요청일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<select class="t_inp">
+										<option>승인</option>
+									</select>
+								</td>
+								<td>20-12140001-01</td>
+								<td>유로폼(고재)</td>
+								<td>450 * 500 * 1200</td>
+								<td>100</td>
+								<td>지하 타설용</td>
+								<td>2020.12.31</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="pop_table">
+					<table>
+						<thead>
+							<tr>
+								<th class="sz_100">구매구분</th>
+								<th class="sz_60">승인수량</th>
+								<th>공급업체 선택</th>
+								<th>단가(원)</th>
+								<th>금액</th>
+								<th class="sz_120">납품 요청일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<select class="t_inp">
+										<option>구매</option>
+									</select>
+								</td>
+								<td><input type="text" value="100" class="t_inp center" /></td>
+								<td>
+									<select class="t_inp">
+										<option>구매</option>
+									</select>
+								</td>
+								<td class="t_right">1,200</td>
+								<td class="t_right">1,000,000</td>
+								<td>2020.12.31</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 수정 요청사항 등록 -->
+				<div class="list_top_area">
+					<div class="list_search_result">
+						<b>수정 요청사항 등록</b>
+					</div>
+					<div class="list_top_btn_box">
+						<!-- 버튼이 있는 경우 노출 -->
+					</div>
+				</div>
+				<!-- Search Area -->
+				<div class="pop_search_box">
+					<!-- Select -->
+					<div class="pop_search_inp_box">
+						<input type="text" placeholder="요청사항이나 특이사항이 있을 경우 내용을 입력하세요." class="top_inp w600" />
+						<a href="#" class="BTNS icon add"><span>추가</span></a>
+					</div>
+					<!-- Button Area -->
+					<div class="fuc_btns_box">
+						<!-- 버튼이 있는 경우 노출 -->
+					</div>
+				</div>
+				<div class="pop_table">
+					<table>
+						<thead>
+							<tr>
+								<th class="sz_50">No</th>
+								<th>날짜</th>
+								<th>작성자</th>
+								<th>내용</th>
+								<th class="sz_50">관리</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>2020.12.31</td>
+								<td>홍길동(genie)</td>
+								<td>기존에 청구된 수량이 많아 발주 숫자를 조정합니다.</td>
+								<td><span class="tb_btn delete">삭제</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 청구 품목 입고내역 -->
+				<div class="list_top_area">
+					<div class="list_search_result">
+						<b>청구 품목 입고내역</b>
+					</div>
+					<div class="list_top_btn_box">
+						<!-- 버튼이 있는 경우 노출 -->
+					</div>
+				</div>
+				<div class="pop_table">
+					<table>
+						<thead>
+							<tr>
+								<th class="sz_50">No</th>
+								<th>발주일</th>
+								<th>입고수량</th>
+								<th>입고일</th>
+								<th class="sz_120">금액</th>
+								<th>공급업체</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="acc">
+								<td>합계</td>
+								<td>20</td>
+								<td>2,000</td>
+								<td>-</td>
+								<td class="t_right">10,000,000</td>
+								<td>-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>2020.12.31</td>
+								<td>1,000</td>
+								<td>2020.12.31</td>
+								<td class="t_right">10,000,000</td>
+								<td>지엠테크</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>2020.12.31</td>
+								<td>1,000</td>
+								<td>2020.12.31</td>
+								<td class="t_right">10,000,000</td>
+								<td>지엠테크</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- Pop Button -->
+			<div class="pop_btns">
+				<a href="#" class="BTNS icon cancel"><span>취소</span></a>
+				<a href="#" class="BTNS icon save"><span>저장</span></a>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>INFACE HUB 자재공금통합솔루션</title>
+		<link rel="stylesheet" href="../css/style_hub.css" type="text/css"/>
+		<link rel="stylesheet" href="../css/button.css" type="text/css"/>
+	</head>
+	<body class="SIZE_DEFAULT COMPANY">
+		<!-- Head Area -->
+		<div class="HEAD_AREA">
+			<!-- Info -->
+			<div class="Head_info">
+				<div class="info_box head_min_size">
+					<ul>
+						<li class="date">Today : 2020. 05. 01</li>
+						<li><b>genie(박진호)</b>님 환영합니다.</li>
+					</ul>
+					<ul>
+						<li>원영건업(주)</li>
+						<li>
+							<a href="#" class="head_logout"><span>LOGOUT</span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- GNB Main Menu Area -->
+			<div class="Head_menu">
+				<div class="menu_box head_min_size">
+					<a href="#" class="logo_head">Inface HUB MAIN</a>
+					<ul>
+						<li><a href="#" class="GNB">MAIN</a></li>
+						<li><a href="#" class="GNB">자재청구관리</a></li>
+						<li><a href="#" class="GNB">자재발주관리</a></li>
+						<li><a href="#" class="GNB">투입자재관리</a></li>
+						<li class="marked">
+							<a href="#" class="GNB">자재DB</a>
+							<div class="SUBMENU">
+								<ul>
+									<li><a href="#" class="SUB">사용자재리스트</a></li>
+									<li><a href="#" class="SUB">자재분류관리</a></li>
+									<li><a href="#" class="SUB marked">공급업체 설정</a></li>
+									<li><a href="#" class="SUB">자재단가표</a></li>
+									<li><a href="#" class="SUB">업체단가관리</a></li>
+								</ul>
+							</div>
+						</li>
+						<li><a href="#" class="GNB">공용자재목록</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- GNB Sub Menu Area -->
+			<div class="Head_subm">
+				<div class="subm_box head_min_size">
+					<a href="#" class="logo_head_txt">자재공금통합솔루션</a>
+				</div>
+			</div>
+		</div>
+		<!-- Content Area -->
+		<div class="PAGE_BODY">
+			<h1 class="page_title">공급업체 설정</h1>
+			<div class="page_top">
+				<!-- Search Area -->
+				<div class="con_search_box">
+					<!-- Select -->
+					<div class="search_inp_box">
+						<select class="top_inp">
+							<option>대분류명</option>
+						</select>
+						<select class="top_inp">
+							<option>소분류명</option>
+						</select>
+						<select class="top_inp">
+							<option>품목명</option>
+						</select>
+						<select class="top_inp">
+							<option>공급업체명</option>
+						</select>
+						<input type="text" class="top_inp" placeholder="품목명 or 공급업체명을 입력하세요" />
+						<a href="#" class="BTNS icon search"><span>검색</span></a>
+						<a href="#" class="BTNS icon reset"><span>초기화</span></a>
+					</div>
+					<!-- Button Area -->
+					<div class="fuc_btns_box">
+						<!-- 버튼이 있는 경우 노출 -->
+					</div>
+				</div>				
+			</div>
+			<!-- //////////////////// Content List -->
+			<div class="LIST_BOX">
+				<!-- Info list Top -->
+				<div class="con_info_top">
+					<table>
+						<thead>
+							<tr>
+								<th>대분류</th>
+								<th>소분류</th>
+								<th>등록 품목</th>
+								<th>세부품목</th>
+								<th>공급업체</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>10</td>
+								<td>25</td>
+								<td>100</td>
+								<td>10,000</td>
+								<td>100</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- Search Result, buttons -->
+				<div class="list_top_area">
+					<div class="list_search_result">
+						<b>검색결과</b>13,000개의 세부품목이 있습니다.
+					</div>
+					<div class="list_top_btn_box">
+						<a href="#" class="BTNS icon setup"><span>구매방식 일괄설정</span></a>
+						<a href="#" class="BTNS icon setup"><span>공급업체 일괄설정</span></a>
+					</div>
+				</div>
+				<div class="list_table">
+					<table>
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>대분류</th>
+								<th>소분류</th>
+								<th>품목</th>
+								<th>구매방식</th>
+								<th>공급업체수</th>
+								<th>공급업체</th>
+								<th>최종수정일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>가설자재</td>
+								<td>유로폼</td>
+								<td>유로폼(고재)</td>
+								<td><a href="#">구매,임대</a></td>
+								<td>5</td>
+								<td><a href="#">KS지엠테크 / 보성테크 / 태창종합상사</a></td>
+								<td>2020.12.01</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>가설자재</td>
+								<td>유로폼</td>
+								<td>유로폼(고재)</td>
+								<td><a href="#">임대</a></td>
+								<td>5</td>
+								<td><a href="#">KS지엠테크</a></td>
+								<td>2020.12.01</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>가설자재</td>
+								<td>유로폼</td>
+								<td>유로폼(고재)</td>
+								<td><a href="#">구매</a></td>
+								<td>5</td>
+								<td><a href="#">보성테크</a></td>
+								<td>2020.12.01</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- Content List //////////////////// -->
+		</div>
+		<!-- Footer Area -->
+		<div class="FOOTER_AREA">
+			<div class="Foot_box">
+				<h1 class="foot_logo"></h1>
+				<div class="foot_text">
+					<p class="adress">서울특별시 중랑구 신내역로3길 40-36 신내데시앙플렉스 B동 103호 | <b>문의전화</b> : 1833-9598 (24시간, 365일) | <b>E-mail</b> : sales@infaccbp.com</p>
+					<p class="copyright">© 2018 인페이스플랫폼 주식회사, ALL RIGHTS RESERVED.</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

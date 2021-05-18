@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="619,0" last-zoom="1" max-obj-count="46"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,367" last-zoom="1" max-obj-count="46"
 	 default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
@@ -206,7 +206,8 @@ V00001]]></comment>
 		<type name="varchar" length="4"/>
 		<comment><![CDATA[구매_타입_코드
 10 - 구매
-20 - 임대]]></comment>
+20 - 임대
+공급업체인 경우는 필수.]]></comment>
 	</column>
 	<column name="use_yn" alias="사용_여부" default-value="'N'">
 		<type name="varchar" length="1"/>

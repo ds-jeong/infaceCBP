@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<th:block th:fragment="headerFragment">
+
+<!-- Head Area -->
+<div class="HEAD_AREA">
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	// 현재 상위메뉴 highlight
+	jQuery("a.SUB.marked").parents(".SUBMENU").prev().addClass("marked");
+	jQuery("a.SUB.marked").parents(".SUBMENU").show();
+	jQuery("a.GNB[href=\\#").click(menuAction);
+});
+// 상위 메뉴 클릭시 메뉴 노출
+function menuAction() {
+    jQuery(this).parent().parent().find("div.SUBMENU").hide();
+    jQuery(this).parent().next().show();
+	return false;
+}
+</script>
+    <!-- Info -->
+    <div class="Head_info">
+        <div class="info_box head_min_size">
+            <ul>
+                <li class="date" th:text="|Today : ${#calendars.format(#calendars.createNow(), 'yyyy. MM. dd')}|">Today : 2020. 05. 01</li>
+                <li>
+					<th:block sec:authorize="isAuthenticated()">
+					   <b th:text="|${LOGIN_VO.loginId}(${LOGIN_VO.userNm})|">loginId(userNm)</b>님 환영합니다.
+					</th:block>
+                </li>
+            </ul>
+            <ul>
+                <th:block sec:authorize="isAuthenticated()">
+                    <li th:text="${LOGIN_VO.cmpnyNm}">회사이름</li>
+                </th:block>
+                <li>
+                    <th:block sec:authorize="!isAuthenticated()"><a href="/login" class="head_logout"><span>LOGIN</span></a></th:block>
+                    <th:block sec:authorize="isAuthenticated()"><a href="/auth/logout" class="head_logout"><span>LOGOUT</span></a></th:block>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- GNB Main Menu Area -->
+    <div class="Head_menu">
+        <div class="menu_box head_min_size">
+            <a href="/" class="logo_head">Inface HUB MAIN</a>
+            <ul>
+                <li><a href="/" class="GNB">MAIN</a></li>
+                <th:block th:each="menuGrp : ${MENU_LIST}">
+				<li>
+			        <a href="#" class="GNB" th:text="${menuGrp[0]}">메뉴그룹명</a>
+			    </li>
+			        <div class="SUBMENU" style="padding-top:30px; display:none;">
+					    <ul>
+			                <li th:each="menuLi : ${menuGrp[1]}">
+			                    <a th:href="${menuLi[1]}" class="SUB" th:classappend="${#httpServletRequest.requestURI} == ${menuLi[1]} ? marked" th:text="${menuLi[0]}">메뉴명</a>
+			                </li>
+			            </ul>
+			        </div>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+    <!-- GNB Sub Menu Area -->
+    <div class="Head_subm">
+        <div class="subm_box head_min_size">
+            <a href="#" class="logo_head_txt">자재공급통합솔루션</a>
+        </div>
+    </div>
+</div>
+
+</th:block>
+
+
+<th:block th:fragment="footerFragment">
+
+<!-- Footer Area -->
+<div class="FOOTER_AREA">
+    <div class="Foot_box">
+        <h1 class="foot_logo"></h1>
+        <div class="foot_text">
+            <p class="adress">서울특별시 중랑구 신내역로3길 40-36 신내데시앙플렉스 B동 103호 | <b>문의전화</b> : 1833-9598 (24시간, 365일) | <b>E-mail</b> : sales@infaccbp.com</p>
+            <p class="copyright">© 2018 인페이스플랫폼 주식회사, ALL RIGHTS RESERVED.</p>
+        </div>
+    </div>
+</div>
+
+</th:block>
+
+</html>

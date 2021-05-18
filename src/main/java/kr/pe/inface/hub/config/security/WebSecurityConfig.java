@@ -35,7 +35,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring()
 				// Spring Security should completely ignore URLs starting with /resources/
 				.antMatchers("/favicon.ico")
-				.antMatchers("/jquery/**");
+				.antMatchers("/css/**")
+				.antMatchers("/fonts/**")
+				.antMatchers("/images/**")
+				.antMatchers("/js/**");
 	}
 
 	@Override
@@ -47,12 +50,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/cmpny/**").hasAnyRole("COMPANY")
 				.antMatchers("/site/**").hasAnyRole("COMPANY_SITE")
 				.antMatchers("/vendor/**").hasAnyRole("VENDOR")
-				.antMatchers("/auth/**").permitAll()
-				.antMatchers("/*").permitAll() // root 경로 허용.
+				.antMatchers("/", "/main").permitAll()
 				.antMatchers("/**").denyAll()  // 2depth 이상 기본 거부
 				.and()
 
 			.formLogin()
+			    .loginPage("/auth/login")
+			    .loginProcessingUrl("/auth/doLogin")
 				.defaultSuccessUrl("/", true)
 				.permitAll() // set permitAll for all URLs associated with Form Login
 				.and()
@@ -65,9 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf()
 				.disable()
 
-			.sessionManagement()
-				.maximumSessions(1)
-				.expiredUrl("/auth/login") // TODO 기본 url 설정 변경 확인.. 변수로 선언?
+//			.sessionManagement()
+//				.maximumSessions(1)
+//				.expiredUrl("/auth/login")
 		;
 	}
 

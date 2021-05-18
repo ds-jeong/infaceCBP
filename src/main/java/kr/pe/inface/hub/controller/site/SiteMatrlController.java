@@ -3,7 +3,7 @@ package kr.pe.inface.hub.controller.site;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,17 +29,13 @@ public class SiteMatrlController {
 	/**
 	 * 업체 자재 목록
 	 *
-	 * @param authentication
+	 * @param loginVo
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "/cmpnyMatrlList" })
-	public String cmpnyMatrlList(Authentication authentication, Model model) {
-		// TODO Principal principal.. CmpnyUserVO 로 매핑할수 있을건데..
-		CmpnyUserVO userVO = (CmpnyUserVO) authentication.getPrincipal();
-//		) { UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		List<MatrlVO> miList = matrlService.getCmpnyMatrlList(userVO.getCmpnyId());
+	public String cmpnyMatrlList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
+		List<MatrlVO> miList = matrlService.getCmpnyMatrlList(loginVo.getCmpnyId());
 		model.addAttribute("miList", miList);
 
 		return URL_PREFIX + "/cmpnyMatrlList";

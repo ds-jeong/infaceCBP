@@ -5,6 +5,7 @@
 
 <!-- 업체 자재단가 공급업체 목록 -->
 <select id="getCmpnyMatrlPriceVenList" parameterType="String" resultType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenList */
 SELECT
         CC.CMPNY_ID, CC.SPL_CMPNY_ID
       , C.CMPNY_NM AS SPL_CMPNY_NM
@@ -40,6 +41,7 @@ AND     CC.SPL_CMPNY_ID = C.CMPNY_ID
 
 <!-- 업체 자재단가 공급업체 가격상세 목록 -->
 <select id="getCmpnyMatrlPriceVenDtlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenDtlList */
 SELECT
         CC.*
       , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN

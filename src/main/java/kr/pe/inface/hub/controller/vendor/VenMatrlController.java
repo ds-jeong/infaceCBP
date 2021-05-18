@@ -3,7 +3,7 @@ package kr.pe.inface.hub.controller.vendor;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,17 +30,13 @@ public class VenMatrlController {
 	/**
 	 * 자재카테고리,품목 목록 조회
 	 *
-	 * @param authentication
+	 * @param loginVo
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "/matrlItemList" })
-	public String matrlItemList(Authentication authentication, Model model) {
-		// TODO Principal principal.. CmpnyUserVO 로 매핑할수 있을건데..
-		CmpnyUserVO userVO = (CmpnyUserVO) authentication.getPrincipal();
-//		) { UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		List<MatrlVO> miList = matrlService.getMatrlItemList(userVO.getCmpnyId());
+	public String matrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
+		List<MatrlVO> miList = matrlService.getMatrlItemList(loginVo.getCmpnyId());
 		model.addAttribute("miList", miList);
 
 		return URL_PREFIX + "/matrlItemList";
@@ -49,22 +45,20 @@ public class VenMatrlController {
 	/**
 	 * 자재폼목 사용 설정 처리
 	 *
-	 * @param authentication
+	 * @param loginVo
 	 * @param matrlItemId
 	 * @param buyTypeCd
 	 * @param useYn
 	 * @return
 	 */
 	@GetMapping({ "/useMyMatrlItem" })
-	public String useMyMatrlItem(Authentication authentication,
+	public String useMyMatrlItem(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			@RequestParam String matrlItemId,
 			@RequestParam(required = false) String buyTypeCd,
 			@RequestParam String useYn) {
 
-		CmpnyUserVO userVO = (CmpnyUserVO) authentication.getPrincipal();
-
 		// TODO get -> post 로 설정..
-		matrlService.useMyMatrlItem(userVO.getCmpnyUserId(), userVO.getCmpnyId(), matrlItemId, buyTypeCd, useYn);
+		matrlService.useMyMatrlItem(loginVo.getCmpnyUserId(), loginVo.getCmpnyId(), matrlItemId, buyTypeCd, useYn);
 
 		return "redirect:" + URL_PREFIX + "/matrlItemList";
 	}
@@ -72,17 +66,13 @@ public class VenMatrlController {
 	/**
 	 * 업체 자재품목 목록
 	 *
-	 * @param authentication
+	 * @param loginVo
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "/cmpnyMatrlItemList" })
-	public String cmpnyMatrlItemList(Authentication authentication, Model model) {
-		// TODO Principal principal.. CmpnyUserVO 로 매핑할수 있을건데..
-		CmpnyUserVO userVO = (CmpnyUserVO) authentication.getPrincipal();
-//		) { UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		List<MatrlVO> miList = matrlService.getCmpnyMatrlItemList(userVO.getCmpnyId());
+	public String cmpnyMatrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
+		List<MatrlVO> miList = matrlService.getCmpnyMatrlItemList(loginVo.getCmpnyId());
 		model.addAttribute("miList", miList);
 
 		return URL_PREFIX + "/cmpnyMatrlItemList";
@@ -91,17 +81,13 @@ public class VenMatrlController {
 	/**
 	 * 업체 자재 목록
 	 *
-	 * @param authentication
+	 * @param loginVo
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "/cmpnyMatrlList" })
-	public String cmpnyMatrlList(Authentication authentication, Model model) {
-		// TODO Principal principal.. CmpnyUserVO 로 매핑할수 있을건데..
-		CmpnyUserVO userVO = (CmpnyUserVO) authentication.getPrincipal();
-//		) { UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		List<MatrlVO> miList = matrlService.getCmpnyMatrlList(userVO.getCmpnyId());
+	public String cmpnyMatrlList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
+		List<MatrlVO> miList = matrlService.getCmpnyMatrlList(loginVo.getCmpnyId());
 		model.addAttribute("miList", miList);
 
 		return URL_PREFIX + "/cmpnyMatrlList";

@@ -5,6 +5,7 @@
 
 <!-- 자재청구목록 조회 -->
 <select id="getMatrlClmList" parameterType="String" resultType="MatrlClmVO"><![CDATA[
+/* matrl.MatrlClmMapper.getMatrlClmList */
 SELECT
         MATRL_CLM_NO, CMPNY_ID, WORK_SITE_ID
       , CLM_STAT_CD, CLM_DT
