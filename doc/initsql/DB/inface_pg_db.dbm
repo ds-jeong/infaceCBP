@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,367" last-zoom="1" max-obj-count="46"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="768,827" last-zoom="1" max-obj-count="49"
 	 default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
@@ -1070,7 +1070,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_가격_요청_마스터]]></comment>
-	<position x="1760" y="1140"/>
+	<position x="1760" y="1120"/>
 	<column name="spl_cmpny_id" alias="공급_업체_ID" not-null="true">
 		<type name="varchar" length="6"/>
 		<comment><![CDATA[공급_업체_ID]]></comment>
@@ -1305,6 +1305,54 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	</constraint>
 	<special-pk-cols indexes="0"/>
 </relationship>
+
+<table name="cmpny_matrl_price_req_memo" layer="0" alias="업체_자재_가격_요청_메모" collapse-mode="2" max-obj-count="10" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[업체_자재_가격_요청_메모]]></comment>
+	<position x="2240" y="1120"/>
+	<column name="memo_seq" alias="메모_순번" not-null="true">
+		<type name="smallint" length="0"/>
+		<comment><![CDATA[메모_순번]]></comment>
+	</column>
+	<column name="memo_cont" alias="메모_내용">
+		<type name="varchar" length="400"/>
+		<comment><![CDATA[메모_내용]]></comment>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="apl_strt_dt" index="2"/>
+		<object name="cmpny_id" index="0"/>
+		<object name="spl_cmpny_id" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="cmpny_matrl_price_req_memo_pk" index="0"/>
+		<object name="cmpny_matrl_price_req_mst_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="cmpny_matrl_price_req_mst_has_many_cmpny_matrl_price_req_memo" type="rel1n" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#6abaed"
+	 src-table="public.cmpny_matrl_price_req_mst"
+	 dst-table="public.cmpny_matrl_price_req_memo"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION">
+	<constraint name="cmpny_matrl_price_req_memo_pk" type="pk-constr" table="public.cmpny_matrl_price_req_memo">
+		<columns names="memo_seq" ref-type="src-columns"/>
+	</constraint>
+	<special-pk-cols indexes="0,1,2"/>
+</relationship>
+
+<relationship name="cmpny_matrl_price_req_memo_copies_base_column" type="reldep" layer="1"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#4bf76e"
+	 src-table="public.cmpny_matrl_price_req_memo"
+	 dst-table="public.base_column"/>
 
 <constraint name="spl_compny_fk" type="fk-constr" alias="공급_업체_fk" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cmpny" table="public.cmpny_matrl_price">

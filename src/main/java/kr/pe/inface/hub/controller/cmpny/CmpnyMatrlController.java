@@ -105,10 +105,9 @@ public class CmpnyMatrlController {
 	@GetMapping({ "/matrlItemCntrtList" })
 	public String matrlItemCntrtList(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			@RequestParam String matrlItemId,
-			@RequestParam String buyTypeCd,
 			Model model) {
 
-		List<MatrlCntrtVO> miList = matrlService.getMatrlItemCntrtList(loginVo.getCmpnyId(), matrlItemId, buyTypeCd);
+		List<MatrlCntrtVO> miList = matrlService.getMatrlItemCntrtList(loginVo.getCmpnyId(), matrlItemId, null);
 		model.addAttribute("miList", miList);
 
 		return URL_PREFIX + "/matrlItemCntrtList";

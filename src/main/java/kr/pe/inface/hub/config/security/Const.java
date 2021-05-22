@@ -34,9 +34,9 @@ public class Const {
 		}
 	  , new Object[] { "자재DB",
 			new Object[] {
-		  		new String[] { "자재품목설정", 	"/cmpny/matrl/matrlItemList" }
-		  	  , new String[] { "자재품목", 		"/cmpny/matrl/cmpnyMatrlItemList" }
-	    	  , new String[] { "자재", 			"/cmpny/matrl/cmpnyMatrlList" }
+		  		new String[] { "자재품목관리", 	"/cmpny/matrl/matrlItemList" }
+		  	  , new String[] { "공급업체설정", 	"/cmpny/matrl/cmpnyMatrlItemList" }
+	    	  , new String[] { "자재목록", 		"/cmpny/matrl/cmpnyMatrlList" }
 		  	  , new String[] { "업체단가관리", 	"/cmpny/price/cmpnyMatrlPriceVenList" }
 	  		}
 		}
@@ -52,8 +52,7 @@ public class Const {
 		}
 	  , new Object[] { "자재DB",
 			new Object[] {
-		  		new String[] { "자재", 			"/site/matrl/cmpnyMatrlList" }
-		  	  , new String[] { "자재분류", 		"##" }
+		  		new String[] { "자재목록", 		"/site/matrl/cmpnyMatrlList" }
 	  		}
 		}
 	};
@@ -62,9 +61,9 @@ public class Const {
 	public static final Object[] VENDOR_MENU = new Object[] {
 	    new Object[] { "자재DB",
 			new Object[] {
-		  		new String[] { "자재품목설정", 	"/vendor/matrl/matrlItemList" }
-		  	  , new String[] { "자재품목", 		"/vendor/matrl/cmpnyMatrlItemList" }
-		  	  , new String[] { "자재", 			"/vendor/matrl/cmpnyMatrlList" }
+		  		new String[] { "자재품목관리", 	"/vendor/matrl/matrlItemList" }
+//		  	  , new String[] { "자재품목", 		"/vendor/matrl/cmpnyMatrlItemList" }
+		  	  , new String[] { "자재목록", 		"/vendor/matrl/cmpnyMatrlList" }
 	  		}
 		}
 	};

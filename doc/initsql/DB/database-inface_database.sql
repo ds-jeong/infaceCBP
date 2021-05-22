@@ -9,8 +9,8 @@
 --
 -- object: inface_database | type: DATABASE --
 -- DROP DATABASE IF EXISTS inface_database;
-CREATE DATABASE inface_database
-    ENCODING = 'UTF8';
+--CREATE DATABASE inface_database
+--    ENCODING = 'UTF8';
 -- ddl-end --
 
 
@@ -184,7 +184,7 @@ CREATE TABLE public.cmpny_matrl_item (
 -- ddl-end --
 COMMENT ON TABLE public.cmpny_matrl_item IS E'업체_자재_품목\n건설사는 별도로 구매타입을 설정하지 않음.\n공급업체는 품목별로 구매타입을 지정해야 함.';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_matrl_item.buy_type_cd IS E'구매_타입_코드\n10 - 구매\n20 - 임대';
+COMMENT ON COLUMN public.cmpny_matrl_item.buy_type_cd IS E'구매_타입_코드\n10 - 구매\n20 - 임대\n공급업체인 경우는 필수.';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_item.use_yn IS E'사용_여부';
 -- ddl-end --
@@ -786,6 +786,35 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE public.matrl_clm_aprv DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
 ALTER TABLE public.matrl_clm_aprv ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
 REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: public.cmpny_matrl_price_req_memo | type: TABLE --
+-- DROP TABLE IF EXISTS public.cmpny_matrl_price_req_memo CASCADE;
+CREATE TABLE public.cmpny_matrl_price_req_memo (
+    LIKE public.base_column,
+    cmpny_id varchar(6) NOT NULL,
+    spl_cmpny_id varchar(6) NOT NULL,
+    apl_strt_dt varchar(8) NOT NULL,
+    memo_seq smallint NOT NULL,
+    memo_cont varchar(400),
+    CONSTRAINT cmpny_matrl_price_req_memo_pk PRIMARY KEY (memo_seq,apl_strt_dt,spl_cmpny_id,cmpny_id)
+
+);
+-- ddl-end --
+COMMENT ON TABLE public.cmpny_matrl_price_req_memo IS E'업체_자재_가격_요청_메모';
+-- ddl-end --
+COMMENT ON COLUMN public.cmpny_matrl_price_req_memo.memo_seq IS E'메모_순번';
+-- ddl-end --
+COMMENT ON COLUMN public.cmpny_matrl_price_req_memo.memo_cont IS E'메모_내용';
+-- ddl-end --
+ALTER TABLE public.cmpny_matrl_price_req_memo OWNER TO postgres;
+-- ddl-end --
+
+-- object: cmpny_matrl_price_req_mst_fk | type: CONSTRAINT --
+-- ALTER TABLE public.cmpny_matrl_price_req_memo DROP CONSTRAINT IF EXISTS cmpny_matrl_price_req_mst_fk CASCADE;
+ALTER TABLE public.cmpny_matrl_price_req_memo ADD CONSTRAINT cmpny_matrl_price_req_mst_fk FOREIGN KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
+REFERENCES public.cmpny_matrl_price_req_mst (apl_strt_dt,spl_cmpny_id,cmpny_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
