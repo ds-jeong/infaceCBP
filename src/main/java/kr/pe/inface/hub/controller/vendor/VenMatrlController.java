@@ -63,20 +63,20 @@ public class VenMatrlController {
 		return "redirect:" + URL_PREFIX + "/matrlItemList";
 	}
 
-	/**
-	 * 업체 자재품목 목록
-	 *
-	 * @param loginVo
-	 * @param model
-	 * @return
-	 */
-	@GetMapping({ "/cmpnyMatrlItemList" })
-	public String cmpnyMatrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
-		List<MatrlVO> miList = matrlService.getCmpnyMatrlItemList(loginVo.getCmpnyId());
-		model.addAttribute("miList", miList);
-
-		return URL_PREFIX + "/cmpnyMatrlItemList";
-	}
+//	/**
+//	 * 업체 자재품목 목록
+//	 *
+//	 * @param loginVo
+//	 * @param model
+//	 * @return
+//	 */
+//	@GetMapping({ "/cmpnyMatrlItemList" })
+//	public String cmpnyMatrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
+//		List<MatrlVO> miList = matrlService.getCmpnyMatrlItemList(loginVo.getCmpnyId());
+//		model.addAttribute("miList", miList);
+//
+//		return URL_PREFIX + "/cmpnyMatrlItemList";
+//	}
 
 	/**
 	 * 업체 자재 목록

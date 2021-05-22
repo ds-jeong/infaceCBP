@@ -25,6 +25,7 @@
 .BTNS.select {background-color:#00519d;}
 .BTNS.lock {background-color:#ffffff;}
 .BTNS.out {background-color:#444444;}
+.BTNS.print {background-color:#0078f6;}
 /* Button Icon */
 .icon.regist span {background-image:url("../images/icon_check.svg");}
 .icon.search span {background-image:url("../images/icon_search.svg");}
@@ -46,3 +47,4 @@
 .icon.select span {background-image:url("../images/icon_check.svg");}
 .icon.lock span {background-image:url("../images/icon_lock_black.svg");color:#333333;}
 .icon.out span {background-image:url("../images/icon_exit.svg");}
+.icon.print span {background-image:url("../images/icon_print.svg");}

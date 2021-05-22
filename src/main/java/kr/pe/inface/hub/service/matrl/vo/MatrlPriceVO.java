@@ -35,6 +35,7 @@ public class MatrlPriceVO {
 	private String cmpnyId;
 	private String splCmpnyId;
 	private String splCmpnyNm;
+	private String title;
 	private String aplStrtDt;
 	private String aplEndDt;
 

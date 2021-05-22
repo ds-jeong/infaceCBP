@@ -1,5 +1,7 @@
 package kr.pe.inface.hub.service.matrl.vo;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,6 +29,7 @@ public class MatrlVO {
 	private String matrlStd;
 	private String unitCd;
 	private String matrlDesc;
+	private Date modDts;
 
 	private String cmpnyId;
 	private String myItemYn;
@@ -34,5 +37,6 @@ public class MatrlVO {
 	private String cntrtCmpnyCnt20;
 	private String useYn;
 	private String userId;
+	private int cmpnyCnt;
 
 }
