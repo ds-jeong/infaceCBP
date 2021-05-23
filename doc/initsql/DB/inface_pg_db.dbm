@@ -1070,7 +1070,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_가격_요청_마스터]]></comment>
-	<position x="1780" y="1120"/>
+	<position x="1760" y="1120"/>
 	<column name="spl_cmpny_id" alias="공급_업체_ID" not-null="true">
 		<type name="varchar" length="6"/>
 		<comment><![CDATA[공급_업체_ID]]></comment>
