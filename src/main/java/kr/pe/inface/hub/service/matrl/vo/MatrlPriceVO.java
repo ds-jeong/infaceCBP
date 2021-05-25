@@ -38,9 +38,6 @@ public class MatrlPriceVO {
 	private String title;
 	private String aplStrtDt;
 	private String aplEndDt;
-
-	private String reqAplStrtDt;
-	private String reqAplEndDt;
 	private String reqStatCd;
 	private String reqDt;
 	private String confirmDt;

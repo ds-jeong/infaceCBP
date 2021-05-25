@@ -57,7 +57,8 @@
 				    </td>
 				    <td>xx</td>
 				    <td th:text="${mi.title}">2021년 구매 자재 공급단가</td>
-				    <td th:text="|${mi.aplStrtDt}~${mi.aplEndDt}|">2020/01/01 ~ 2020/12/31</td>
+				    <td th:if="${mi.aplStrtDt != null && mi.aplEndDt != null}" th:text="|${mi.aplStrtDt} ~ ${mi.aplEndDt}|">2020/01/01 ~ 2020/12/31</td>
+				    <td th:unless="${mi.aplStrtDt != null && mi.aplEndDt != null}"></td>
 				    <td>xx일</td>
 				    <td th:text="${mi.confirmDt}">xxxx.xx.xx</td>
 				    <td th:text="${mi.reqStatCd}">진행중</td>

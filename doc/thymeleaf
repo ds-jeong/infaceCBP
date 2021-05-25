@@ -9,3 +9,14 @@ th:href="|#${cmdEnum.values()[0].tablename}|"
     </ul>
     [[${cmdEnum.values()[0].tablename}]]
 </div>
+
+
+
+date 날짜 포맷
+${#calendars.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}
+
+문자열 형식 날짜 포맷
+${#temporals.createDate(mi.reqDt, 'yyyyMMdd')}
+
+태그를 조건에 따라 표현/미표현 처리 예시  th:if th:unless
+<a class="tb_btn" th:unless="${mi.myItemYn == 'Y'}" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${mi.matrlItemId}, useYn=Y)}">사용</a>

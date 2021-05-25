@@ -14,8 +14,8 @@ SELECT
       , CMPRM_CUR.APL_STRT_DT
       , CMPRM_CUR.APL_END_DT
       , CMPRM_CUR.CONFIRM_DT
-      , CMPRM_REQ.APL_STRT_DT AS REQ_APL_STRT_DT
-      , CMPRM_REQ.APL_END_DT AS REQ_APL_END_DT
+--      , CMPRM_REQ.APL_STRT_DT AS REQ_APL_STRT_DT
+--      , CMPRM_REQ.APL_END_DT AS REQ_APL_END_DT
       , CMPRM_REQ.REQ_STAT_CD
       , CMPRM_REQ.REQ_DT
 FROM    (
@@ -28,16 +28,24 @@ FROM    (
             AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
             AND     CMIC.CNTRT_STAT_CD = '20'
         ) CC
-        LEFT OUTER JOIN CMPNY_MATRL_PRICE_REQ_MST CMPRM_CUR
-            ON  CC.CMPNY_ID = CMPRM_CUR.CMPNY_ID
-            AND CC.SPL_CMPNY_ID = CMPRM_CUR.SPL_CMPNY_ID
-            AND CMPRM_CUR.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
-            AND CMPRM_CUR.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
-            AND CMPRM_CUR.REQ_STAT_CD = '20'
-        LEFT OUTER JOIN CMPNY_MATRL_PRICE_REQ_MST CMPRM_REQ
-            ON  CC.CMPNY_ID = CMPRM_REQ.CMPNY_ID
-            AND CC.SPL_CMPNY_ID = CMPRM_REQ.SPL_CMPNY_ID
-            AND CMPRM_REQ.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+        LEFT OUTER JOIN LATERAL (
+            SELECT  TITLE, APL_STRT_DT, APL_END_DT, CONFIRM_DT
+            FROM    CMPNY_MATRL_PRICE_REQ_MST CMPRM1
+            WHERE   CC.CMPNY_ID = CMPRM1.CMPNY_ID
+            AND     CC.SPL_CMPNY_ID = CMPRM1.SPL_CMPNY_ID
+            AND     CMPRM1.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            AND     CMPRM1.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            AND     CMPRM1.REQ_STAT_CD = '20'
+            LIMIT 1
+        ) CMPRM_CUR ON TRUE
+        LEFT OUTER JOIN LATERAL (
+            SELECT  APL_STRT_DT, APL_END_DT, REQ_STAT_CD, REQ_DT
+            FROM    CMPNY_MATRL_PRICE_REQ_MST CMPRM2
+            WHERE   CC.CMPNY_ID = CMPRM2.CMPNY_ID
+            AND     CC.SPL_CMPNY_ID = CMPRM2.SPL_CMPNY_ID
+            AND     CMPRM2.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            LIMIT 1
+        ) CMPRM_REQ ON TRUE
       , CMPNY C
 WHERE   1 = 1
 AND     CC.SPL_CMPNY_ID = C.CMPNY_ID
@@ -48,43 +56,63 @@ AND     CC.SPL_CMPNY_ID = C.CMPNY_ID
 <select id="getCmpnyMatrlPriceVenDtlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenDtlList */
 SELECT
-        CC.*
-      , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN
-      , CMP.LEASE_PERD_CD
-      , COALESCE(CMP.PRICE, 0) AS PRICE
-      , COALESCE(CMP.LEASE_PRICE, 0) AS LEASE_PRICE
-FROM    (
-            SELECT
-                    CMIC.CMPNY_ID, CMIC.SPL_CMPNY_ID, CMIC.BUY_TYPE_CD
-                  , VMI.MATRL_MCTG_ID, VMI.MCTG_NM, VMI.MCTG_DISP_ORDR
-                  , VMI.MATRL_CTG_ID, VMI.CTG_NM, VMI.CTG_DISP_ORDR
-                  , VMI.MATRL_ITEM_ID, VMI.ITEM_NM, VMI.DISP_ORDR
-                  , M.MATRL_ID, M.MATRL_STD, M.UNIT_CD, M.MATRL_DESC
-            FROM
-                    CMPNY_MATRL_ITEM_CNTRT CMIC
-                  , MATRL M
-                  , V_MATRL_ITEM VMI
-            WHERE   1 = 1
-            AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
-            AND     CMIC.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
-            AND     CMIC.CNTRT_STAT_CD = '20'
-            AND     CMIC.MATRL_ITEM_ID = M.MATRL_ITEM_ID
-            AND     M.USE_YN = 'Y'
-            AND     M.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID
-        ) CC
-        LEFT OUTER JOIN CMPNY_MATRL_PRICE CMP
-	        ON  CC.CMPNY_ID = CMP.CMPNY_ID
-	        AND CC.SPL_CMPNY_ID = CMP.SPL_CMPNY_ID
-	        AND CC.MATRL_ID = CMP.MATRL_ID
-	        AND CC.BUY_TYPE_CD = CMP.BUY_TYPE_CD
-            AND CMP.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
-            AND CMP.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+        TITLE
+      , APL_STRT_DT
+      , APL_END_DT
+      , REQ_STAT_CD
+      , REQ_DT
+      , CONFIRM_DT
+      , REMARK
+FROM
+        CMPNY_MATRL_PRICE_REQ_MST CMPRM
+WHERE   1 = 1
+AND     CMPRM.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
 ORDER BY
-        CC.BUY_TYPE_CD
-      , CC.MCTG_DISP_ORDR, CC.MATRL_MCTG_ID
-      , CC.CTG_DISP_ORDR, CC.MATRL_CTG_ID
-      , CC.DISP_ORDR, CC.MATRL_ITEM_ID
-      , CC.MATRL_ID DESC
+        REQ_DT DESC
 ]]></select>
+
+
+<!--  -->
+<!-- SELECT -->
+<!--         CC.* -->
+<!--       , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN -->
+<!--       , CMP.LEASE_PERD_CD -->
+<!--       , COALESCE(CMP.PRICE, 0) AS PRICE -->
+<!--       , COALESCE(CMP.LEASE_PRICE, 0) AS LEASE_PRICE -->
+<!-- FROM    ( -->
+<!--             SELECT -->
+<!--                     CMIC.CMPNY_ID, CMIC.SPL_CMPNY_ID, CMIC.BUY_TYPE_CD -->
+<!--                   , VMI.MATRL_MCTG_ID, VMI.MCTG_NM, VMI.MCTG_DISP_ORDR -->
+<!--                   , VMI.MATRL_CTG_ID, VMI.CTG_NM, VMI.CTG_DISP_ORDR -->
+<!--                   , VMI.MATRL_ITEM_ID, VMI.ITEM_NM, VMI.DISP_ORDR -->
+<!--                   , M.MATRL_ID, M.MATRL_STD, M.UNIT_CD, M.MATRL_DESC -->
+<!--             FROM -->
+<!--                     CMPNY_MATRL_ITEM_CNTRT CMIC -->
+<!--                   , MATRL M -->
+<!--                   , V_MATRL_ITEM VMI -->
+<!--             WHERE   1 = 1 -->
+<!--             AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR} -->
+<!--             AND     CMIC.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR} -->
+<!--             AND     CMIC.CNTRT_STAT_CD = '20' -->
+<!--             AND     CMIC.MATRL_ITEM_ID = M.MATRL_ITEM_ID -->
+<!--             AND     M.USE_YN = 'Y' -->
+<!--             AND     M.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID -->
+<!--         ) CC -->
+<!--         LEFT OUTER JOIN CMPNY_MATRL_PRICE CMP -->
+<!--             ON  CC.CMPNY_ID = CMP.CMPNY_ID -->
+<!--             AND CC.SPL_CMPNY_ID = CMP.SPL_CMPNY_ID -->
+<!--             AND CC.MATRL_ID = CMP.MATRL_ID -->
+<!--             AND CC.BUY_TYPE_CD = CMP.BUY_TYPE_CD -->
+<!--             AND CMP.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD') -->
+<!--             AND CMP.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD') -->
+<!-- ORDER BY -->
+<!--         CC.BUY_TYPE_CD -->
+<!--       , CC.MCTG_DISP_ORDR, CC.MATRL_MCTG_ID -->
+<!--       , CC.CTG_DISP_ORDR, CC.MATRL_CTG_ID -->
+<!--       , CC.DISP_ORDR, CC.MATRL_ITEM_ID -->
+<!--       , CC.MATRL_ID DESC -->
+
+
 
 </mapper>
