@@ -14,18 +14,18 @@
     </tr>
 </thead>
 <tbody>
-    <tr th:each="mi : ${miList}">
-        <td th:text="${mi.matrlMctgId}">matrlClmNo</td>
-        <td th:text="${mi.mctgNm}">cmpnyId</td>
-        <td th:text="${mi.mctgDesc}">workSiteId</td>
-        <td th:text="${mi.matrlCtgId}">clmStatCd</td>
-        <td th:text="${mi.ctgNm}">clmDt</td>
-        <td th:text="${mi.ctgDesc}">inHopeDts</td>
-        <td th:text="${mi.matrlItemId}">inAddr</td>
-        <td th:text="${mi.itemNm}">inGateNo</td>
-        <td th:text="${mi.itemDesc}">inChargeNm</td>
-        <td th:text="${mi.itemImg}">inChargeTel</td>
-        <td th:text="${mi.itemImg}">inRemark</td>
+    <tr th:each="rstLi : ${rstList}">
+        <td th:text="${rstLi.matrlMctgId}">matrlClmNo</td>
+        <td th:text="${rstLi.mctgNm}">cmpnyId</td>
+        <td th:text="${rstLi.mctgDesc}">workSiteId</td>
+        <td th:text="${rstLi.matrlCtgId}">clmStatCd</td>
+        <td th:text="${rstLi.ctgNm}">clmDt</td>
+        <td th:text="${rstLi.ctgDesc}">inHopeDts</td>
+        <td th:text="${rstLi.matrlItemId}">inAddr</td>
+        <td th:text="${rstLi.itemNm}">inGateNo</td>
+        <td th:text="${rstLi.itemDesc}">inChargeNm</td>
+        <td th:text="${rstLi.itemImg}">inChargeTel</td>
+        <td th:text="${rstLi.itemImg}">inRemark</td>
     </tr>
 </tbody>
 </table>

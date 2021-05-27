@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="778,883" last-zoom="1" max-obj-count="49"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="559,1242" last-zoom="1" max-obj-count="49"
 	 default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
@@ -284,7 +284,8 @@ V00001]]></comment>
 상태코드들..정리해서 합친다?
 관계를 통한 PK 를 설정시 pk 인덱스 순서를 조정해야댐.ㅋ
 테이블 속성팝업에서 FK제약을 수기로 추가해야할까..
-전화번호, 주소 컬럼 구성 픽스. 나누거나 합치거나.]]></comment>
+전화번호, 주소 컬럼 구성 픽스. 나누거나 합치거나.
+코드 - 확정은 20, 취소는 90 을 기준으로 잡자.]]></comment>
 </textbox>
 
 <table name="work_site" layer="0" alias="작업_현장" collapse-mode="2" max-obj-count="9" z-value="0">
@@ -538,8 +539,8 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 		<comment><![CDATA[계약_상태_코드(코드)
 10 - 검토중
 20 - 거래중
-40 - 거래중지
-90 - 삭제?]]></comment>
+90 - 거래중지
+]]></comment>
 	</column>
 
 	<customidxs object-type="column">
@@ -568,7 +569,7 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 	<comment><![CDATA[업체_자재_가격_요청
 1년단위이긴하나.. 임의의 날짜도 가능하도록?
 ]]></comment>
-	<position x="1760" y="1620"/>
+	<position x="1760" y="1640"/>
 	<column name="req_stat_cd" alias="요청_상태_코드">
 		<type name="varchar" length="4"/>
 		<comment><![CDATA[요청_상태_코드
@@ -620,10 +621,10 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 	</column>
 
 	<customidxs object-type="column">
-		<object name="apl_strt_dt" index="3"/>
+		<object name="apl_strt_dt" index="2"/>
 		<object name="cmpny_id" index="0"/>
-		<object name="matrl_id" index="1"/>
-		<object name="spl_cmpny_id" index="2"/>
+		<object name="matrl_id" index="3"/>
+		<object name="spl_cmpny_id" index="1"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -634,7 +635,7 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 </table>
 
 <textbox name="업체_가격_요청_비고" layer="0" z-value="0" font-size="9">
-	<position x="1760" y="1520"/>
+	<position x="1760" y="1540"/>
 	<comment><![CDATA[구매방식에 업체별로 통일?
 자재별로 다른건 없나..
 2가지로 구분해서 계약가능?
@@ -733,7 +734,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 		<comment><![CDATA[상태_코드
 10 - 가입요청
 20 - 사용중
-30 - 사용중지]]></comment>
+90 - 사용중지]]></comment>
 	</column>
 	<column name="join_dt" alias="가입_일자">
 		<type name="varchar" length="8"/>
@@ -769,6 +770,14 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	<constraint name="login_id_uq" type="uq-constr" table="public.cmpny_user">
 		<columns names="login_id" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="cmpny_id" index="17"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="cmpny_fk" index="2"/>
+	</customidxs>
 </table>
 
 <textbox name="컬럼용어" layer="0" z-value="-1" font-size="9">
@@ -1091,8 +1100,10 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 		<type name="varchar" length="4"/>
 		<comment><![CDATA[요청_상태_코드
 00 - 작성중
-10 - 진행중
-20 - 확정]]></comment>
+10 - 확인요청(공급업체)
+15 - 확인요청(건설업체)
+20 - 확정
+90 - 요청취소]]></comment>
 	</column>
 	<column name="req_dt" alias="요청_일자">
 		<type name="varchar" length="8"/>

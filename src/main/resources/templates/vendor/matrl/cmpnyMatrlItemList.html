@@ -16,16 +16,16 @@
     </tr>
 </thead>
 <tbody>
-    <tr th:each="mi : ${miList}">
-        <td th:text="${mi.matrlMctgId}">matrlMctgId</td>
-        <td th:text="${mi.mctgNm}">mctgNm</td>
-        <td th:text="${mi.matrlCtgId}">matrlCtgId</td>
-        <td th:text="${mi.ctgNm}">ctgNm</td>
-        <td th:text="${mi.matrlItemId}">matrlItemId</td>
-        <td th:text="${mi.itemNm}">itemNm</td>
-        <td th:text="${mi.buyTypeCd}">buyTypeCd</td>
-        <td th:text="${mi.cntrtCmpnyCnt10}">cntrtCmpnyCnt10</td>
-        <td th:text="${mi.cntrtCmpnyCnt20}">cntrtCmpnyCnt20</td>
+    <tr th:each="rstLi : ${rstList}">
+        <td th:text="${rstLi.matrlMctgId}">matrlMctgId</td>
+        <td th:text="${rstLi.mctgNm}">mctgNm</td>
+        <td th:text="${rstLi.matrlCtgId}">matrlCtgId</td>
+        <td th:text="${rstLi.ctgNm}">ctgNm</td>
+        <td th:text="${rstLi.matrlItemId}">matrlItemId</td>
+        <td th:text="${rstLi.itemNm}">itemNm</td>
+        <td th:text="${rstLi.buyTypeCd}">buyTypeCd</td>
+        <td th:text="${rstLi.cntrtCmpnyCnt10}">cntrtCmpnyCnt10</td>
+        <td th:text="${rstLi.cntrtCmpnyCnt20}">cntrtCmpnyCnt20</td>
     </tr>
 </tbody>
 </table>

@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.config.security;
+package kr.pe.inface.hub.config;
 
 public class Const {
 

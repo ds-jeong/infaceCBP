@@ -423,7 +423,7 @@ COMMENT ON COLUMN public.cmpny_matrl_item_cntrt.spl_cmpny_id IS E'공급_업체_
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_item_cntrt.buy_type_cd IS E'구매_타입_코드\n10 - 구매\n20 - 임대';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_matrl_item_cntrt.cntrt_stat_cd IS E'계약_상태_코드(코드)\n10 - 검토중\n20 - 거래중\n40 - 거래중지\n90 - 삭제?';
+COMMENT ON COLUMN public.cmpny_matrl_item_cntrt.cntrt_stat_cd IS E'계약_상태_코드(코드)\n10 - 검토중\n20 - 거래중\n90 - 거래중지';
 -- ddl-end --
 ALTER TABLE public.cmpny_matrl_item_cntrt OWNER TO postgres;
 -- ddl-end --
@@ -433,9 +433,9 @@ ALTER TABLE public.cmpny_matrl_item_cntrt OWNER TO postgres;
 CREATE TABLE public.cmpny_matrl_price_req (
     LIKE public.base_column,
     cmpny_id varchar(6) NOT NULL,
-    matrl_id varchar(10) NOT NULL,
     spl_cmpny_id varchar(6) NOT NULL,
     apl_strt_dt varchar(8) NOT NULL,
+    matrl_id varchar(10) NOT NULL,
     req_stat_cd varchar(4),
     req_dt varchar(8),
     confirm_dt varchar(8),
@@ -545,7 +545,7 @@ COMMENT ON COLUMN public.cmpny_user.login_id IS E'로그인_ID';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_user.pwd IS E'비밀번호';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_user.stat_cd IS E'상태_코드\n10 - 가입요청\n20 - 사용중\n30 - 사용중지';
+COMMENT ON COLUMN public.cmpny_user.stat_cd IS E'상태_코드\n10 - 가입요청\n20 - 사용중\n90 - 사용중지';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_user.join_dt IS E'가입_일자';
 -- ddl-end --
@@ -682,7 +682,7 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.apl_end_dt IS E'적용_종료
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.title IS E'제목';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.req_stat_cd IS E'요청_상태_코드\n00 - 작성중\n10 - 진행중\n20 - 확정';
+COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.req_stat_cd IS E'요청_상태_코드\n00 - 작성중\n10 - 확인요청(공급업체)\n15 - 확인요청(건설업체)\n20 - 확정\n90 - 요청취소';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.req_dt IS E'요청_일자';
 -- ddl-end --

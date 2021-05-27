@@ -73,7 +73,54 @@ ORDER BY
 ]]></select>
 
 
-<!--  -->
+<!-- 업체 자재단가 공급업체 요청 상세 -->
+<select id="getCmpnyMatrlPriceVenReqDtl" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqDtl */
+SELECT
+        TITLE
+      , APL_STRT_DT
+      , APL_END_DT
+      , REQ_STAT_CD
+      , REQ_DT
+      , CONFIRM_DT
+      , REMARK
+FROM
+        CMPNY_MATRL_PRICE_REQ_MST CMPRM
+WHERE   1 = 1
+AND     CMPRM.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
+]]></select>
+
+
+<!-- 업체 자재단가 공급업체 요청 자재목록 -->
+<select id="getCmpnyMatrlPriceVenReqMatrlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList */
+SELECT
+        CMPR.BUY_TYPE_CD
+      , CMPR.REQ_STAT_CD, CMPR.REQ_DT, CMPR.CONFIRM_DT
+      , CMPR.LEASE_PERD_CD
+      , CMPR.PRICE, CMPR.REQ_PRICE, CMPR.SUGST_PRICE
+      , CMPR.LEASE_PRICE, CMPR.REQ_LEASE_PRICE, CMPR.SUGST_LEASE_PRICE
+      , VMI.MCTG_NM, VMI.CTG_NM, VMI.ITEM_NM
+      , M.MATRL_STD, M.UNIT_CD, M.MATRL_DESC
+FROM
+        CMPNY_MATRL_PRICE_REQ CMPR
+      , MATRL M
+      , V_MATRL_ITEM VMI
+WHERE   1 = 1
+AND     CMPR.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+AND     CMPR.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+AND     CMPR.APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
+AND     CMPR.MATRL_ID = M.MATRL_ID
+AND     M.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID
+ORDER BY
+        CMPR.BUY_TYPE_CD
+      , CMPR.MATRL_ID
+]]></select>
+
+
+<!-- 자재가격요청시 사용할 쿼리. -->
 <!-- SELECT -->
 <!--         CC.* -->
 <!--       , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN -->
@@ -112,6 +159,7 @@ ORDER BY
 <!--       , CC.CTG_DISP_ORDR, CC.MATRL_CTG_ID -->
 <!--       , CC.DISP_ORDR, CC.MATRL_ITEM_ID -->
 <!--       , CC.MATRL_ID DESC -->
+
 
 
 

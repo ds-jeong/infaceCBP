@@ -77,19 +77,19 @@
 				</tr>
 			</thead>
 			<tbody>
-			    <tr th:each="mi : ${miList}">
+			    <tr th:each="rstLi : ${rstList}">
 			    	<td>xx</td>
-			        <td th:text="${mi.mctgNm}">mctgNm</td>
-			        <td th:text="${mi.mctgDesc}">mctgDesc</td>
-			        <td th:text="${mi.ctgNm}">ctgNm</td>
-			        <td th:text="${mi.ctgDesc}">ctgDesc</td>
-			        <td th:text="${mi.itemNm}">itemNm</td>
-			        <td th:text="${mi.itemDesc}">itemDesc</td>
+			        <td th:text="${rstLi.mctgNm}">mctgNm</td>
+			        <td th:text="${rstLi.mctgDesc}">mctgDesc</td>
+			        <td th:text="${rstLi.ctgNm}">ctgNm</td>
+			        <td th:text="${rstLi.ctgDesc}">ctgDesc</td>
+			        <td th:text="${rstLi.itemNm}">itemNm</td>
+			        <td th:text="${rstLi.itemDesc}">itemDesc</td>
 			        <td>xx</td>
 			        <td>xx</td>
 			        <td>
-			            <a class="tb_btn" th:unless="${mi.myItemYn == 'Y'}" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${mi.matrlItemId}, useYn=Y)}">사용</a>
-			            <a class="tb_btn" th:if="${mi.myItemYn == 'Y'}" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${mi.matrlItemId}, useYn=N)}">사용중지</a>
+			            <a class="tb_btn" th:unless="${rstLi.myItemYn == 'Y'}" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${rstLi.matrlItemId}, useYn=Y)}">사용</a>
+			            <a class="tb_btn" th:if="${rstLi.myItemYn == 'Y'}" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${rstLi.matrlItemId}, useYn=N)}">사용중지</a>
 			        </td>
 			    </tr>
 			</tbody>

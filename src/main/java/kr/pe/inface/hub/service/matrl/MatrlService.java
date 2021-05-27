@@ -82,6 +82,8 @@ public class MatrlService extends BaseService {
 	 * 자재품목 공급업체 계약 목록
 	 *
 	 * @param cmpnyId
+	 * @param matrlItemId
+	 * @param buyTypeCd
 	 * @return
 	 */
 	public List<MatrlCntrtVO> getMatrlItemCntrtList(String cmpnyId, String matrlItemId, String buyTypeCd) {
@@ -131,9 +133,10 @@ public class MatrlService extends BaseService {
 	}
 
 	/**
-	 * 업체 자재단가 공급업체 가격상세 목록
+	 * 업체 자재단가 공급업체 가격요청 목록
 	 *
 	 * @param cmpnyId
+	 * @param splCmpnyId
 	 * @return
 	 */
 	public List<MatrlPriceVO> getCmpnyMatrlPriceVenDtlList(String cmpnyId, String splCmpnyId) {
@@ -143,6 +146,55 @@ public class MatrlService extends BaseService {
 
 		return matrlPriceMapper.getCmpnyMatrlPriceVenDtlList(paramVO);
 	}
+
+	/**
+	 * 업체 자재단가 공급업체 요청 상세
+	 *
+	 * @param cmpnyId
+	 * @param splCmpnyId
+	 * @param aplStrtDt
+	 * @return
+	 */
+	public MatrlPriceVO getCmpnyMatrlPriceVenReqDtl(String cmpnyId, String splCmpnyId, String aplStrtDt) {
+		MatrlPriceVO paramVO = new MatrlPriceVO();
+		paramVO.setCmpnyId(cmpnyId);
+		paramVO.setSplCmpnyId(splCmpnyId);
+		paramVO.setAplStrtDt(aplStrtDt);
+
+		return matrlPriceMapper.getCmpnyMatrlPriceVenReqDtl(paramVO);
+	}
+
+	/**
+	 * 업체 자재단가 공급업체 요청 자재목록
+	 *
+	 * @param cmpnyId
+	 * @param splCmpnyId
+	 * @param aplStrtDt
+	 * @return
+	 */
+	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMatrlList(String cmpnyId, String splCmpnyId, String aplStrtDt) {
+		MatrlPriceVO paramVO = new MatrlPriceVO();
+		paramVO.setCmpnyId(cmpnyId);
+		paramVO.setSplCmpnyId(splCmpnyId);
+		paramVO.setAplStrtDt(aplStrtDt);
+
+		return matrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList(paramVO);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * 자재청구목록 조회

@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.config.security;
+package kr.pe.inface.hub.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +14,14 @@ import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
  * Spring Security 관련 인터셉터
  *
  */
-public class SecurityHandlerInterceptor implements HandlerInterceptor {
+public class MvcDefaultHandlerInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+
+		// TODO 코드매니저를 설정해준다.
+		modelAndView.addObject("CODE", null);
 
 		// 로그인 객체를 기본적으로 mav 에 설정해준다.
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,7 +50,7 @@ public class SecurityHandlerInterceptor implements HandlerInterceptor {
 					menuList = Const.VENDOR_MENU;
 					break;
 			}
-			modelAndView.addObject("MENU_LIST", menuList);
+			modelAndView.addObject("MENU", menuList);
 		}
 
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);

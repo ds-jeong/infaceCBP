@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.pe.inface.hub.service.cmpny.CmpnyService;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
+import kr.pe.inface.hub.service.cmpny.vo.CmpnyVO;
 import kr.pe.inface.hub.service.matrl.MatrlService;
 import kr.pe.inface.hub.service.matrl.vo.MatrlPriceVO;
 
@@ -25,6 +27,9 @@ public class CmpnyMatrlPriceController {
 	public static final String URL_PREFIX = "/cmpny/matrl/price";
 
 	@Autowired
+	private CmpnyService cmpnyService;
+
+	@Autowired
 	private MatrlService matrlService;
 
 	/**
@@ -36,15 +41,15 @@ public class CmpnyMatrlPriceController {
 	 */
 	@GetMapping({ "/cmpnyMatrlPriceVenList" })
 	public String cmpnyMatrlPriceVenList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
-		List<MatrlPriceVO> miList = matrlService.getCmpnyMatrlPriceVenList(loginVo.getCmpnyId());
-		model.addAttribute("miList", miList);
+		List<MatrlPriceVO> rstList = matrlService.getCmpnyMatrlPriceVenList(loginVo.getCmpnyId());
+		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/cmpnyMatrlPriceVenList";
 	}
 
 
 	/**
-	 * 업체 자재단가 공급업체 가격상세 목록
+	 * 업체 자재단가 공급업체 가격요청 목록
 	 *
 	 * @param loginVo
 	 * @param model
@@ -55,10 +60,43 @@ public class CmpnyMatrlPriceController {
 			@RequestParam String splCmpnyId,
 			Model model) {
 
-		List<MatrlPriceVO> miList = matrlService.getCmpnyMatrlPriceVenDtlList(loginVo.getCmpnyId(), splCmpnyId);
-		model.addAttribute("miList", miList);
+		// 공급업체 정보 조회
+		CmpnyVO splCmpny = cmpnyService.getCmpny(splCmpnyId);
+		model.addAttribute("splCmpny", splCmpny);
+
+		// 공급업체 자재단가요청 목록
+		List<MatrlPriceVO> rstList = matrlService.getCmpnyMatrlPriceVenDtlList(loginVo.getCmpnyId(), splCmpnyId);
+		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/cmpnyMatrlPriceVenDtlList";
+	}
+
+	/**
+	 * 업체 자재단가 공급업체 요청 상세
+	 *
+	 * @param loginVo
+	 * @param model
+	 * @return
+	 */
+	@GetMapping({ "/cmpnyMatrlPriceVenReqDtl" })
+	public String cmpnyMatrlPriceVenReqDtl(@AuthenticationPrincipal CmpnyUserVO loginVo,
+			@RequestParam String splCmpnyId,
+			@RequestParam String aplStrtDt,
+			Model model) {
+
+		// 공급업체 정보 조회
+		CmpnyVO splCmpny = cmpnyService.getCmpny(splCmpnyId);
+		model.addAttribute("splCmpny", splCmpny);
+
+		// 업체 자재단가 공급업체 요청 상세
+		MatrlPriceVO rst = matrlService.getCmpnyMatrlPriceVenReqDtl(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
+		model.addAttribute("rst", rst);
+
+		// 업체 자재단가 공급업체 요청 자재목록
+		List<MatrlPriceVO> rstList = matrlService.getCmpnyMatrlPriceVenReqMatrlList(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
+		model.addAttribute("rstList", rstList);
+
+		return URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl";
 	}
 
 }

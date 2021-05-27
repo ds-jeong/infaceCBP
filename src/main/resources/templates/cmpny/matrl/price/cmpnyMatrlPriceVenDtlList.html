@@ -2,7 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
 <th:block layout:fragment="contentFragment">
 
-<h1 class="page_title">업체 단가 관리 <b>지엠테크</b></h1>
+<!-- TODO DELETE -->
+<pre id="DEV_MEMO_DIV" style="padding:0; margin:0; display:none;">
+* 요청_상태_코드
+  00 - 작성중
+  10 - 확인요청(공급업체)
+  15 - 확인요청(건설업체)
+  20 - 확정
+  90 - 요청취소
+* 구매방식별로 레이아웃을 구분하여 하나의 화면에서 처리.
+* 적용구분 - 적용상태 확정인 경우만.
+</pre>
+
+<h1 class="page_title">업체 단가 관리 <b th:text="${splCmpny.cmpnyNm}">공급업체명</b></h1>
 <div class="page_top">
     <!-- Search Area -->
     <div class="con_search_box">
@@ -16,7 +28,7 @@
         </div>
         <!-- Button Area -->
         <div class="fuc_btns_box">
-            <a href="#" class="BTNS icon list"><span>목록</span></a>
+            <a href="/cmpny/matrl/price/cmpnyMatrlPriceVenList" class="BTNS icon list"><span>목록</span></a>
         </div>
     </div>
 </div>
@@ -36,6 +48,7 @@
             <thead>
                 <tr>
                     <th class="sz_60">No</th>
+                    <th>적용상태</th>
                     <th>적용구분</th>
 <!--                     <th>구매방식</th> -->
                     <th>공급품목</th>
@@ -46,14 +59,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="mi : ${miList}">
+                <tr th:each="rstLi : ${rstList}">
                     <td>xx</td>
-                    <td th:text="${mi.reqStatCd}">reqStatCd</td>
+                    <td th:text="${rstLi.reqStatCd}">reqStatCd</td>
+                    <td>만료/예정</td>
                     <td>xx</td>
-                    <td th:text="${mi.title}">title</td>
-                    <td th:text="|${#temporals.createDate(mi.aplStrtDt, 'yyyyMMdd')} ~ ${#temporals.createDate(mi.aplEndDt, 'yyyyMMdd')}|">2020/01/01 ~ 2020/12/31</td>
-                    <td th:text="${#temporals.createDate(mi.reqDt, 'yyyyMMdd')}">reqDt</td>
-                    <td th:text="${#temporals.createDate(mi.confirmDt, 'yyyyMMdd')}">confirmDt</td>
+                    <td>
+                        <a href="#" th:href="@{/cmpny/matrl/price/cmpnyMatrlPriceVenReqDtl(splCmpnyId=${param.splCmpnyId}, aplStrtDt=${rstLi.aplStrtDt})}" th:text="${rstLi.title}">title</a>
+                    </td>
+                    <td th:text="|${#temporals.createDate(rstLi.aplStrtDt, 'yyyyMMdd')} ~ ${#temporals.createDate(rstLi.aplEndDt, 'yyyyMMdd')}|">2020/01/01 ~ 2020/12/31</td>
+                    <td th:text="${#temporals.createDate(rstLi.reqDt, 'yyyyMMdd')}">reqDt</td>
+                    <td th:text="${#temporals.createDate(rstLi.confirmDt, 'yyyyMMdd')}">confirmDt</td>
                 </tr>
             </tbody>
         </table>

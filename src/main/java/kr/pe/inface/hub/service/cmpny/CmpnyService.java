@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserSiteVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
+import kr.pe.inface.hub.service.cmpny.vo.CmpnyVO;
 import kr.pr.inface.framework.web.BaseService;
 
 @Service
 public class CmpnyService extends BaseService {
+
+	@Autowired
+	private CmpnyMapper cmpnyMapper;
 
 	@Autowired
 	private CmpnyUserMapper cmpnyUserMapper;
@@ -35,5 +39,21 @@ public class CmpnyService extends BaseService {
 
 		return userList;
 	};
+
+	/**
+	 * 업체 정보 조회
+	 *
+	 * @param cmpnyId
+	 * @return
+	 */
+	public CmpnyVO getCmpny(String cmpnyId) {
+		//		if ((new Date()).getTime() % 2 == 1) {
+		//			CmpnyVO v = new CmpnyVO();
+		//			v.setCmpnyId(cmpnyId);
+		//			System.out.println(cmpnyMapper.updateCmpny(v));
+		//			System.out.println("=================================== cache evict =========================");
+		//		}
+		return cmpnyMapper.getCmpny(cmpnyId);
+	}
 
 }

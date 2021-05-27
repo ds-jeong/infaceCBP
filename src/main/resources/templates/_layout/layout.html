@@ -7,10 +7,38 @@
 	<link rel="stylesheet" href="/css/style_hub.css" type="text/css"/>
 	<link rel="stylesheet" href="/css/button.css" type="text/css"/>
 	<script type="text/javascript" src="/js/jquery/jquery-3.5.1.min.js"></script>
-	<!-- <script type="text/javascript" src="/jquery/popupwindow.min.js"></script> -->
 	<!-- <script type="text/javascript" src="/jquery/jquery.dataTables.min.js"></script> -->
-	<!-- <link rel="stylesheet" type="text/css" href="/jquery/popupwindow.min.css"> -->
 	<!-- <link rel="stylesheet" type="text/css" href="/jquery/jquery.dataTables.min.css"> -->
+	<script type="text/javascript" src="/js/jquery/popupwindow.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/jquery/popupwindow.min.css">
+	<script type="text/javascript">
+jQuery(document).ready(function() {
+	// 개발시에만 참고. 추후 지우자...
+	var popupTarget = jQuery("#DEV_MEMO_DIV");
+	if ( popupTarget && popupTarget.length > 0 && popupTarget.text().trim().length > 0 ) {
+	    $("#DEV_MEMO_DIV").PopupWindow({
+	        title   : "메모 팝업",
+	        modal   : false,
+	        draggable       : false,
+	        resizable       : false,
+	        top     : 30,
+	        left    : 1,
+	        height  : 140,
+	        buttons : {
+	            close           : false,          // Boolean
+	            maximize        : false ,         // Boolean
+	            collapse        : true  ,        // Boolean
+	            minimize        : false          // Boolean
+	        }
+	    })
+	    //.PopupWindow("collapse")
+	    ;
+	}
+});
+	</script>
+	<style type="text/css">
+	div.popupwindow_content {margin:0; padding:0;}
+	</style>
 </head>
 <body class="SIZE_DEFAULT COMPANY">
 

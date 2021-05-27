@@ -36,8 +36,8 @@ public class VenMatrlController {
 	 */
 	@GetMapping({ "/matrlItemList" })
 	public String matrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
-		List<MatrlVO> miList = matrlService.getMatrlItemList(loginVo.getCmpnyId());
-		model.addAttribute("miList", miList);
+		List<MatrlVO> rstList = matrlService.getMatrlItemList(loginVo.getCmpnyId());
+		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/matrlItemList";
 	}
@@ -72,8 +72,8 @@ public class VenMatrlController {
 //	 */
 //	@GetMapping({ "/cmpnyMatrlItemList" })
 //	public String cmpnyMatrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
-//		List<MatrlVO> miList = matrlService.getCmpnyMatrlItemList(loginVo.getCmpnyId());
-//		model.addAttribute("miList", miList);
+//		List<MatrlVO> rstList = matrlService.getCmpnyMatrlItemList(loginVo.getCmpnyId());
+//		model.addAttribute("rstList", rstList);
 //
 //		return URL_PREFIX + "/cmpnyMatrlItemList";
 //	}
@@ -87,8 +87,8 @@ public class VenMatrlController {
 	 */
 	@GetMapping({ "/cmpnyMatrlList" })
 	public String cmpnyMatrlList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
-		List<MatrlVO> miList = matrlService.getCmpnyMatrlList(loginVo.getCmpnyId());
-		model.addAttribute("miList", miList);
+		List<MatrlVO> rstList = matrlService.getCmpnyMatrlList(loginVo.getCmpnyId());
+		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/cmpnyMatrlList";
 	}

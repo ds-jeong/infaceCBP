@@ -23,8 +23,8 @@ public class AdmMatrlController {
 	@GetMapping({ "/matrlItemList" })
 	public String getMatrlItemList(Principal principal, Model model) {
 
-		List<MatrlVO> miList = matrlService.getMatrlItemList(null);
-		model.addAttribute("miList", miList);
+		List<MatrlVO> rstList = matrlService.getMatrlItemList(null);
+		model.addAttribute("rstList", rstList);
 
 		return "/admin/matrl/matrlItemList";
 	}

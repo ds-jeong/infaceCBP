@@ -35,8 +35,8 @@ public class SiteMatrlController {
 	 */
 	@GetMapping({ "/cmpnyMatrlList" })
 	public String cmpnyMatrlList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
-		List<MatrlVO> miList = matrlService.getCmpnyMatrlList(loginVo.getCmpnyId());
-		model.addAttribute("miList", miList);
+		List<MatrlVO> rstList = matrlService.getCmpnyMatrlList(loginVo.getCmpnyId());
+		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/cmpnyMatrlList";
 	}

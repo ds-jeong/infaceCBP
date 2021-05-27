@@ -37,8 +37,8 @@ public class CmpnyMatrlClmController {
 	public String matrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
 		String clmStatCd = null;
 		String clmDt = null;
-		List<MatrlClmVO> miList = matrlService.getMatrlClmList(loginVo.getCmpnyId(), null, clmStatCd, clmDt);
-		model.addAttribute("miList", miList);
+		List<MatrlClmVO> rstList = matrlService.getMatrlClmList(loginVo.getCmpnyId(), null, clmStatCd, clmDt);
+		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/matrlClmList";
 	}

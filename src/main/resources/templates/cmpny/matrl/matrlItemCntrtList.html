@@ -56,12 +56,12 @@
 			</thead>
 			<tbody>
 
-				<tr th:each="mi : ${miList}" th:classappend="${mi.cntrtStatCd != '20'} ? buy_stop">
+				<tr th:each="rstLi : ${rstList}" th:classappend="${rstLi.cntrtStatCd != '20'} ? buy_stop">
 					<td>xx</td>
-					<td th:text="${mi.cntrtStatCd}">상태</td>
+					<td th:text="${rstLi.cntrtStatCd}">상태</td>
 					<td>
-				        <a th:if="${mi.cntrtStatCd != '20'}" th:href="@{/cmpny/matrl/updMatrlItemCntrtStat(matrlItemId=${param.matrlItemId}, splCmpnyId=${mi.splCmpnyId}, buyTypeCd=${mi.buyTypeCd}, cntrtStatCd=20)}">거래중</a>
-				        <a th:if="${mi.cntrtStatCd == '20'}" th:href="@{/cmpny/matrl/updMatrlItemCntrtStat(matrlItemId=${param.matrlItemId}, splCmpnyId=${mi.splCmpnyId}, buyTypeCd=${mi.buyTypeCd}, cntrtStatCd=40)}">거래중지</a>
+				        <a th:if="${rstLi.cntrtStatCd != '20'}" th:href="@{/cmpny/matrl/updMatrlItemCntrtStat(matrlItemId=${param.matrlItemId}, splCmpnyId=${rstLi.splCmpnyId}, buyTypeCd=${rstLi.buyTypeCd}, cntrtStatCd=20)}">거래중</a>
+				        <a th:if="${rstLi.cntrtStatCd == '20'}" th:href="@{/cmpny/matrl/updMatrlItemCntrtStat(matrlItemId=${param.matrlItemId}, splCmpnyId=${rstLi.splCmpnyId}, buyTypeCd=${rstLi.buyTypeCd}, cntrtStatCd=40)}">거래중지</a>
 <!-- 						<select class="t_inp"> -->
 <!-- 							<option value="10">검토중</option> -->
 <!-- 							<option value="20">거래중</option> -->
@@ -69,9 +69,9 @@
 <!-- 							<option value="90">삭제</option> -->
 <!-- 						</select> -->
 					</td>
-					<td th:text="${mi.buyTypeCd}">구매방식</td>
-					<td th:text="${mi.splCmpnyNm}">공급업체명</td>
-					<td th:text="${#calendars.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}">2020.12.01</td>
+					<td th:text="${rstLi.buyTypeCd}">구매방식</td>
+					<td th:text="${rstLi.splCmpnyNm}">공급업체명</td>
+					<td th:text="${#calendars.format(rstLi.modDts,'yyyy-MM-dd HH:mm:ss')}">2020.12.01</td>
 				</tr>
 			</tbody>
 		</table>

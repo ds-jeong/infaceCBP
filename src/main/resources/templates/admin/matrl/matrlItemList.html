@@ -16,17 +16,17 @@
 	</tr>
 </thead>
 <tbody>
-    <tr th:each="mi : ${miList}">
-        <td th:text="${mi.matrlMctgId}">matrlMctgId</td>
-        <td th:text="${mi.mctgNm}">mctgNm</td>
-        <td th:text="${mi.mctgDesc}">mctgDesc</td>
-        <td th:text="${mi.matrlCtgId}">matrlCtgId</td>
-        <td th:text="${mi.ctgNm}">ctgNm</td>
-        <td th:text="${mi.ctgDesc}">ctgDesc</td>
-        <td th:text="${mi.matrlItemId}">matrlItemId</td>
-        <td th:text="${mi.itemNm}">itemNm</td>
-        <td th:text="${mi.itemDesc}">itemDesc</td>
-        <td th:text="${mi.itemImg}">itemImg</td>
+    <tr th:each="rstLi : ${rstList}">
+        <td th:text="${rstLi.matrlMctgId}">matrlMctgId</td>
+        <td th:text="${rstLi.mctgNm}">mctgNm</td>
+        <td th:text="${rstLi.mctgDesc}">mctgDesc</td>
+        <td th:text="${rstLi.matrlCtgId}">matrlCtgId</td>
+        <td th:text="${rstLi.ctgNm}">ctgNm</td>
+        <td th:text="${rstLi.ctgDesc}">ctgDesc</td>
+        <td th:text="${rstLi.matrlItemId}">matrlItemId</td>
+        <td th:text="${rstLi.itemNm}">itemNm</td>
+        <td th:text="${rstLi.itemDesc}">itemDesc</td>
+        <td th:text="${rstLi.itemImg}">itemImg</td>
     </tr>
 </tbody>
 </table>

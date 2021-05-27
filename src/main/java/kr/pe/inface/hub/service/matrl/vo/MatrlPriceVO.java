@@ -30,7 +30,11 @@ public class MatrlPriceVO {
 
 	private String leasePerdCd;
 	private long price;
+	private long reqPrice;
+	private long sugstPrice;
 	private long leasePrice;
+	private long reqLeasePrice;
+	private long sugstLeasePrice;
 
 	private String cmpnyId;
 	private String splCmpnyId;

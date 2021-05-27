@@ -75,17 +75,17 @@
 				</tr>
 			</thead>
 			<tbody>
-			    <tr th:each="mi : ${miList}">
+			    <tr th:each="rstLi : ${rstList}">
 			    	<td>xx</td>
-			        <td th:text="${mi.mctgNm}">mctgNm</td>
-			        <td th:text="${mi.ctgNm}">ctgNm</td>
-			        <td th:text="${mi.itemNm}">itemNm</td>
-			        <td th:text="${mi.buyTypeCd}">buyTypeCd</td>
-			        <td th:text="${mi.matrlStd}">matrlStd</td>
-			        <td th:text="${mi.unitCd}">unitCd</td>
+			        <td th:text="${rstLi.mctgNm}">mctgNm</td>
+			        <td th:text="${rstLi.ctgNm}">ctgNm</td>
+			        <td th:text="${rstLi.itemNm}">itemNm</td>
+			        <td th:text="${rstLi.buyTypeCd}">buyTypeCd</td>
+			        <td th:text="${rstLi.matrlStd}">matrlStd</td>
+			        <td th:text="${rstLi.unitCd}">unitCd</td>
 			        <td></td>
 <!-- 			        <td></td> -->
-			        <td th:text="${#calendars.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}">2020.12.01</td>
+			        <td th:text="${#calendars.format(rstLi.modDts,'yyyy-MM-dd HH:mm:ss')}">2020.12.01</td>
 			    </tr>
 			</tbody>
 		</table>

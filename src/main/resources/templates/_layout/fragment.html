@@ -46,7 +46,7 @@ function menuAction() {
             <a href="/" class="logo_head">Inface HUB MAIN</a>
             <ul>
                 <li><a href="/" class="GNB">MAIN</a></li>
-                <th:block th:each="menuGrp : ${MENU_LIST}">
+                <th:block th:each="menuGrp : ${MENU}">
 				<li>
 			        <a href="#" class="GNB" th:text="${menuGrp[0]}">메뉴그룹명</a>
 			    </li>

@@ -79,14 +79,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="mi : ${miList}">
+				<tr th:each="rstLi : ${rstList}">
 					<td>xx</td>
-			        <td th:text="${mi.mctgNm}">mctgNm</td>
-			        <td th:text="${mi.ctgNm}">ctgNm</td>
-			        <td th:text="${mi.itemNm}">itemNm</td>
-			        <td th:text="|${mi.cntrtCmpnyCnt10},${mi.cntrtCmpnyCnt20}|">0,0</td>
+			        <td th:text="${rstLi.mctgNm}">mctgNm</td>
+			        <td th:text="${rstLi.ctgNm}">ctgNm</td>
+			        <td th:text="${rstLi.itemNm}">itemNm</td>
+			        <td th:text="|${rstLi.cntrtCmpnyCnt10},${rstLi.cntrtCmpnyCnt20}|">0,0</td>
 			        <td>
-			            <a th:href="@{/cmpny/matrl/matrlItemCntrtList(matrlItemId=${mi.matrlItemId})}" target="popup">업체설정</a>
+			            <a th:href="@{/cmpny/matrl/matrlItemCntrtList(matrlItemId=${rstLi.matrlItemId})}" target="popup">업체설정</a>
 			        </td>
 					<td>xxxx.xx.xx</td>
 				</tr>
