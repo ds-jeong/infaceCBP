@@ -1,5 +1,7 @@
 package kr.pe.inface.hub.service.matrl.vo;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -45,6 +47,11 @@ public class MatrlPriceVO {
 	private String reqStatCd;
 	private String reqDt;
 	private String confirmDt;
+
+	private int memoSeq;
+	private String memoCont;
+	private Date modDts;
+	private String modpeId;
 
 	private String priceExistYn;
 

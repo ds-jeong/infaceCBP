@@ -15,8 +15,11 @@ th:href="|#${cmdEnum.values()[0].tablename}|"
 date 날짜 포맷
 ${#calendars.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}
 
-문자열 형식 날짜 포맷
+문자열 형식 날짜 포맷. 기본포맷인 yyyy-MM-dd 형식으로 표시됨.. 다른 포맷으로 바꾸고 싶으면??
 ${#temporals.createDate(mi.reqDt, 'yyyyMMdd')}
 
 태그를 조건에 따라 표현/미표현 처리 예시  th:if th:unless
 <a class="tb_btn" th:unless="${mi.myItemYn == 'Y'}" th:href="@{/cmpny/matrl/useMyMatrlItem(matrlItemId=${mi.matrlItemId}, useYn=Y)}">사용</a>
+
+조건에 따라 태그에 클래스 추가
+th:classappend="${rstLi.cntrtStatCd != '20'} ? buy_stop"

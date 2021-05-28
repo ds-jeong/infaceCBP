@@ -165,6 +165,41 @@ public class MatrlService extends BaseService {
 	}
 
 	/**
+	 * 업체 자재단가 요청이 aplStrtDt 가 속한 연도 내역이 있는지 체크
+	 *
+	 * @param cmpnyId
+	 * @param splCmpnyId
+	 * @param aplStrtDt
+	 * @return
+	 */
+	public MatrlPriceVO checkCmpnyMatrlPriceVenReqDtlAplStrtDt(String cmpnyId, String splCmpnyId, String aplStrtDt) {
+		MatrlPriceVO paramVO = new MatrlPriceVO();
+		paramVO.setCmpnyId(cmpnyId);
+		paramVO.setSplCmpnyId(splCmpnyId);
+		paramVO.setAplStrtDt(aplStrtDt);
+
+		return matrlPriceMapper.checkCmpnyMatrlPriceVenReqDtlAplStrtDt(paramVO);
+	}
+
+
+	/**
+	 * 업체 자재단가 공급업체 요청 메모 목록
+	 *
+	 * @param cmpnyId
+	 * @param splCmpnyId
+	 * @param aplStrtDt
+	 * @return
+	 */
+	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMemoList(String cmpnyId, String splCmpnyId, String aplStrtDt) {
+		MatrlPriceVO paramVO = new MatrlPriceVO();
+		paramVO.setCmpnyId(cmpnyId);
+		paramVO.setSplCmpnyId(splCmpnyId);
+		paramVO.setAplStrtDt(aplStrtDt);
+
+		return matrlPriceMapper.getCmpnyMatrlPriceVenReqMemoList(paramVO);
+	}
+
+	/**
 	 * 업체 자재단가 공급업체 요청 자재목록
 	 *
 	 * @param cmpnyId
@@ -181,9 +216,20 @@ public class MatrlService extends BaseService {
 		return matrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList(paramVO);
 	}
 
+	/**
+	 * 업체 자재단가 공급업체 현재 자재목록
+	 *
+	 * @param cmpnyId
+	 * @param splCmpnyId
+	 * @return
+	 */
+	public List<MatrlPriceVO> getCmpnyMatrlPriceVenCurMatrlList(String cmpnyId, String splCmpnyId) {
+		MatrlPriceVO paramVO = new MatrlPriceVO();
+		paramVO.setCmpnyId(cmpnyId);
+		paramVO.setSplCmpnyId(splCmpnyId);
 
-
-
+		return matrlPriceMapper.getCmpnyMatrlPriceVenCurMatrlList(paramVO);
+	}
 
 
 

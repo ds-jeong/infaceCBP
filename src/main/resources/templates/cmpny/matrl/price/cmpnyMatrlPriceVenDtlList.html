@@ -11,7 +11,7 @@
   20 - 확정
   90 - 요청취소
 * 구매방식별로 레이아웃을 구분하여 하나의 화면에서 처리.
-* 적용구분 - 적용상태 확정인 경우만.
+* 적용구분 - 진행상태 확정인 경우만.
 </pre>
 
 <h1 class="page_title">업체 단가 관리 <b th:text="${splCmpny.cmpnyNm}">공급업체명</b></h1>
@@ -48,7 +48,7 @@
             <thead>
                 <tr>
                     <th class="sz_60">No</th>
-                    <th>적용상태</th>
+                    <th>진행상태</th>
                     <th>적용구분</th>
 <!--                     <th>구매방식</th> -->
                     <th>공급품목</th>
@@ -59,8 +59,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="rstLi : ${rstList}">
-                    <td>xx</td>
+                <tr th:each="rstLi,index : ${rstList}">
+                    <td th:text="${index.size - index.index}">xx</td>
                     <td th:text="${rstLi.reqStatCd}">reqStatCd</td>
                     <td>만료/예정</td>
                     <td>xx</td>

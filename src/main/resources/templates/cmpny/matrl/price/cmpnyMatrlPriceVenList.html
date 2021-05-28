@@ -50,8 +50,8 @@
                 </tr>
             </thead>
             <tbody>
-				 <tr th:each="rstLi : ${rstList}">
-				    <td>xx</td>
+				 <tr th:each="rstLi,index : ${rstList}">
+				    <td th:text="${index.size - index.index}">xx</td>
 				    <td>
 				        <a href="#" th:href="@{/cmpny/matrl/price/cmpnyMatrlPriceVenDtlList(splCmpnyId=${rstLi.splCmpnyId})}" th:text="${rstLi.splCmpnyNm}">splCmpnyNm</a>
 				    </td>

@@ -34,6 +34,22 @@ public interface MatrlPriceMapper {
 	public MatrlPriceVO getCmpnyMatrlPriceVenReqDtl(MatrlPriceVO paramVO);
 
 	/**
+	 * 업체 자재단가 요청이 aplStrtDt 가 속한 연도 내역이 있는지 체크
+	 *
+	 * @param paramVO
+	 * @return
+	 */
+	public MatrlPriceVO checkCmpnyMatrlPriceVenReqDtlAplStrtDt(MatrlPriceVO paramVO);
+
+	/**
+	 * 업체 자재단가 공급업체 요청 메모 목록
+	 *
+	 * @param paramVO
+	 * @return
+	 */
+	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMemoList(MatrlPriceVO paramVO);
+
+	/**
 	 * 업체 자재단가 공급업체 요청 자재목록
 	 *
 	 * @param paramVO
@@ -41,7 +57,14 @@ public interface MatrlPriceMapper {
 	 */
 	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMatrlList(MatrlPriceVO paramVO);
 
-	// TODO 가격요청 메모 목록 조회해야함.
+	/**
+	 * 업체 자재단가 공급업체 현재 자재목록
+	 *
+	 * @param paramVO
+	 * @return
+	 */
+	public List<MatrlPriceVO> getCmpnyMatrlPriceVenCurMatrlList(MatrlPriceVO paramVO);
 
+	// TODO 가격요청 메모 목록 조회해야함.
 
 }

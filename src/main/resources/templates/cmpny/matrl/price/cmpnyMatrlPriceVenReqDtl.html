@@ -26,7 +26,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>적용상태</th>
+                    <th>진행상태</th>
 <!--                     <th>구매방식</th> -->
                     <th>품목</th>
                     <th>세부품목</th>
@@ -55,7 +55,7 @@
         <!-- Select -->
         <div class="search_inp_box">
             <select class="top_inp">
-                <option>대분류명</option>
+                <option>중분류명</option>
             </select>
             <select class="top_inp">
                 <option>소분류명</option>
@@ -84,8 +84,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="rstLi : ${rstList}">
-                    <td>xx</td>
+                <tr th:each="rstLi,index : ${rstList}">
+                    <td th:text="${index.size - index.index}">xx</td>
                     <td th:text="${rstLi.mctgNm}">mctgNm</td>
                     <td th:text="${rstLi.ctgNm}">ctgNm</td>
                     <td th:text="${rstLi.itemNm}">itemNm</td>

@@ -93,6 +93,47 @@ AND     CMPRM.APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
 ]]></select>
 
 
+<!-- 업체 자재단가 요청이 aplStrtDt 가 속한 연도 내역이 있는지 체크 -->
+<select id="checkCmpnyMatrlPriceVenReqDtlAplStrtDt" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapper.checkCmpnyMatrlPriceVenReqDtlAplStrtDt */
+SELECT
+        TITLE
+      , APL_STRT_DT
+      , APL_END_DT
+      , REQ_STAT_CD
+      , REQ_DT
+      , CONFIRM_DT
+      , REMARK
+FROM
+        CMPNY_MATRL_PRICE_REQ_MST CMPRM
+WHERE   1 = 1
+AND     CMPRM.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.APL_STRT_DT >= SUBSTR(#{aplStrtDt, jdbcType=VARCHAR}, 1, 4) || '0101'
+AND     CMPRM.APL_STRT_DT <= SUBSTR(#{aplStrtDt, jdbcType=VARCHAR}, 1, 4) || '1231'
+AND     CMPRM.REQ_STAT_CD <> '90' -- 취소상태가 아닌 경우
+]]></select>
+
+
+<!-- 업체 자재단가 공급업체 요청 메모 목록 -->
+<select id="getCmpnyMatrlPriceVenReqMemoList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList */
+SELECT
+        MEMO_SEQ
+      , MEMO_CONT
+      , MODPE_ID
+      , MOD_DTS
+FROM
+        CMPNY_MATRL_PRICE_REQ_MEMO CMPRM
+WHERE   1 = 1
+AND     CMPRM.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
+ORDER BY
+        MEMO_SEQ DESC
+]]></select>
+
+
 <!-- 업체 자재단가 공급업체 요청 자재목록 -->
 <select id="getCmpnyMatrlPriceVenReqMatrlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList */
@@ -120,47 +161,47 @@ ORDER BY
 ]]></select>
 
 
-<!-- 자재가격요청시 사용할 쿼리. -->
-<!-- SELECT -->
-<!--         CC.* -->
-<!--       , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN -->
-<!--       , CMP.LEASE_PERD_CD -->
-<!--       , COALESCE(CMP.PRICE, 0) AS PRICE -->
-<!--       , COALESCE(CMP.LEASE_PRICE, 0) AS LEASE_PRICE -->
-<!-- FROM    ( -->
-<!--             SELECT -->
-<!--                     CMIC.CMPNY_ID, CMIC.SPL_CMPNY_ID, CMIC.BUY_TYPE_CD -->
-<!--                   , VMI.MATRL_MCTG_ID, VMI.MCTG_NM, VMI.MCTG_DISP_ORDR -->
-<!--                   , VMI.MATRL_CTG_ID, VMI.CTG_NM, VMI.CTG_DISP_ORDR -->
-<!--                   , VMI.MATRL_ITEM_ID, VMI.ITEM_NM, VMI.DISP_ORDR -->
-<!--                   , M.MATRL_ID, M.MATRL_STD, M.UNIT_CD, M.MATRL_DESC -->
-<!--             FROM -->
-<!--                     CMPNY_MATRL_ITEM_CNTRT CMIC -->
-<!--                   , MATRL M -->
-<!--                   , V_MATRL_ITEM VMI -->
-<!--             WHERE   1 = 1 -->
-<!--             AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR} -->
-<!--             AND     CMIC.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR} -->
-<!--             AND     CMIC.CNTRT_STAT_CD = '20' -->
-<!--             AND     CMIC.MATRL_ITEM_ID = M.MATRL_ITEM_ID -->
-<!--             AND     M.USE_YN = 'Y' -->
-<!--             AND     M.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID -->
-<!--         ) CC -->
-<!--         LEFT OUTER JOIN CMPNY_MATRL_PRICE CMP -->
-<!--             ON  CC.CMPNY_ID = CMP.CMPNY_ID -->
-<!--             AND CC.SPL_CMPNY_ID = CMP.SPL_CMPNY_ID -->
-<!--             AND CC.MATRL_ID = CMP.MATRL_ID -->
-<!--             AND CC.BUY_TYPE_CD = CMP.BUY_TYPE_CD -->
-<!--             AND CMP.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD') -->
-<!--             AND CMP.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD') -->
-<!-- ORDER BY -->
-<!--         CC.BUY_TYPE_CD -->
-<!--       , CC.MCTG_DISP_ORDR, CC.MATRL_MCTG_ID -->
-<!--       , CC.CTG_DISP_ORDR, CC.MATRL_CTG_ID -->
-<!--       , CC.DISP_ORDR, CC.MATRL_ITEM_ID -->
-<!--       , CC.MATRL_ID DESC -->
-
-
-
+<!-- 업체 자재단가 공급업체 현재 자재목록 -->
+<select id="getCmpnyMatrlPriceVenCurMatrlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenCurMatrlList */
+SELECT
+        CC.*
+      , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN
+      , CMP.LEASE_PERD_CD
+      , COALESCE(CMP.PRICE, 0) AS PRICE
+      , COALESCE(CMP.LEASE_PRICE, 0) AS LEASE_PRICE
+FROM    (
+            SELECT
+                    CMIC.CMPNY_ID, CMIC.SPL_CMPNY_ID, CMIC.BUY_TYPE_CD
+                  , VMI.MATRL_MCTG_ID, VMI.MCTG_NM, VMI.MCTG_DISP_ORDR
+                  , VMI.MATRL_CTG_ID, VMI.CTG_NM, VMI.CTG_DISP_ORDR
+                  , VMI.MATRL_ITEM_ID, VMI.ITEM_NM, VMI.DISP_ORDR
+                  , M.MATRL_ID, M.MATRL_STD, M.UNIT_CD, M.MATRL_DESC
+            FROM
+                    CMPNY_MATRL_ITEM_CNTRT CMIC
+                  , MATRL M
+                  , V_MATRL_ITEM VMI
+            WHERE   1 = 1
+            AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+            AND     CMIC.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+            AND     CMIC.CNTRT_STAT_CD = '20'
+            AND     CMIC.MATRL_ITEM_ID = M.MATRL_ITEM_ID
+            AND     M.USE_YN = 'Y'
+            AND     M.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID
+        ) CC
+        LEFT OUTER JOIN CMPNY_MATRL_PRICE CMP
+            ON  CC.CMPNY_ID = CMP.CMPNY_ID
+            AND CC.SPL_CMPNY_ID = CMP.SPL_CMPNY_ID
+            AND CC.MATRL_ID = CMP.MATRL_ID
+            AND CC.BUY_TYPE_CD = CMP.BUY_TYPE_CD
+            AND CMP.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            AND CMP.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+ORDER BY
+        CC.BUY_TYPE_CD
+      , CC.MCTG_DISP_ORDR, CC.MATRL_MCTG_ID
+      , CC.CTG_DISP_ORDR, CC.MATRL_CTG_ID
+      , CC.DISP_ORDR, CC.MATRL_ITEM_ID
+      , CC.MATRL_ID DESC
+]]></select>
 
 </mapper>

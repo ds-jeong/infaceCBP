@@ -56,8 +56,8 @@
 			</thead>
 			<tbody>
 
-				<tr th:each="rstLi : ${rstList}" th:classappend="${rstLi.cntrtStatCd != '20'} ? buy_stop">
-					<td>xx</td>
+				<tr th:each="rstLi,index : ${rstList}" th:classappend="${rstLi.cntrtStatCd != '20'} ? buy_stop">
+					<td th:text="${index.size - index.index}">xx</td>
 					<td th:text="${rstLi.cntrtStatCd}">상태</td>
 					<td>
 				        <a th:if="${rstLi.cntrtStatCd != '20'}" th:href="@{/cmpny/matrl/updMatrlItemCntrtStat(matrlItemId=${param.matrlItemId}, splCmpnyId=${rstLi.splCmpnyId}, buyTypeCd=${rstLi.buyTypeCd}, cntrtStatCd=20)}">거래중</a>

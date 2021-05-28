@@ -74,8 +74,8 @@
 				</tr>
 			</thead>
 			<tbody>
-			    <tr th:each="rstLi : ${rstList}">
-			    	<td>xx</td>
+			    <tr th:each="rstLi,index : ${rstList}">
+			    	<td th:text="${index.size - index.index}">xx</td>
 			        <td th:text="${rstLi.mctgNm}">mctgNm</td>
 			        <td th:text="${rstLi.ctgNm}">ctgNm</td>
 			        <td th:text="${rstLi.itemNm}">itemNm</td>
