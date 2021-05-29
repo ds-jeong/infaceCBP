@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.service.matrl;
+package kr.pe.inface.hub.service.matrl.mapper;
 
 import java.util.List;
 
@@ -17,13 +17,6 @@ public interface MatrlMapper {
 	 * @return
 	 */
 	public List<MatrlVO> getMatrlItemList(String cmpnyId);
-
-	/**
-	 * 자재폼목 사용 설정 처리
-	 *
-	 * @param paramMap
-	 */
-	public void useMyMatrlItem(MatrlVO paramVO);
 
 	/**
 	 * 업체별 자재품목 목록
@@ -48,12 +41,5 @@ public interface MatrlMapper {
 	 * @return
 	 */
 	public List<MatrlCntrtVO> getMatrlItemCntrtList(MatrlCntrtVO paramVO);
-
-	/**
-	 * 자재품목 공급업체 계약 설정
-	 *
-	 * @param paramMap
-	 */
-	public void updMatrlItemCntrtStat(MatrlCntrtVO paramVO);
 
 }

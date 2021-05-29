@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapperTrx">
+
+
+<!-- 요청마스터 등록/수정 -->
+<!-- 요청자재가격 등록/수정 -->
+<!-- 요청메모 등록 -->
+
+<!-- 업체단가 요청 마스터 등록 -->
+<insert id="insertCmpnyMatrlPriceReqMst" parameterType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapperTrx.insertCmpnyMatrlPriceReqMst */
+INSERT
+INTO    CMPNY_MATRL_PRICE_REQ_MST
+    (
+        CMPNY_ID
+      , SPL_CMPNY_ID
+      , APL_STRT_DT
+      , APL_END_DT
+      , REQ_STAT_CD
+      , REQ_DT
+      , CONFIRM_DT
+      , REMARK
+      , TITLE
+      , REGPE_ID
+      , REG_DTS
+      , MODPE_ID
+      , MOD_DTS
+    )
+VALUES
+    (
+        #{cmpnyId, jdbcType=VARCHAR}
+      , #{splCmpnyId, jdbcType=VARCHAR}
+      , #{aplStrtDt, jdbcType=VARCHAR}
+      , #{aplEndDt, jdbcType=VARCHAR}
+      , #{reqStatCd, jdbcType=VARCHAR}
+      , #{reqDt, jdbcType=VARCHAR}
+      , #{confirmDt, jdbcType=VARCHAR}
+      , #{remark, jdbcType=VARCHAR}
+      , #{title, jdbcType=VARCHAR}
+      , #{regpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+      , #{modpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+    )
+]]></insert>
+
+
+<!-- 업체단가 요청 자재가격 등록 -->
+<insert id="insertCmpnyMatrlPriceReq" parameterType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapperTrx.insertCmpnyMatrlPriceReq */
+INSERT
+INTO    CMPNY_MATRL_PRICE_REQ
+    (
+        CMPNY_ID
+      , SPL_CMPNY_ID
+      , APL_STRT_DT
+      , MATRL_ID
+      , REQ_STAT_CD
+      , REQ_DT
+      , CONFIRM_DT
+      , BUY_TYPE_CD
+      , LEASE_PERD_CD
+      , PRICE
+      , REQ_PRICE
+      , SUGST_PRICE
+      , LEASE_PRICE
+      , REQ_LEASE_PRICE
+      , SUGST_LEASE_PRICE
+      , REGPE_ID
+      , REG_DTS
+      , MODPE_ID
+      , MOD_DTS
+    )
+VALUES
+    (
+        #{cmpnyId, jdbcType=VARCHAR}
+      , #{splCmpnyId, jdbcType=VARCHAR}
+      , #{aplStrtDt, jdbcType=VARCHAR}
+      , #{matrlId, jdbcType=VARCHAR}
+      , #{reqStatCd, jdbcType=VARCHAR}
+      , #{reqDt, jdbcType=VARCHAR}
+      , #{confirmDt, jdbcType=VARCHAR}
+      , #{buyTypeCd, jdbcType=VARCHAR}
+      , #{leasePerdCd, jdbcType=VARCHAR}
+      , #{price, jdbcType=NUMERIC}
+      , #{reqPrice, jdbcType=NUMERIC}
+      , #{sugstPrice, jdbcType=NUMERIC}
+      , #{leasePrice, jdbcType=NUMERIC}
+      , #{reqLeasePrice, jdbcType=NUMERIC}
+      , #{sugstLeasePrice, jdbcType=NUMERIC}
+      , #{regpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+      , #{modpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+    )
+]]></insert>
+
+
+
+
+
+<!-- 업체단가 요청 메모 등록 -->
+<insert id="insertCmpnyMatrlPriceReqMemo" parameterType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapperTrx.insertCmpnyMatrlPriceReqMemo */
+INSERT
+INTO    CMPNY_MATRL_PRICE_REQ_MEMO
+    (
+        CMPNY_ID
+      , SPL_CMPNY_ID
+      , APL_STRT_DT
+      , MEMO_SEQ
+      , MEMO_CONT
+      , REGPE_ID
+      , REG_DTS
+      , MODPE_ID
+      , MOD_DTS
+    )
+VALUES
+    (
+        #{cmpnyId, jdbcType=VARCHAR}
+      , #{splCmpnyId, jdbcType=VARCHAR}
+      , #{aplStrtDt, jdbcType=VARCHAR}
+      , #{memoSeq, jdbcType=NUMERIC}
+      , #{memoCont, jdbcType=VARCHAR}
+      , #{regpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+      , #{modpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+    )
+]]></insert>
+
+</mapper>

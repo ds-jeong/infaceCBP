@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.service.cmpny;
+package kr.pe.inface.hub.service.cmpny.mapper;
 
 import java.util.List;
 

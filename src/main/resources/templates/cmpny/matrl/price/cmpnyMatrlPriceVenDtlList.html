@@ -40,7 +40,7 @@
             업체의 공급단가 적용 이력입니다.
         </div>
         <div class="list_top_btn_box">
-            <a href="#" class="BTNS icon exchange"><span>공급단가 변경요청</span></a>
+            <a href="#" th:href="@{/cmpny/matrl/price/cmpnyMatrlPriceVenReqDtl(splCmpnyId=${param.splCmpnyId})}" class="BTNS icon exchange"><span>공급단가 변경요청</span></a>
         </div>
     </div>
     <div class="list_table">
@@ -54,8 +54,8 @@
                     <th>공급품목</th>
                     <th>단가명</th>
                     <th>적용기간</th>
-                    <th>신청일</th>
-                    <th>확장일</th>
+                    <th>요청일</th>
+                    <th>확정일</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,7 +69,7 @@
                     </td>
                     <td th:text="|${#temporals.createDate(rstLi.aplStrtDt, 'yyyyMMdd')} ~ ${#temporals.createDate(rstLi.aplEndDt, 'yyyyMMdd')}|">2020/01/01 ~ 2020/12/31</td>
                     <td th:text="${#temporals.createDate(rstLi.reqDt, 'yyyyMMdd')}">reqDt</td>
-                    <td th:text="${#temporals.createDate(rstLi.confirmDt, 'yyyyMMdd')}">confirmDt</td>
+                    <td th:text="${rstLi.confirmDt == null ? '-' : #temporals.createDate(rstLi.confirmDt, 'yyyyMMdd')}">confirmDt</td>
                 </tr>
             </tbody>
         </table>

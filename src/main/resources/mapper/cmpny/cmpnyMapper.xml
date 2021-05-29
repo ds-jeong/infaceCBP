@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.pe.inface.hub.service.cmpny.CmpnyMapper">
+<mapper namespace="kr.pe.inface.hub.service.cmpny.mapper.CmpnyMapper">
 
 <!-- 업체 정보 조회 -->
 <select id="getCmpny" parameterType="String" resultType="CmpnyVO"><![CDATA[
@@ -19,19 +19,5 @@ FROM
 WHERE   1 = 1
 AND     CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
 ]]></select>
-
-
-<!-- 업체 정보 조회 -->
-<!-- TODO 업데이트 쿼리 수정 필요.. 수정가능항목 체크 -->
-<update id="updateCmpny" parameterType="CmpnyVO"><![CDATA[
-/* cmpny.CmpnyMapper.updateCmpny */
-UPDATE
-        CMPNY
-SET
-        CMPNY_NM = CMPNY_NM
-      , MOD_DTS = CURRENT_TIMESTAMP
-WHERE   1 = 1
-AND     CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
-]]></update>
 
 </mapper>

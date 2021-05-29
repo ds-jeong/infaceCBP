@@ -1,7 +1,6 @@
-package kr.pe.inface.hub.service.cmpny;
+package kr.pe.inface.hub.service.cmpny.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyVO;
@@ -19,13 +18,5 @@ public interface CmpnyMapper {
 	 */
 	@Cacheable(cacheNames = CACHE_NAME)
 	public CmpnyVO getCmpny(String cmpnyId);
-
-	/**
-	 * 업체 정보 수정
-	 *
-	 * @param vo
-	 */
-	@CacheEvict(cacheNames = CACHE_NAME, key = "#vo.cmpnyId")
-	public int updateCmpny(CmpnyVO vo);
 
 }

@@ -4,12 +4,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,8 +20,9 @@ import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyVO;
 import kr.pe.inface.hub.service.matrl.MatrlService;
 import kr.pe.inface.hub.service.matrl.vo.MatrlPriceVO;
+import lombok.extern.slf4j.Slf4j;
 
-//@Slf4j
+@Slf4j
 @Controller
 @RequestMapping({ CmpnyMatrlPriceController.URL_PREFIX })
 public class CmpnyMatrlPriceController {
@@ -80,14 +83,14 @@ public class CmpnyMatrlPriceController {
 	 *
 	 * @param loginVo
 	 * @param splCmpnyId
-	 * @param aplStrtDt
+	 * @param aplStrtDt 지정하지 않으면 신규 등록
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "/cmpnyMatrlPriceVenReqDtl" })
 	public String cmpnyMatrlPriceVenReqDtl(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			@RequestParam String splCmpnyId,
-			@RequestParam String aplStrtDt,
+			@RequestParam(required = false) String aplStrtDt,
 			Model model) throws Exception {
 
 
@@ -104,9 +107,15 @@ public class CmpnyMatrlPriceController {
 		String pageType = null; // DTL/INS/UPD - 상세/등록/수정
 
 		// 업체 자재단가 공급업체 요청 상세
-		MatrlPriceVO rst = matrlService.getCmpnyMatrlPriceVenReqDtl(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
-		// 상세
-		if ( rst != null ) {
+		MatrlPriceVO rst = null;
+
+		// 적용일자가 지정된 경우, 상세/수정
+		if ( StringUtils.isNotBlank(aplStrtDt) ) {
+			rst = matrlService.getCmpnyMatrlPriceVenReqDtl(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
+			if (rst == null) {
+				// TODO 오류 처리..
+				throw new Exception("조회된 요청내역이 없습니다.");
+			}
 			switch (rst.getReqStatCd()) {
 			case "00":
 			case "10":
@@ -120,23 +129,17 @@ public class CmpnyMatrlPriceController {
 				break;
 			}
 		} else {
-			// 요청일자에 해당하는 데이터가 없고, 요청일자가 속한 연도의 데이터가 없으면, 신규요청으로 처리.
-			MatrlPriceVO checkVo = matrlService.checkCmpnyMatrlPriceVenReqDtlAplStrtDt(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
-			if (checkVo != null) {
-				// TODO 오류 처리..
-				throw new Exception("이미 등록된 요청건이 존재합니다. 적용시작일자 : " + checkVo.getAplStrtDt());
-			}
-
-			// 단, 올해와 내년만 요청가능.
 			String thisYearReqDt = DateFormatUtils.format(new Date(), "yyyyMMdd");
 			String nextYearReqDt = String.valueOf(Calendar.getInstance().get(Calendar.YEAR) + 1) + "0101";
-			if ( thisYearReqDt.startsWith(aplStrtDt.substring(0,4)) ) {
-				aplStrtDt = thisYearReqDt; // 올해
-			} else if ( nextYearReqDt.startsWith(aplStrtDt.substring(0,4)) ) {
-				aplStrtDt = nextYearReqDt; // 내년
+
+			// 올해, 내년 데이터 있는지 체크하여 없는 경우를 등록처리
+			if ((matrlService.checkCmpnyMatrlPriceVenReqDtlAplStrtDt(loginVo.getCmpnyId(), splCmpnyId, thisYearReqDt)) == null) {
+				aplStrtDt = thisYearReqDt;
+			} else if ((matrlService.checkCmpnyMatrlPriceVenReqDtlAplStrtDt(loginVo.getCmpnyId(), splCmpnyId, nextYearReqDt)) == null) {
+				aplStrtDt = nextYearReqDt;
 			} else {
 				// TODO 오류 처리..
-				throw new Exception("해당 요청일자로 단가요청을 할 수 없습니다.");
+				throw new Exception("이미 처리내역이 있으므로, 신규등록할 수 없습니다.");
 			}
 
 			pageType = "INS";
@@ -146,17 +149,19 @@ public class CmpnyMatrlPriceController {
 			rst.setAplEndDt(aplStrtDt.substring(0,4) + "1231");
 			rst.setReqDt(thisYearReqDt);
 		}
+		rst.setPageType(pageType);
 		model.addAttribute("rst", rst);
 
-		// 요청 메모 목록
-		List<MatrlPriceVO> memoList = matrlService.getCmpnyMatrlPriceVenReqMemoList(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
-		model.addAttribute("memoList", memoList);
 
+		// 요청 메모 목록
 		// 업체 자재단가 공급업체 요청 자재목록
+		List<MatrlPriceVO> memoList = null;
 		List<MatrlPriceVO> rstList = null;
 		switch (pageType) {
-		case "DTL":
 		case "UPD":
+			// 메모 조회 - UPD 인 경우만 조회
+			memoList = matrlService.getCmpnyMatrlPriceVenReqMemoList(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
+		case "DTL":
 			// 요청 자재목록
 			rstList = matrlService.getCmpnyMatrlPriceVenReqMatrlList(loginVo.getCmpnyId(), splCmpnyId, aplStrtDt);
 			break;
@@ -165,6 +170,7 @@ public class CmpnyMatrlPriceController {
 			rstList = matrlService.getCmpnyMatrlPriceVenCurMatrlList(loginVo.getCmpnyId(), splCmpnyId);
 			break;
 		}
+		model.addAttribute("memoList", memoList);
 		model.addAttribute("rstList", rstList);
 
 		//
@@ -179,5 +185,29 @@ public class CmpnyMatrlPriceController {
 			return URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl";
 		}
 	}
+
+
+	/**
+	 * 업체 자재단가 요청정보 등록
+	 *
+	 * @param loginVo
+	 * @param splCmpnyId
+	 * @param model
+	 * @return
+	 */
+	@PostMapping({ "/cmpnyMatrlPriceReqInsert" })
+	public String cmpnyMatrlPriceReqInsert(@AuthenticationPrincipal CmpnyUserVO loginVo,
+			MatrlPriceVO paramVO,
+			Model model) {
+
+		// TODO 요청 등록....
+		log.debug("paramVo : ", paramVO);
+		matrlService.insertCmpnyMatrlPriceReqInfo(loginVo.getCmpnyId(), paramVO, loginVo.getCmpnyUserId());
+
+		// 등록된 상세화면으로.
+		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?splCmpnyId=" + paramVO.getSplCmpnyId() + "&aplStrtDt=" + paramVO.getAplStrtDt();
+	}
+
+
 
 }

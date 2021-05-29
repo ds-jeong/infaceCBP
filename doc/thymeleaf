@@ -1,3 +1,5 @@
+https://abbo.tistory.com/56 참고.
+
 임의로 값을 구성하고 싶을때..
 [[${cmdEnum.values()[0].tablename}]]
 th:href="|#${cmdEnum.values()[0].tablename}|"
@@ -11,9 +13,12 @@ th:href="|#${cmdEnum.values()[0].tablename}|"
 </div>
 
 
+숫자포맷. 정수 자릿수, 구분자 종류 설졍. https://frontbackend.com/thymeleaf/thymeleaf-utility-methods-for-numbers 참고
+${#numbers.formatInteger(num,3,'COMMA')}
 
 date 날짜 포맷
 ${#calendars.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}
+${#dates.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}
 
 문자열 형식 날짜 포맷. 기본포맷인 yyyy-MM-dd 형식으로 표시됨.. 다른 포맷으로 바꾸고 싶으면??
 ${#temporals.createDate(mi.reqDt, 'yyyyMMdd')}

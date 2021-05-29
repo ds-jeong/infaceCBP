@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.pe.inface.hub.service.cmpny.mapper.CmpnyMapper;
+import kr.pe.inface.hub.service.cmpny.mapper.CmpnyUserMapper;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserSiteVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyVO;
@@ -16,8 +18,27 @@ public class CmpnyService extends BaseService {
 	@Autowired
 	private CmpnyMapper cmpnyMapper;
 
+	//	@Autowired
+	//	private CmpnyMapperTrx cmpnyMapperTrx;
+
 	@Autowired
 	private CmpnyUserMapper cmpnyUserMapper;
+
+	/**
+	 * 업체 정보 조회
+	 *
+	 * @param cmpnyId
+	 * @return
+	 */
+	public CmpnyVO getCmpny(String cmpnyId) {
+		//		if ((new Date()).getTime() % 2 == 1) {
+		//			CmpnyVO v = new CmpnyVO();
+		//			v.setCmpnyId(cmpnyId);
+		//			System.out.println(cmpnyMapperTrx.updateCmpny(v));
+		//			System.out.println("=================================== cache evict =========================");
+		//		}
+		return cmpnyMapper.getCmpny(cmpnyId);
+	}
 
 	/**
 	 * 업체 사용자 목록
@@ -39,21 +60,5 @@ public class CmpnyService extends BaseService {
 
 		return userList;
 	};
-
-	/**
-	 * 업체 정보 조회
-	 *
-	 * @param cmpnyId
-	 * @return
-	 */
-	public CmpnyVO getCmpny(String cmpnyId) {
-		//		if ((new Date()).getTime() % 2 == 1) {
-		//			CmpnyVO v = new CmpnyVO();
-		//			v.setCmpnyId(cmpnyId);
-		//			System.out.println(cmpnyMapper.updateCmpny(v));
-		//			System.out.println("=================================== cache evict =========================");
-		//		}
-		return cmpnyMapper.getCmpny(cmpnyId);
-	}
 
 }

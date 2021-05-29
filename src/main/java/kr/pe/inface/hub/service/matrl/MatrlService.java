@@ -4,7 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kr.pe.inface.hub.service.matrl.mapper.MatrlClmMapper;
+import kr.pe.inface.hub.service.matrl.mapper.MatrlMapper;
+import kr.pe.inface.hub.service.matrl.mapper.MatrlMapperTrx;
+import kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapper;
+import kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapperTrx;
 import kr.pe.inface.hub.service.matrl.vo.MatrlClmVO;
 import kr.pe.inface.hub.service.matrl.vo.MatrlCntrtVO;
 import kr.pe.inface.hub.service.matrl.vo.MatrlPriceVO;
@@ -18,7 +24,13 @@ public class MatrlService extends BaseService {
 	private MatrlMapper matrlMapper;
 
 	@Autowired
+	private MatrlMapperTrx matrlMapperTrx;
+
+	@Autowired
 	private MatrlPriceMapper matrlPriceMapper;
+
+	@Autowired
+	private MatrlPriceMapperTrx matrlPriceMapperTrx;
 
 	@Autowired
 	private MatrlClmMapper matrlClmMapper;
@@ -55,7 +67,7 @@ public class MatrlService extends BaseService {
 		paramVO.setBuyTypeCd(buyTypeCd);
 		paramVO.setUseYn(useYn);
 
-		matrlMapper.useMyMatrlItem(paramVO);
+		matrlMapperTrx.useMyMatrlItem(paramVO);
 	}
 
 	/**
@@ -119,7 +131,7 @@ public class MatrlService extends BaseService {
 		paramVO.setBuyTypeCd(buyTypeCd);
 		paramVO.setCntrtStatCd(cntrtStatCd);
 
-		matrlMapper.updMatrlItemCntrtStat(paramVO);
+		matrlMapperTrx.updMatrlItemCntrtStat(paramVO);
 	}
 
 	/**
@@ -231,7 +243,42 @@ public class MatrlService extends BaseService {
 		return matrlPriceMapper.getCmpnyMatrlPriceVenCurMatrlList(paramVO);
 	}
 
+	// TODO 트랜잭션 처리. 일단은 선언트랜잭션 사용. 추후 aop 기반설정으로 전환?
+	/**
+	 * 업체단가 요청 등록 - 마스터,메모,가격
+	 *
+	 * @param cmpnyId
+	 * @param paramVO
+	 * @param userId
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public void insertCmpnyMatrlPriceReqInfo(String cmpnyId, MatrlPriceVO paramVO, String userId) {
+		String reqStatCd = "10"; // 건설업체가 등록하므로, 상태는 확인요청(공급업체)로 등록한다.
 
+		// TODO 등록처리시 예외처리 추가.
+
+		// 요청 마스터 등록
+		paramVO.setCmpnyId(cmpnyId);
+		paramVO.setReqStatCd(reqStatCd);
+		paramVO.setRegpeId(userId);
+		paramVO.setModpeId(userId);
+		matrlPriceMapperTrx.insertCmpnyMatrlPriceReqMst(paramVO);
+
+		// 요청 메모 등록
+		matrlPriceMapperTrx.insertCmpnyMatrlPriceReqMemo(paramVO);
+
+		// 요청 가격목록 등록
+		for ( MatrlPriceVO priceLiVO : paramVO.getMatrlPriceList() ) {
+			priceLiVO.setCmpnyId(cmpnyId);
+			priceLiVO.setSplCmpnyId(paramVO.getSplCmpnyId());
+			priceLiVO.setAplStrtDt(paramVO.getAplStrtDt());
+			priceLiVO.setReqStatCd(reqStatCd);
+			priceLiVO.setReqDt(paramVO.getReqDt()); // 요청 마스터의 요청일자 사용
+			priceLiVO.setRegpeId(userId);
+			priceLiVO.setModpeId(userId);
+			matrlPriceMapperTrx.insertCmpnyMatrlPriceReq(priceLiVO);
+		}
+	}
 
 
 

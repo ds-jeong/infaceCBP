@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.pe.inface.hub.service.matrl.MatrlPriceMapper">
+<mapper namespace="kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapper">
 
 <!-- 업체 자재단가 공급업체 목록 -->
 <select id="getCmpnyMatrlPriceVenList" parameterType="String" resultType="MatrlPriceVO"><![CDATA[
@@ -166,7 +166,6 @@ ORDER BY
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenCurMatrlList */
 SELECT
         CC.*
-      , CASE WHEN CMP.MATRL_ID IS NULL THEN 'N' ELSE 'Y' END AS PRICE_EXIST_YN
       , CMP.LEASE_PERD_CD
       , COALESCE(CMP.PRICE, 0) AS PRICE
       , COALESCE(CMP.LEASE_PRICE, 0) AS LEASE_PRICE
@@ -194,7 +193,7 @@ FROM    (
             AND CC.SPL_CMPNY_ID = CMP.SPL_CMPNY_ID
             AND CC.MATRL_ID = CMP.MATRL_ID
             AND CC.BUY_TYPE_CD = CMP.BUY_TYPE_CD
-            AND CMP.APL_STRT_DT > TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
+            AND CMP.APL_STRT_DT >= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
             AND CMP.APL_END_DT <= TO_CHAR(CURRENT_DATE, 'YYYYMMDD')
 ORDER BY
         CC.BUY_TYPE_CD

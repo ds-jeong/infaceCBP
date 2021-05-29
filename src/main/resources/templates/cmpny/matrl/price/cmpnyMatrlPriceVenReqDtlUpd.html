@@ -6,12 +6,22 @@
 <pre id="DEV_MEMO_DIV" style="padding:0; margin:0; display:none;">
 </pre>
 
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery(document.forms.sForm).submit(doSubmit);
+    document.forms.loginForm.username.focus();
+});
+function doSubmit() {
+    return true;
+}
+</script>
+
 <h1 class="page_title">
     업체 공급단가 등록 요청<b th:text="${splCmpny.cmpnyNm}">공급업체명</b>
     <div class="tit_btn_area">
         <a href="#" class="BTNS icon cancel"><span>취소</span></a>
         <a href="#" class="BTNS icon edit"><span>수정요청</span></a>
-        <a href="#" class="BTNS icon regist"><span>요청</span></a>
+        <a href="#" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon regist"><span>요청</span></a>
     </div>
 </h1>
 <!-- //////////////////// Content List -->
@@ -46,6 +56,12 @@
             </tbody>
         </table>
     </div>
+<form name="sForm" method="post" th:action="|/cmpny/matrl/price/cmpnyMatrlPriceReq${rst.pageType == 'INS' ? 'Insert' : 'Update'}|">
+    <input type="hidden" name=splCmpnyId th:value="${param.splCmpnyId}" />
+    <input type="hidden" name="aplStrtDt" th:value="${rst.aplStrtDt}" />
+    <input type="hidden" name="aplEndDt" th:value="${rst.aplEndDt}" />
+    <input type="hidden" name="reqDt" th:value="${rst.reqDt}" />
+    <input type="hidden" name="title" th:value="|${#strings.substring(rst.aplStrtDt,0,4)}년도 구매자재 공급단가|" />
     <div class="list_table">
         <table>
             <thead>
@@ -63,7 +79,10 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><input type="text" placeholder="메모를 남겨주세요." class="t_inp"></td>
+                    <td>
+                        <input type="hidden" name="memoSeq" th:value="${memoList != null ? memoList[0].memoSeq + 1 : 1}">
+                        <input type="text"   name="memoCont" placeholder="메모를 남겨주세요." class="t_inp">
+                    </td>
                 </tr>
 <!--                 <tr class="grey"> -->
 <!--                     <td>2</td> -->
@@ -137,10 +156,15 @@
                     <td th:text="${rstLi.itemNm}">itemNm</td>
                     <td th:text="${rstLi.matrlStd}">matrlStd</td>
                     <td th:text="${rstLi.unitCd}">unitCd</td>
-                    <td class="t_right acc"><input type="text" value="10,000" class="t_inp"></td>
-                    <td class="t_right acc">0</td>
+                    <td class="t_right acc">
+                        <input type="text"   th:name="|matrlPriceList[${index.index}].reqPrice|" th:value="${#numbers.formatInteger(rstLi.reqPrice, 3, 'COMMA')}" class="t_inp">
+                        <input type="hidden" th:name="|matrlPriceList[${index.index}].matrlId|"  th:value="${rstLi.matrlId}" />
+                        <input type="hidden" th:name="|matrlPriceList[${index.index}].buyTypeCd|"  th:value="${rstLi.buyTypeCd}" />
+                        <input type="hidden" th:name="|matrlPriceList[${index.index}].leasePerdCd|"  th:value="${rstLi.leasePerdCd}" />
+                    </td>
+                    <td th:text="${#numbers.formatInteger(rstLi.sugstPrice, 3, 'COMMA')}" class="t_right acc">0</td>
                     <td>0%</td>
-                    <td th:text="${rstLi.price}">price</td>
+                    <td th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">price</td>
                 </tr>
 <!--                 <tr> -->
 <!--                     <td>1</td> -->
@@ -157,6 +181,7 @@
             </tbody>
         </table>
     </div>
+</form>
 </div>
 <!-- Content List //////////////////// -->
 
