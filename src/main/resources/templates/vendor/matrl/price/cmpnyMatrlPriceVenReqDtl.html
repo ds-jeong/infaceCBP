@@ -14,9 +14,9 @@
 </pre>
 
 <h1 class="page_title">
-    업체 단가 관리<b th:text="${splCmpny.cmpnyNm}">공급업체명</b><b th:text="${rst.title}">제목</b>
+    업체 단가 관리<b th:text="${cmpny.cmpnyNm}">업체명</b><b th:text="${rst.title}">제목</b>
     <div class="tit_btn_area">
-        <a href="#" th:href="@{/cmpny/matrl/price/cmpnyMatrlPriceVenDtlList(splCmpnyId=${param.splCmpnyId})}" class="BTNS icon list"><span>목록</span></a>
+        <a href="#" th:href="@{/vendor/matrl/price/cmpnyMatrlPriceVenDtlList(cmpnyId=${param.cmpnyId})}" class="BTNS icon list"><span>목록</span></a>
     </div>
 </h1>
 <!-- //////////////////// Content List -->

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
-import kr.pe.inface.hub.service.matrl.MatrlService;
+import kr.pe.inface.hub.service.matrl.MatrlClmService;
 import kr.pe.inface.hub.service.matrl.vo.MatrlClmVO;
 
 //@Slf4j
@@ -24,7 +24,7 @@ public class CmpnyMatrlClmController {
 	public static final String URL_PREFIX = "/cmpny/matrlclm";
 
 	@Autowired
-	private MatrlService matrlService;
+	private MatrlClmService matrlClmService;
 
 	/**
 	 * 자재카테고리,품목 목록 조회
@@ -37,7 +37,7 @@ public class CmpnyMatrlClmController {
 	public String matrlItemList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
 		String clmStatCd = null;
 		String clmDt = null;
-		List<MatrlClmVO> rstList = matrlService.getMatrlClmList(loginVo.getCmpnyId(), null, clmStatCd, clmDt);
+		List<MatrlClmVO> rstList = matrlClmService.getMatrlClmList(loginVo.getCmpnyId(), null, clmStatCd, clmDt);
 		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/matrlClmList";

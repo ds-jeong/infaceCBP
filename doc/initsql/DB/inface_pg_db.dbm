@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="559,1242" last-zoom="1" max-obj-count="49"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="778,1179" last-zoom="1" max-obj-count="49"
 	 default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
@@ -573,9 +573,9 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 	<column name="req_stat_cd" alias="요청_상태_코드">
 		<type name="varchar" length="4"/>
 		<comment><![CDATA[요청_상태_코드
-00 - 작성중
 10 - 진행중
-20 - 확정]]></comment>
+20 - 확정
+추후 추가되는 경우, 기존에 확정된 데이터와 구분하기 위한 확정여부관리 필요.]]></comment>
 	</column>
 	<column name="req_dt" alias="요청_일자">
 		<type name="varchar" length="8"/>

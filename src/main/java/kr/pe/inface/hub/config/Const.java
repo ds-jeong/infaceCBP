@@ -62,8 +62,9 @@ public class Const {
 	    new Object[] { "자재DB",
 			new Object[] {
 		  		new String[] { "자재품목관리", 	"/vendor/matrl/matrlItemList" }
-//		  	  , new String[] { "자재품목", 		"/vendor/matrl/cmpnyMatrlItemList" }
 		  	  , new String[] { "자재목록", 		"/vendor/matrl/cmpnyMatrlList" }
+		  	  , new String[] { "업체단가관리", 	"/vendor/matrl/price/cmpnyMatrlPriceVenList" }
+
 	  		}
 		}
 	};

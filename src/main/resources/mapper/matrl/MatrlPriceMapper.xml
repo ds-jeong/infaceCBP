@@ -3,13 +3,14 @@
 
 <mapper namespace="kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapper">
 
-<!-- 업체 자재단가 공급업체 목록 -->
-<select id="getCmpnyMatrlPriceVenList" parameterType="String" resultType="MatrlPriceVO"><![CDATA[
+<!-- 건설업체/공급업체 기준으로 계약된 단가업체 목록을 조회 -->
+<select id="getCmpnyMatrlPriceVenList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenList */
 SELECT
         CC.CMPNY_ID
       , CC.SPL_CMPNY_ID
-      , C.CMPNY_NM AS SPL_CMPNY_NM
+      , C.CMPNY_NM AS CMPNY_NM
+      , C2.CMPNY_NM AS SPL_CMPNY_NM
       , CMPRM_CUR.TITLE
       , CMPRM_CUR.APL_STRT_DT
       , CMPRM_CUR.APL_END_DT
@@ -27,6 +28,17 @@ FROM    (
             WHERE   1 = 1
             AND     CMIC.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
             AND     CMIC.CNTRT_STAT_CD = '20'
+            AND     #{splCmpnyId, jdbcType=VARCHAR} IS NULL
+            UNION ALL
+            SELECT
+                    DISTINCT
+                    CMIC.CMPNY_ID, CMIC.SPL_CMPNY_ID
+            FROM
+                    CMPNY_MATRL_ITEM_CNTRT CMIC
+            WHERE   1 = 1
+            AND     CMIC.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+            AND     CMIC.CNTRT_STAT_CD = '20'
+            AND     #{cmpnyId, jdbcType=VARCHAR} IS NULL
         ) CC
         LEFT OUTER JOIN LATERAL (
             SELECT  TITLE, APL_STRT_DT, APL_END_DT, CONFIRM_DT
@@ -47,12 +59,14 @@ FROM    (
             LIMIT 1
         ) CMPRM_REQ ON TRUE
       , CMPNY C
+      , CMPNY C2
 WHERE   1 = 1
-AND     CC.SPL_CMPNY_ID = C.CMPNY_ID
+AND     CC.CMPNY_ID = C.CMPNY_ID
+AND     CC.SPL_CMPNY_ID = C2.CMPNY_ID
 ]]></select>
 
 
-<!-- 업체 자재단가 공급업체 가격상세 목록 -->
+<!-- 업체자재단가 업체가격요청 목록 -->
 <select id="getCmpnyMatrlPriceVenDtlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenDtlList */
 SELECT
@@ -73,7 +87,7 @@ ORDER BY
 ]]></select>
 
 
-<!-- 업체 자재단가 공급업체 요청 상세 -->
+<!-- 업체자재단가 요청 마스터 조회 -->
 <select id="getCmpnyMatrlPriceVenReqDtl" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqDtl */
 SELECT
@@ -115,9 +129,9 @@ AND     CMPRM.REQ_STAT_CD <> '90' -- 취소상태가 아닌 경우
 ]]></select>
 
 
-<!-- 업체 자재단가 공급업체 요청 메모 목록 -->
+<!-- 업체자재단가 요청메모 목록 -->
 <select id="getCmpnyMatrlPriceVenReqMemoList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
-/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList */
+/* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqMemoList */
 SELECT
         MEMO_SEQ
       , MEMO_CONT
@@ -134,11 +148,12 @@ ORDER BY
 ]]></select>
 
 
-<!-- 업체 자재단가 공급업체 요청 자재목록 -->
+<!-- 업체자재단가 요청자재 목록 -->
 <select id="getCmpnyMatrlPriceVenReqMatrlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList */
 SELECT
         CMPR.BUY_TYPE_CD
+      , CMPR.MATRL_ID
       , CMPR.REQ_STAT_CD, CMPR.REQ_DT, CMPR.CONFIRM_DT
       , CMPR.LEASE_PERD_CD
       , CMPR.PRICE, CMPR.REQ_PRICE, CMPR.SUGST_PRICE
@@ -161,7 +176,7 @@ ORDER BY
 ]]></select>
 
 
-<!-- 업체 자재단가 공급업체 현재 자재목록 -->
+<!-- 업체자재단가 현재자재 목록 -->
 <select id="getCmpnyMatrlPriceVenCurMatrlList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapper.getCmpnyMatrlPriceVenCurMatrlList */
 SELECT

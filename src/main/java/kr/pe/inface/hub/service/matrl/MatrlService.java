@@ -4,16 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import kr.pe.inface.hub.service.matrl.mapper.MatrlClmMapper;
 import kr.pe.inface.hub.service.matrl.mapper.MatrlMapper;
 import kr.pe.inface.hub.service.matrl.mapper.MatrlMapperTrx;
-import kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapper;
-import kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapperTrx;
-import kr.pe.inface.hub.service.matrl.vo.MatrlClmVO;
 import kr.pe.inface.hub.service.matrl.vo.MatrlCntrtVO;
-import kr.pe.inface.hub.service.matrl.vo.MatrlPriceVO;
 import kr.pe.inface.hub.service.matrl.vo.MatrlVO;
 import kr.pr.inface.framework.web.BaseService;
 
@@ -25,15 +19,6 @@ public class MatrlService extends BaseService {
 
 	@Autowired
 	private MatrlMapperTrx matrlMapperTrx;
-
-	@Autowired
-	private MatrlPriceMapper matrlPriceMapper;
-
-	@Autowired
-	private MatrlPriceMapperTrx matrlPriceMapperTrx;
-
-	@Autowired
-	private MatrlClmMapper matrlClmMapper;
 
 	/**
 	 * 자재카테고리,품목 목록 조회
@@ -132,181 +117,6 @@ public class MatrlService extends BaseService {
 		paramVO.setCntrtStatCd(cntrtStatCd);
 
 		matrlMapperTrx.updMatrlItemCntrtStat(paramVO);
-	}
-
-	/**
-	 * 업체 자재단가 공급업체 목록
-	 *
-	 * @param cmpnyId
-	 * @return
-	 */
-	public List<MatrlPriceVO> getCmpnyMatrlPriceVenList(String cmpnyId) {
-		return matrlPriceMapper.getCmpnyMatrlPriceVenList(cmpnyId);
-	}
-
-	/**
-	 * 업체 자재단가 공급업체 가격요청 목록
-	 *
-	 * @param cmpnyId
-	 * @param splCmpnyId
-	 * @return
-	 */
-	public List<MatrlPriceVO> getCmpnyMatrlPriceVenDtlList(String cmpnyId, String splCmpnyId) {
-		MatrlPriceVO paramVO = new MatrlPriceVO();
-		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setSplCmpnyId(splCmpnyId);
-
-		return matrlPriceMapper.getCmpnyMatrlPriceVenDtlList(paramVO);
-	}
-
-	/**
-	 * 업체 자재단가 공급업체 요청 상세
-	 *
-	 * @param cmpnyId
-	 * @param splCmpnyId
-	 * @param aplStrtDt
-	 * @return
-	 */
-	public MatrlPriceVO getCmpnyMatrlPriceVenReqDtl(String cmpnyId, String splCmpnyId, String aplStrtDt) {
-		MatrlPriceVO paramVO = new MatrlPriceVO();
-		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setSplCmpnyId(splCmpnyId);
-		paramVO.setAplStrtDt(aplStrtDt);
-
-		return matrlPriceMapper.getCmpnyMatrlPriceVenReqDtl(paramVO);
-	}
-
-	/**
-	 * 업체 자재단가 요청이 aplStrtDt 가 속한 연도 내역이 있는지 체크
-	 *
-	 * @param cmpnyId
-	 * @param splCmpnyId
-	 * @param aplStrtDt
-	 * @return
-	 */
-	public MatrlPriceVO checkCmpnyMatrlPriceVenReqDtlAplStrtDt(String cmpnyId, String splCmpnyId, String aplStrtDt) {
-		MatrlPriceVO paramVO = new MatrlPriceVO();
-		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setSplCmpnyId(splCmpnyId);
-		paramVO.setAplStrtDt(aplStrtDt);
-
-		return matrlPriceMapper.checkCmpnyMatrlPriceVenReqDtlAplStrtDt(paramVO);
-	}
-
-
-	/**
-	 * 업체 자재단가 공급업체 요청 메모 목록
-	 *
-	 * @param cmpnyId
-	 * @param splCmpnyId
-	 * @param aplStrtDt
-	 * @return
-	 */
-	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMemoList(String cmpnyId, String splCmpnyId, String aplStrtDt) {
-		MatrlPriceVO paramVO = new MatrlPriceVO();
-		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setSplCmpnyId(splCmpnyId);
-		paramVO.setAplStrtDt(aplStrtDt);
-
-		return matrlPriceMapper.getCmpnyMatrlPriceVenReqMemoList(paramVO);
-	}
-
-	/**
-	 * 업체 자재단가 공급업체 요청 자재목록
-	 *
-	 * @param cmpnyId
-	 * @param splCmpnyId
-	 * @param aplStrtDt
-	 * @return
-	 */
-	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMatrlList(String cmpnyId, String splCmpnyId, String aplStrtDt) {
-		MatrlPriceVO paramVO = new MatrlPriceVO();
-		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setSplCmpnyId(splCmpnyId);
-		paramVO.setAplStrtDt(aplStrtDt);
-
-		return matrlPriceMapper.getCmpnyMatrlPriceVenReqMatrlList(paramVO);
-	}
-
-	/**
-	 * 업체 자재단가 공급업체 현재 자재목록
-	 *
-	 * @param cmpnyId
-	 * @param splCmpnyId
-	 * @return
-	 */
-	public List<MatrlPriceVO> getCmpnyMatrlPriceVenCurMatrlList(String cmpnyId, String splCmpnyId) {
-		MatrlPriceVO paramVO = new MatrlPriceVO();
-		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setSplCmpnyId(splCmpnyId);
-
-		return matrlPriceMapper.getCmpnyMatrlPriceVenCurMatrlList(paramVO);
-	}
-
-	// TODO 트랜잭션 처리. 일단은 선언트랜잭션 사용. 추후 aop 기반설정으로 전환?
-	/**
-	 * 업체단가 요청 등록 - 마스터,메모,가격
-	 *
-	 * @param cmpnyId
-	 * @param paramVO
-	 * @param userId
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	public void insertCmpnyMatrlPriceReqInfo(String cmpnyId, MatrlPriceVO paramVO, String userId) {
-		String reqStatCd = "10"; // 건설업체가 등록하므로, 상태는 확인요청(공급업체)로 등록한다.
-
-		// TODO 등록처리시 예외처리 추가.
-
-		// 요청 마스터 등록
-		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setReqStatCd(reqStatCd);
-		paramVO.setRegpeId(userId);
-		paramVO.setModpeId(userId);
-		matrlPriceMapperTrx.insertCmpnyMatrlPriceReqMst(paramVO);
-
-		// 요청 메모 등록
-		matrlPriceMapperTrx.insertCmpnyMatrlPriceReqMemo(paramVO);
-
-		// 요청 가격목록 등록
-		for ( MatrlPriceVO priceLiVO : paramVO.getMatrlPriceList() ) {
-			priceLiVO.setCmpnyId(cmpnyId);
-			priceLiVO.setSplCmpnyId(paramVO.getSplCmpnyId());
-			priceLiVO.setAplStrtDt(paramVO.getAplStrtDt());
-			priceLiVO.setReqStatCd(reqStatCd);
-			priceLiVO.setReqDt(paramVO.getReqDt()); // 요청 마스터의 요청일자 사용
-			priceLiVO.setRegpeId(userId);
-			priceLiVO.setModpeId(userId);
-			matrlPriceMapperTrx.insertCmpnyMatrlPriceReq(priceLiVO);
-		}
-	}
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * 자재청구목록 조회
-	 *
-	 * @param cmpnyId    필수, 업체 조건 설정
-	 * @param workSiteId 값을 지정하면, 현장 조건 설정
-	 * @param clmStatCd  값을 지정하면, 상태 조건 설정
-	 * @param clmDt      값을 지정하면, 청구일자 조건 설정
-	 * @return
-	 */
-	public List<MatrlClmVO> getMatrlClmList(String cmpnyId, String workSiteId, String clmStatCd, String clmDt) {
-		// TODO 서비스객체에서.. 유저의 role 따라 파라미터를 조정하도록 하는게 나을지.. controller 에서 하는게 나을지..
-		MatrlClmVO vo = new MatrlClmVO();
-		vo.setCmpnyId(cmpnyId);
-		vo.setWorkSiteId(workSiteId);
-		vo.setClmStatCd(clmStatCd);
-		vo.setClmDt(clmDt);
-
-		return matrlClmMapper.getMatrlClmList(vo);
 	}
 
 }

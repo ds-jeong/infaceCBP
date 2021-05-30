@@ -43,6 +43,7 @@ public class MatrlPriceVO {
 	private long sugstLeasePrice;
 
 	private String cmpnyId;
+	private String cmpnyNm;
 	private String splCmpnyId;
 	private String splCmpnyNm;
 	private String title;

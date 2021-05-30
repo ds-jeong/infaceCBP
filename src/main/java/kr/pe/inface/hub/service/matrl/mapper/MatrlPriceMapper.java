@@ -10,15 +10,15 @@ import kr.pe.inface.hub.service.matrl.vo.MatrlPriceVO;
 public interface MatrlPriceMapper {
 
 	/**
-	 * 업체 자재단가 공급업체 목록
+	 * 건설업체/공급업체 기준으로 계약된 단가업체 목록을 조회
 	 *
 	 * @param cmpnyId
 	 * @return
 	 */
-	public List<MatrlPriceVO> getCmpnyMatrlPriceVenList(String cmpnyId);
+	public List<MatrlPriceVO> getCmpnyMatrlPriceVenList(MatrlPriceVO paramVO);
 
 	/**
-	 * 업체 자재단가 공급업체 가격요청 목록
+	 * 업체자재단가 업체가격요청 목록
 	 *
 	 * @param cmpnyId
 	 * @return
@@ -26,7 +26,7 @@ public interface MatrlPriceMapper {
 	public List<MatrlPriceVO> getCmpnyMatrlPriceVenDtlList(MatrlPriceVO paramVO);
 
 	/**
-	 * 업체 자재단가 공급업체 요청 상세
+	 * 업체자재단가 요청 마스터 조회
 	 *
 	 * @param paramVO
 	 * @return
@@ -42,7 +42,7 @@ public interface MatrlPriceMapper {
 	public MatrlPriceVO checkCmpnyMatrlPriceVenReqDtlAplStrtDt(MatrlPriceVO paramVO);
 
 	/**
-	 * 업체 자재단가 공급업체 요청 메모 목록
+	 * 업체자재단가 요청메모 목록
 	 *
 	 * @param paramVO
 	 * @return
@@ -50,7 +50,7 @@ public interface MatrlPriceMapper {
 	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMemoList(MatrlPriceVO paramVO);
 
 	/**
-	 * 업체 자재단가 공급업체 요청 자재목록
+	 * 업체자재단가 요청자재 목록
 	 *
 	 * @param paramVO
 	 * @return
@@ -58,7 +58,7 @@ public interface MatrlPriceMapper {
 	public List<MatrlPriceVO> getCmpnyMatrlPriceVenReqMatrlList(MatrlPriceVO paramVO);
 
 	/**
-	 * 업체 자재단가 공급업체 현재 자재목록
+	 * 업체자재단가 현재자재 목록
 	 *
 	 * @param paramVO
 	 * @return
