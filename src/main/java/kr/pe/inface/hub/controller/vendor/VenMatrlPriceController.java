@@ -1,8 +1,8 @@
 package kr.pe.inface.hub.controller.vendor;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -90,64 +90,16 @@ public class VenMatrlPriceController {
 			@RequestParam String aplStrtDt,
 			Model model) throws Exception {
 
-
 		// 건설업체 정보 조회
 		CmpnyVO cmpny = cmpnyService.getCmpny(cmpnyId);
 		model.addAttribute("cmpny", cmpny);
 
-		// 00 - 작성중
-		// 10 - 확인요청(공급업체)
-		// 15 - 확인요청(건설업체)
-		// 20 - 확정
-		// 90 - 요청취소
-		// TODO 코드 상수 처리
-		String pageType = null; // DTL/UPD - 상세/수정
+		// 데이터 조회.
+		Map<String, Object> modelMap = matrlPriceService.getCmpnyMatrlPriceVenReqDtlForSplCmpny(loginVo, cmpnyId, aplStrtDt);
+		model.addAllAttributes(modelMap);
 
-		// 업체자재단가 업체가격요청 상세
-		MatrlPriceVO rst = null;
-
-		// 적용일자가 지정된 경우, 상세/수정
-		if ( StringUtils.isNotBlank(aplStrtDt) ) {
-			rst = matrlPriceService.getCmpnyMatrlPriceVenReqDtl(cmpnyId, loginVo.getCmpnyId(), aplStrtDt);
-			if (rst == null) {
-				// TODO 오류 처리..
-				throw new Exception("조회된 요청내역이 없습니다.");
-			}
-			switch (rst.getReqStatCd()) {
-			case "10":
-				pageType = "UPD";
-				break;
-			case "15": // 확인요청(건설업체)인 경우는 조회처리
-			case "20":
-			default:
-				pageType = "DTL";
-				break;
-			}
-			//case "00": // 작성중,삭제상태는 공급업체가 조회불가
-			//case "90":
-		}
-		rst.setPageType(pageType);
-		model.addAttribute("rst", rst);
-
-
-		// 요청 메모 목록
-		// 업체자재단가 업체가격요청 자재목록
-		List<MatrlPriceVO> memoList = null;
-		List<MatrlPriceVO> rstList = null;
-		switch (pageType) {
-		case "UPD":
-		case "DTL":
-			// 메모 목록
-			memoList = matrlPriceService.getCmpnyMatrlPriceVenReqMemoList(cmpnyId, loginVo.getCmpnyId(), aplStrtDt);
-			// 요청 자재목록
-			rstList = matrlPriceService.getCmpnyMatrlPriceVenReqMatrlList(cmpnyId, loginVo.getCmpnyId(), aplStrtDt);
-			break;
-		}
-		model.addAttribute("memoList", memoList);
-		model.addAttribute("rstList", rstList);
-
-		//
-		switch (pageType) {
+		// 결과타입에 따른 화면 분기
+		switch (((MatrlPriceVO)modelMap.get("rst")).getPageType()) {
 		case "UPD":
 			// 등록/수정 페이지
 			return URL_PREFIX + "/cmpnyMatrlPriceVenReqDtlUpd";
@@ -173,7 +125,7 @@ public class VenMatrlPriceController {
 
 		// TODO 요청 등록....
 		log.debug("paramVo : " + paramVO);
-		matrlPriceService.updateCmpnyMatrlPriceReqInfoSplCmpny(loginVo, paramVO);
+		matrlPriceService.updateCmpnyMatrlPriceReqInfoForSplCmpny(loginVo, paramVO);
 
 		// 등록된 상세화면으로.
 		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?cmpnyId=" + paramVO.getCmpnyId() + "&aplStrtDt=" + paramVO.getAplStrtDt();

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="778,1179" last-zoom="1" max-obj-count="49"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="759,1179" last-zoom="1" max-obj-count="49"
 	 default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
@@ -251,8 +251,9 @@ V00001]]></comment>
 	<column name="lease_perd_cd" alias="임대_주기_코드">
 		<type name="varchar" length="4"/>
 		<comment><![CDATA[임대_주기_코드
-구매방식코드=임대 인 경우
-월,일 등..]]></comment>
+10 - 일
+20 - 주
+30 - 월]]></comment>
 	</column>
 	<column name="price" alias="가격" not-null="true" default-value="0">
 		<type name="int4" length="0"/>
@@ -591,7 +592,10 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 	</column>
 	<column name="lease_perd_cd" alias="임대_주기_코드">
 		<type name="varchar" length="4"/>
-		<comment><![CDATA[임대_주기_코드]]></comment>
+		<comment><![CDATA[임대_주기_코드
+10 - 일
+20 - 주
+30 - 월]]></comment>
 	</column>
 	<column name="price" alias="가격" not-null="true" default-value="0">
 		<type name="int4" length="0"/>
