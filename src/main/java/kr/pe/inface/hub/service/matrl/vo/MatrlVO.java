@@ -37,6 +37,6 @@ public class MatrlVO {
 	private String cntrtCmpnyCnt20;
 	private String useYn;
 	private String userId;
-	private int cmpnyCnt;
+	private Integer cmpnyCnt;
 
 }

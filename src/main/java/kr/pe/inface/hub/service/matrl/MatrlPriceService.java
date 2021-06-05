@@ -19,8 +19,10 @@ import kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapper;
 import kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapperTrx;
 import kr.pe.inface.hub.service.matrl.vo.MatrlPriceVO;
 import kr.pr.inface.framework.web.BaseService;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class MatrlPriceService extends BaseService {
 
 	@Autowired
@@ -241,12 +243,12 @@ public class MatrlPriceService extends BaseService {
 			}
 			switch (rst.getReqStatCd()) {
 			case "00":
+			case "10":
 			case "15":
+			case "90": // 취소상태는 확정된 금액이 없으므로, 수정화면으로 조회만 가능. 수정버튼 불가
 				pageType = "UPD";
 				break;
-			case "10": // 확인요청(공급업체)인 경우는 조회처리
 			case "20":
-			case "90":
 			default:
 				pageType = "DTL";
 				break;
@@ -281,9 +283,9 @@ public class MatrlPriceService extends BaseService {
 		Map<String,List<MatrlPriceVO>> rstListMap = null;
 		switch (pageType) {
 		case "UPD":
-		case "DTL":
-			// 메모 목록
+			// 메모 목록 - 업데이트인 경우만 필요
 			memoList = this.getCmpnyMatrlPriceVenReqMemoList(cmpnyId, splCmpnyId, aplStrtDt);
+		case "DTL":
 			// 요청 자재목록
 			rstListMap = this.getCmpnyMatrlPriceVenReqMatrlListByTypeMap(cmpnyId, splCmpnyId, aplStrtDt);
 			break;
@@ -338,9 +340,9 @@ public class MatrlPriceService extends BaseService {
 			}
 			switch (rst.getReqStatCd()) {
 			case "10":
+			case "15":
 				pageType = "UPD";
 				break;
-			case "15": // 확인요청(건설업체)인 경우는 조회처리
 			case "20":
 			default:
 				pageType = "DTL";
@@ -358,9 +360,9 @@ public class MatrlPriceService extends BaseService {
 		Map<String,List<MatrlPriceVO>> rstListMap = null;
 		switch (pageType) {
 		case "UPD":
-		case "DTL":
-			// 메모 목록
+			// 메모 목록 - 업데이트인 경우만 필요
 			memoList = this.getCmpnyMatrlPriceVenReqMemoList(cmpnyId, splCmpnyId, aplStrtDt);
+		case "DTL":
 			// 요청 자재목록
 			rstListMap = this.getCmpnyMatrlPriceVenReqMatrlListByTypeMap(cmpnyId, splCmpnyId, aplStrtDt);
 			break;
@@ -435,7 +437,8 @@ public class MatrlPriceService extends BaseService {
 
 		// 요청 마스터 수정
 		paramVO.setCmpnyId(cmpnyId);
-		paramVO.setReqStatCd("10"); // 건설업체 수정 후, 상태는 확인요청(공급업체)로 등록한다.
+		paramVO.setPrevReqStatCd("15"); // 확인요청(건설업체) 상태에서 수정한 후
+		paramVO.setReqStatCd("10");     // 확인요청(공급업체) 상태로 변경한다.
 		paramVO.setRegpeId(userId);
 		paramVO.setModpeId(userId);
 		int rstCnt = matrlPriceMapperTrx.updateCmpnyMatrlPriceReqMst(paramVO);
@@ -478,7 +481,8 @@ public class MatrlPriceService extends BaseService {
 
 		// 요청 마스터 수정
 		paramVO.setSplCmpnyId(splCmpnyId);
-		paramVO.setReqStatCd("15"); // 공급업체 수정 후, 상태는 확인요청(건설업체)로 등록한다.
+		paramVO.setPrevReqStatCd("10"); // 확인요청(공급업체) 상태에서 수정한 후
+		paramVO.setReqStatCd("15");     // 확인요청(건설업체) 상태로 변경한다.
 		paramVO.setRegpeId(userId);
 		paramVO.setModpeId(userId);
 		int rstCnt = matrlPriceMapperTrx.updateCmpnyMatrlPriceReqMst(paramVO);
@@ -497,6 +501,57 @@ public class MatrlPriceService extends BaseService {
 			priceLiVO.setAplStrtDt(paramVO.getAplStrtDt());
 			priceLiVO.setModpeId(userId);
 			matrlPriceMapperTrx.updateCmpnyMatrlPriceReqSplCmpny(priceLiVO);
+		}
+	}
+
+	/**
+	 * 업체자재단가 요청 확정 처리 - 마스터,가격
+	 *   * 요청에 대한 상태를 업데이트하고.. 확정된 가격을 실제 가격 테이블에 insert 한다.
+	 *
+	 * @param userVo
+	 * @param cmpnyId
+	 * @param aplStrtDt
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public void updateCmpnyMatrlPriceReqInfoConfirm(CmpnyUserVO userVo, String cmpnyId, String aplStrtDt) throws Exception {
+		// 권한 체크 - 공급업체
+		if ( !userVo.hasAnyAuths(ROLE_NAME.VENDOR)) {
+			throw new Exception(ROLE_NAME.VENDOR + " 권한이 없습니다.");
+		};
+
+		//
+		String splCmpnyId = userVo.getCmpnyId();
+		String userId = userVo.getCmpnyUserId();
+
+		// 요청 마스터 확정 처리
+		MatrlPriceVO paramVO = new MatrlPriceVO();
+		paramVO.setCmpnyId(cmpnyId);;
+		paramVO.setSplCmpnyId(splCmpnyId);
+		paramVO.setAplStrtDt(aplStrtDt);
+		paramVO.setPrevReqStatCd("10"); // 확인요청(공급업체) 상태에서
+		paramVO.setReqStatCd("20");     // 확정 상태로 변경한다.
+		paramVO.setRegpeId(userId);
+		paramVO.setModpeId(userId);
+		int rstCnt = matrlPriceMapperTrx.updateCmpnyMatrlPriceReqMst(paramVO);
+		// 업데이트된 내역이 있어야 다음 단계로 넘어감.
+		if ( rstCnt == 0 ) {
+			throw new Exception("업체단가요청 확정가능한 마스터상태가 아닙니다.");
+		}
+
+		log.debug("updateCmpnyMatrlPriceReqInfoConfirm key" + paramVO);
+
+		// 요청 가격목록 임시상태 -> 가격 테이블로 확정 이관
+		int priceCnt = matrlPriceMapperTrx.insertCmpnyMatrlPriceFromReqByConfirm(paramVO);
+		log.debug("insertCmpnyMatrlPriceFromReqByConfirm 건수 : " + priceCnt);
+
+		// 확정이관 후, 요청 가격목록 확정 처리. 하나의 마스터에 나누어서 요청할 수도 있음.
+		int priceReqCnt = matrlPriceMapperTrx.updateCmpnyMatrlPriceReqAllConfirm(paramVO);
+		log.debug("updateCmpnyMatrlPriceReqAllConfirm 건수 : " + priceReqCnt);
+
+		// 이관,확정 처리 건수가 다른 경우.
+		if (priceCnt != priceReqCnt) {
+			throw new Exception("이관, 확정 처리 건수가 다릅니다. 재시도 실패시에는 관리자에게 문의하세요.");
 		}
 	}
 

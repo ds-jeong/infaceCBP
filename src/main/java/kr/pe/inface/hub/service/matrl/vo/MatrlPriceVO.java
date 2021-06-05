@@ -35,12 +35,12 @@ public class MatrlPriceVO {
 	private String matrlDesc;
 
 	private String leasePerdCd;
-	private long price;
-	private long reqPrice;
-	private long sugstPrice;
-	private long leasePrice;
-	private long reqLeasePrice;
-	private long sugstLeasePrice;
+	private Long price;
+	private Long reqPrice;
+	private Long sugstPrice;
+	private Long leasePrice;
+	private Long reqLeasePrice;
+	private Long sugstLeasePrice;
 
 	private String cmpnyId;
 	private String cmpnyNm;
@@ -51,6 +51,7 @@ public class MatrlPriceVO {
 	private String aplStrtDt;
 	private String aplEndDt;
 	private String reqStatCd;
+	private String prevReqStatCd;
 	private String reqDt;
 	private String confirmDt;
 

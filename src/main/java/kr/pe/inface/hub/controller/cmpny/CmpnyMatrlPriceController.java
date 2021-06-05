@@ -125,7 +125,6 @@ public class CmpnyMatrlPriceController {
 			MatrlPriceVO paramVO,
 			Model model) throws Exception {
 
-		// TODO 요청 등록....
 		log.debug("paramVo : " + paramVO);
 		matrlPriceService.insertCmpnyMatrlPriceReqInfo(loginVo, paramVO);
 
@@ -146,7 +145,6 @@ public class CmpnyMatrlPriceController {
 			MatrlPriceVO paramVO,
 			Model model) throws Exception {
 
-		// TODO 요청 등록....
 		log.debug("paramVo : " + paramVO);
 		matrlPriceService.updateCmpnyMatrlPriceReqInfoForCmpny(loginVo, paramVO);
 

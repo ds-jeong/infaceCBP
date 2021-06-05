@@ -48,7 +48,7 @@ VALUES
 
 
 <!-- 업체자재단가 요청 마스터 수정 -->
-<!-- 확정상태 아니고, 이전 상태와 다른 경우만 진행 -->
+<!-- 이전상태 조건 체크 -> 상태 변경 및 확정인 경우 확정일자 수정 -->
 <update id="updateCmpnyMatrlPriceReqMst" parameterType="MatrlPriceVO"><![CDATA[
 /* matrl.MatrlPriceMapperTrx.updateCmpnyMatrlPriceReqMst */
 UPDATE
@@ -57,11 +57,15 @@ SET
         MODPE_ID = #{modpeId, jdbcType=VARCHAR}
       , MOD_DTS = CURRENT_TIMESTAMP
       , REQ_STAT_CD = #{reqStatCd, jdbcType=VARCHAR}
+      , CONFIRM_DT = CASE WHEN #{reqStatCd, jdbcType=VARCHAR} = '20'
+                        THEN TO_CHAR(CURRENT_TIMESTAMP, 'YYYYMMDD')
+                        ELSE CONFIRM_DT
+                     END
 WHERE   1 = 1
 AND     CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
 AND     SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
 AND     APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
-AND     REQ_STAT_CD NOT IN ( '20', #{reqStatCd, jdbcType=VARCHAR} ) -- 확정상태 아니고, 이전 상태와 다른 경우
+AND     REQ_STAT_CD = #{prevReqStatCd, jdbcType=VARCHAR}
 ]]></update>
 
 
@@ -152,6 +156,76 @@ AND     APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
 AND     MATRL_ID = #{matrlId, jdbcType=VARCHAR}
 AND     ( SUGST_PRICE <> #{sugstPrice, jdbcType=NUMERIC} OR SUGST_LEASE_PRICE <> #{sugstLeasePrice, jdbcType=NUMERIC} )
 ]]></update>
+
+
+<!-- 업체자재단가 요청 자재가격목록 확정 처리 -->
+<!-- 임시상태 요청가격 -> 확정가격 셋팅 -->
+<update id="updateCmpnyMatrlPriceReqAllConfirm" parameterType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapperTrx.updateCmpnyMatrlPriceReqAllConfirm */
+UPDATE
+        CMPNY_MATRL_PRICE_REQ
+SET
+        MODPE_ID = #{modpeId, jdbcType=VARCHAR}
+      , MOD_DTS = CURRENT_TIMESTAMP
+      , REQ_STAT_CD = '20' -- 확정상태
+      , CONFIRM_DT = TO_CHAR(CURRENT_TIMESTAMP, 'YYYYMMDD')
+      , PRICE = REQ_PRICE
+      , LEASE_PRICE = REQ_LEASE_PRICE
+WHERE   1 = 1
+AND     CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+AND     SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+AND     APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
+AND     REQ_STAT_CD = '10' -- 임시상태
+]]></update>
+
+
+<!-- 업체자재단가 요청 자재가격목록 가격테이블 이관 -->
+<insert id="insertCmpnyMatrlPriceFromReqByConfirm" parameterType="MatrlPriceVO"><![CDATA[
+/* matrl.MatrlPriceMapperTrx.insertCmpnyMatrlPriceFromReqByConfirm */
+INSERT
+INTO    CMPNY_MATRL_PRICE
+    (
+        CMPNY_ID
+      , MATRL_ID
+      , SPL_CMPNY_ID
+      , APL_STRT_DT
+      , APL_END_DT
+      , BUY_TYPE_CD
+      , LEASE_PERD_CD
+      , PRICE
+      , LEASE_PRICE
+      , REGPE_ID
+      , REG_DTS
+      , MODPE_ID
+      , MOD_DTS
+    )
+SELECT
+        CMPR.CMPNY_ID
+      , CMPR.MATRL_ID
+      , CMPR.SPL_CMPNY_ID
+      , CMPR.APL_STRT_DT
+      , CMPRM.APL_END_DT
+      , CMPR.BUY_TYPE_CD
+      , CMPR.LEASE_PERD_CD
+      , CMPR.REQ_PRICE       -- 요청가격을 확정처리
+      , CMPR.REQ_LEASE_PRICE -- 요청가격을 확정처리
+      , #{regpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+      , #{modpeId, jdbcType=VARCHAR}
+      , CURRENT_TIMESTAMP
+FROM
+        CMPNY_MATRL_PRICE_REQ_MST CMPRM
+      , CMPNY_MATRL_PRICE_REQ CMPR
+WHERE   1 = 1
+AND     CMPRM.CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
+AND     CMPRM.APL_STRT_DT = #{aplStrtDt, jdbcType=VARCHAR}
+AND     CMPRM.REQ_STAT_CD = '20' -- 확정상태
+AND     CMPRM.CMPNY_ID = CMPR.CMPNY_ID
+AND     CMPRM.SPL_CMPNY_ID = CMPR.SPL_CMPNY_ID
+AND     CMPRM.APL_STRT_DT = CMPR.APL_STRT_DT
+AND     CMPR.REQ_STAT_CD = '10' -- 임시상태
+]]></insert>
 
 
 <!-- 업체자재단가 요청 메모 등록 -->

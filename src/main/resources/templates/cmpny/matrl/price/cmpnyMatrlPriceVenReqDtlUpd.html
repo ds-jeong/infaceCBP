@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
-<th:block layout:fragment="contentFragment">
+<th:block layout:fragment="contentFragment" th:with="hasInsert=${rst.pageType=='INS'}, hasUpdate=${rst.pageType=='UPD' && (rst.reqStatCd=='00' || rst.reqStatCd=='15')}">
 
 <!-- TODO DELETE -->
 <pre id="DEV_MEMO_DIV" style="padding:0; margin:0; display:none;">
@@ -9,6 +9,7 @@
 또한 매년 다를 수 있는건지..
 임대기간이 년도를 넘어가는 경우는 비용이 어떻게 처리되는지..
 (구매는 구매시점의 가격으로 고정하면 될테고..)
+스크립트 form 체크로직 들어가야 함.
 </pre>
 
 <script type="text/javascript">
@@ -16,6 +17,9 @@ jQuery(document).ready(function() {
     jQuery(document.forms.sForm).submit(doSubmit);
 });
 function doSubmit() {
+    if ( !confirm("작성한 '메모'와 함께 '요청가격'으로 '수정요청'합니다.") ) {
+        return false;
+    }
     return true;
 }
 </script>
@@ -24,8 +28,8 @@ function doSubmit() {
     업체 공급단가 등록 요청<b th:text="${splCmpny.cmpnyNm}">공급업체명</b>
     <div class="tit_btn_area">
         <a href="#" th:href="@{/cmpny/matrl/price/cmpnyMatrlPriceVenDtlList(splCmpnyId=${param.splCmpnyId})}" class="BTNS icon cancel"><span>취소</span></a>
-        <a href="#" th:if="${rst.pageType == 'UPD'}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon edit"><span>수정요청</span></a>
-        <a href="#" th:if="${rst.pageType == 'INS'}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon regist"><span>요청</span></a>
+        <a href="#" th:if="${hasUpdate}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon edit"><span>수정요청</span></a>
+        <a href="#" th:if="${hasInsert}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon regist"><span>요청</span></a>
     </div>
 </h1>
 <!-- //////////////////// Content List -->
@@ -87,7 +91,7 @@ function doSubmit() {
                     <td></td>
                     <td>
                         <input type="hidden" name="memoSeq" th:value="${memoList != null ? memoList[0].memoSeq + 1 : 1}">
-                        <input type="text"   name="memoCont" placeholder="메모를 남겨주세요." class="t_inp">
+                        <input type="text"   name="memoCont" th:readonly="${!hasInsert && !hasUpdate}" placeholder="메모를 남겨주세요." class="t_inp">
                     </td>
                 </tr>
                 <tr th:each="memoLi,index : ${memoList}" th:classappend="${index.index % 2 == 0} ? grey">
@@ -156,7 +160,7 @@ function doSubmit() {
                     <td th:text="${rstLi.matrlStd}">matrlStd</td>
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td class="t_right acc">
-                        <input type="text"   th:name="|matrlPriceList[${index.index}].reqPrice|" th:value="${#numbers.formatInteger(rstLi.reqPrice, 3, 'COMMA')}" class="t_inp">
+                        <input type="text"   th:name="|matrlPriceList[${index.index}].reqPrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqPrice, 3, 'COMMA')}" class="t_inp">
                         <input type="hidden" th:name="|matrlPriceList[${index.index}].matrlId|"  th:value="${rstLi.matrlId}" />
                         <input type="hidden" th:name="|matrlPriceList[${index.index}].buyTypeCd|"  th:value="${rstLi.buyTypeCd}" />
                     </td>
@@ -212,14 +216,14 @@ function doSubmit() {
                     <td th:text="${rstLi.matrlStd}">matrlStd</td>
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td class="t_right acc sz_100">
-                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqPrice|" th:value="${#numbers.formatInteger(rstLi.reqPrice, 3, 'COMMA')}" class="t_inp">
+                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqPrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqPrice, 3, 'COMMA')}" class="t_inp">
                         <input type="hidden" th:name="|matrlPriceList[${rstList_10_size + index.index}].matrlId|" th:value="${rstLi.matrlId}" />
                         <input type="hidden" th:name="|matrlPriceList[${rstList_10_size + index.index}].buyTypeCd|" th:value="${rstLi.buyTypeCd}" />
                         <input type="hidden" th:name="|matrlPriceList[${rstList_10_size + index.index}].leasePerdCd|" th:value="${rstLi.leasePerdCd}" />
 
                     </td>
                     <td class="t_right acc sz_100">
-                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqLeasePrice|" th:value="${#numbers.formatInteger(rstLi.reqLeasePrice, 3, 'COMMA')}" class="t_inp">
+                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqLeasePrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqLeasePrice, 3, 'COMMA')}" class="t_inp">
                     </td>
                     <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstPrice, 3, 'COMMA')}">0</td>
                     <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstLeasePrice, 3, 'COMMA')}">0</td>

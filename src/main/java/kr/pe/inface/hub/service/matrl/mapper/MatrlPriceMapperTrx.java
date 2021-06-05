@@ -43,6 +43,20 @@ public interface MatrlPriceMapperTrx {
 	public int updateCmpnyMatrlPriceReqSplCmpny(MatrlPriceVO paramVO);
 
 	/**
+	 * 업체자재단가 요청 자재가격목록 확정 처리. 임시상태 요청가격 -> 확정가격 셋팅
+	 *
+	 * @param paramVO
+	 */
+	public int updateCmpnyMatrlPriceReqAllConfirm(MatrlPriceVO paramVO);
+
+	/**
+	 * 업체자재단가 요청 자재가격목록 가격테이블 이관
+	 *
+	 * @param paramVO
+	 */
+	public int insertCmpnyMatrlPriceFromReqByConfirm(MatrlPriceVO paramVO);
+
+	/**
 	 * 업체자재단가 요청 메모 등록
 	 *
 	 * @param paramVO

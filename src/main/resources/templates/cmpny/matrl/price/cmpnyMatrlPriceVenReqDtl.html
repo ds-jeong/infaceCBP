@@ -50,28 +50,6 @@
             </tbody>
         </table>
     </div>
-    <div class="list_table">
-        <table>
-            <thead>
-                <tr>
-                    <th class="sz_50">No</th>
-                    <th class="sz_120">작성일</th>
-                    <th>회사명</th>
-                    <th class="sz_200">담당자</th>
-                    <th>내용</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="memoLi,index : ${memoList}" th:classappend="${index.index % 2 == 1} ? grey">
-                    <td th:text="${index.size - index.index}">xx</td>
-                    <td th:text="${#calendars.format(memoLi.modDts,'yyyy-MM-dd HH:mm')}">reqDt</td>
-                    <td>원영건업</td>
-                    <td th:text="${memoLi.modpeId}">김길동 (010-1234-5678)</td>
-                    <td th:text="${memoLi.memoCont}" class="t_left">메모내용</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
     <!-- Search Area -->
     <div class="con_search_box">
         <!-- Select -->
@@ -114,7 +92,7 @@
                     <td th:text="${rstLi.matrlStd}">matrlStd</td>
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td th:text="${rstLi.matrlDesc}">matrlDesc</td>
-                    <td th:text="${rstLi.price}">price</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
                 </tr>
             </tbody>
         </table>
@@ -148,8 +126,8 @@
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td th:text="${rstLi.matrlDesc}">matrlDesc</td>
                     <td th:text="${rstLi.leasePerdCd}">일</td>
-                    <td th:text="${rstLi.price}">price</td>
-                    <td th:text="${rstLi.leasePrice}">price</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.leasePrice, 3, 'COMMA')}">0</td>
                 </tr>
 	        </tbody>
 	    </table>

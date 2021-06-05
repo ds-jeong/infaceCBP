@@ -19,4 +19,34 @@ public class MvcConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
+	//	@Override
+//	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+//		resolvers.add(new HandlerMethodArgumentResolver() {
+//			@Override
+//			public boolean supportsParameter(MethodParameter parameter) {
+//				// TODO Auto-generated method stub
+//				return false;
+//			}
+//
+//			@Override
+//			public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+//					NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+//				// TODO Auto-generated method stub
+//				return null;
+//			}
+//		});
+//
+//		// TODO Auto-generated method stub
+//		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+//	}
+
+//	@Override
+//	public void addFormatters(FormatterRegistry registry) {
+//
+//		// TODO Auto-generated method stub
+//		WebMvcConfigurer.super.addFormatters(registry);
+//	}
+
 }
+
+
