@@ -10,6 +10,7 @@
 임대기간이 년도를 넘어가는 경우는 비용이 어떻게 처리되는지..
 (구매는 구매시점의 가격으로 고정하면 될테고..)
 스크립트 form 체크로직 들어가야 함.
+현재가를 보여주는 기준은.. 19년도던 20년도던 조회하는 시점의 가격이 현재가.
 </pre>
 
 <script type="text/javascript">
@@ -22,14 +23,21 @@ function doSubmit() {
     }
     return true;
 }
+function doConfirm() {
+    if ( !confirm("!!!주의!!! 입력한 수정내용은 반영되지 않습니다.\n\n최종 '제안가격'으로 '확정'처리합니다.") ) {
+        return false;
+    }
+    return true;
+}
 </script>
 
 <h1 class="page_title">
     업체 공급단가 등록 요청<b th:text="${splCmpny.cmpnyNm}">공급업체명</b>
     <div class="tit_btn_area">
         <a href="#" th:href="@{/cmpny/matrl/price/cmpnyMatrlPriceVenDtlList(splCmpnyId=${param.splCmpnyId})}" class="BTNS icon cancel"><span>취소</span></a>
-        <a href="#" th:if="${hasUpdate}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon edit"><span>수정요청</span></a>
         <a href="#" th:if="${hasInsert}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon regist"><span>요청</span></a>
+        <a href="#" th:if="${hasUpdate}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon edit"><span>수정요청</span></a>
+        <a href="#" th:if="${hasUpdate}" th:href="@{/cmpny/matrl/price/cmpnyMatrlPriceReqConfirm(splCmpnyId=${param.splCmpnyId}, aplStrtDt=${param.aplStrtDt})}" onclick="return doConfirm();" class="BTNS icon regist"><span>확정</span></a>
     </div>
 </h1>
 <!-- //////////////////// Content List -->
@@ -166,7 +174,7 @@ function doSubmit() {
                     </td>
                     <td class="t_right acc" th:text="${#numbers.formatInteger(rstLi.sugstPrice, 3, 'COMMA')}">0</td>
                     <td class="t_right">0%</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.curPrice, 3, 'COMMA')}">0</td>
                 </tr>
 <!--                 <tr> -->
 <!--                     <td>1</td> -->
@@ -228,8 +236,8 @@ function doSubmit() {
                     <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstPrice, 3, 'COMMA')}">0</td>
                     <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstLeasePrice, 3, 'COMMA')}">0</td>
                     <td th:text="${rstLi.leasePerdCd}">일</td>
-                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
-                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.leasePrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.curPrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.curLeasePrice, 3, 'COMMA')}">0</td>
                 </tr>
 <!--                 <tr> -->
 <!--                     <td>2</td> -->

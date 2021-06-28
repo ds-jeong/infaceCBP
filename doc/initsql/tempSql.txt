@@ -1,4 +1,48 @@
 --====================================================
+-- matrl_clm_aprv_tmplt 자재청구 결재 템플릿
+--====================================================
+
+INSERT
+INTO    matrl_clm_aprv_tmplt
+        (
+            work_site_id
+          , clm_aprvr_id_1, clm_aprvr_id_2, clm_aprvr_id_3
+          , ordr_aprvr_id_1, ordr_aprvr_id_2
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (
+            '00000002'
+          , 'C00001_003', 'C00001_004', 'C00001_005'
+          , 'C00001_001', 'C00001_002'
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    matrl_clm_aprv_tmplt
+        (
+            work_site_id
+          , clm_aprvr_id_1, clm_aprvr_id_2, clm_aprvr_id_3
+          , ordr_aprvr_id_1, ordr_aprvr_id_2
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES
+        (
+            '00000003'
+          , 'C00001_006', 'C00001_007', 'C00001_008'
+          , 'C00001_001', 'C00001_002'
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+
+
+--====================================================
 -- cmpny 업체
 --====================================================
 -- 건설사
@@ -711,6 +755,23 @@ VALUES  (
             'C00001_007'
           , '00000003'
           , '소장'
+          , 'Y'
+          , current_timestamp
+          , 'regpe_id'
+          , current_timestamp
+          , 'modpe_id'
+        )
+;
+INSERT
+INTO    cmpny_user_site
+        (
+            cmpny_user_id, work_site_id, posi_nm, use_yn
+          , reg_dts, regpe_id, mod_dts, modpe_id
+        )
+VALUES  (
+            'C00001_008'
+          , '00000003'
+          , '이사'
           , 'Y'
           , current_timestamp
           , 'regpe_id'

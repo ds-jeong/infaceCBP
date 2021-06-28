@@ -46,16 +46,20 @@ AND     CU.LOGIN_ID = #{loginId, jdbcType=VARCHAR}
 ]]></select>
 
 <!-- 업체 사용자 현장 목록 -->
-<select id="getCmpnyUserSiteList" parameterType="String" resultType="cmpnyusersitevo"><![CDATA[
+<!-- TODO 현장별 청구/발주 결재선 정보도 포함. 추후 MATRL_CLM_APRV_TMPLT 처리확인 필요. -->
+<select id="getCmpnyUserSiteList" parameterType="String" resultType="cmpnyUserSiteVO"><![CDATA[
 /* cmpny.CmpnyUserMapper.getCmpnyUserSiteList */
 SELECT
         CUS.CMPNY_USER_ID
       , CUS.WORK_SITE_ID, WS.SITE_NM
       , CUS.POSI_NM
       , CUS.USE_YN
+      , CLM_APRVR_ID_1, CLM_APRVR_ID_2, CLM_APRVR_ID_3
+      , ORDR_APRVR_ID_1, ORDR_APRVR_ID_2
 FROM
         CMPNY_USER_SITE CUS
-        LEFT OUTER JOIN WORK_SITE WS ON CUS.WORK_SITE_ID = WS.WORK_SITE_ID
+        LEFT OUTER JOIN WORK_SITE WS              ON CUS.WORK_SITE_ID = WS.WORK_SITE_ID
+        LEFT OUTER JOIN MATRL_CLM_APRV_TMPLT MCAT ON CUS.WORK_SITE_ID = MCAT.WORK_SITE_ID
 WHERE   1 = 1
 AND     CUS.CMPNY_USER_ID = #{cmpnyUserId, jdbcType=VARCHAR}
 AND     CUS.USE_YN = 'Y'

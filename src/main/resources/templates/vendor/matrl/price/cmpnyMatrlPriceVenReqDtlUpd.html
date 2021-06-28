@@ -16,12 +16,6 @@ function doSubmit() {
 	}
     return true;
 }
-function doConfirm() {
-    if ( !confirm("!!!주의!!! 입력한 수정내용은 반영되지 않습니다.\n\n최종 '요청가격'으로 '확정'처리합니다.") ) {
-        return false;
-    }
-    return true;
-}
 </script>
 
 <h1 class="page_title">
@@ -29,7 +23,6 @@ function doConfirm() {
     <div class="tit_btn_area">
         <a href="#" th:href="@{/vendor/matrl/price/cmpnyMatrlPriceVenDtlList(cmpnyId=${param.cmpnyId})}" class="BTNS icon cancel"><span>취소</span></a>
         <a href="#" th:if="${hasUpdate}" onclick="jQuery(document.forms.sForm).submit();" class="BTNS icon edit"><span>수정요청</span></a>
-        <a href="#" th:if="${hasUpdate}" th:href="@{/vendor/matrl/price/cmpnyMatrlPriceReqConfirm(cmpnyId=${param.cmpnyId}, aplStrtDt=${param.aplStrtDt})}" onclick="return doConfirm();" class="BTNS icon regist"><span>확정</span></a>
     </div>
 </h1>
 <!-- //////////////////// Content List -->
@@ -173,7 +166,7 @@ function doConfirm() {
                         <input type="hidden" th:name="|matrlPriceList[${index.index}].buyTypeCd|"  th:value="${rstLi.buyTypeCd}" />
                     </td>
                     <td class="t_right">0%</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.curPrice, 3, 'COMMA')}">0</td>
                 </tr>
 <!--                 <tr> -->
 <!--                     <td>3</td> -->
@@ -234,8 +227,8 @@ function doConfirm() {
 				        <input type="text" th:name="|matrlPriceList[${rstList_10_size + index.index}].sugstLeasePrice|" th:readonly="${!hasUpdate}" th:value="${rstLi.sugstLeasePrice}" class="t_inp" />
 				    </td>
 		            <td th:text="${rstLi.leasePerdCd}">일</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.leasePrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.curPrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.curLeasePrice, 3, 'COMMA')}">0</td>
 				</tr>
 <!--                 <tr> -->
 <!--                     <td>2</td> -->

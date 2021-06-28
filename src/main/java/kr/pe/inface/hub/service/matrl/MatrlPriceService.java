@@ -410,6 +410,9 @@ public class MatrlPriceService extends BaseService {
 			priceLiVO.setAplStrtDt(paramVO.getAplStrtDt());
 			priceLiVO.setReqStatCd("10"); // 진행중
 			priceLiVO.setReqDt(paramVO.getReqDt()); // 요청 마스터의 요청일자 사용
+			priceLiVO.setPrice(0L); // 요청시 가격은 0 이다. 확정시 업데이트됨.
+			priceLiVO.setSugstPrice(priceLiVO.getReqPrice()); // 요청가격을 제안가격에도 동일하게 설정.  추후 제안가격으로 확정되므로 편의상.
+			priceLiVO.setSugstLeasePrice(priceLiVO.getReqLeasePrice()); // 공급업체는 변경이 있는 경우, 제안가격을 수정하여 요청하게 됨.
 			priceLiVO.setRegpeId(userId);
 			priceLiVO.setModpeId(userId);
 			matrlPriceMapperTrx.insertCmpnyMatrlPriceReq(priceLiVO);
@@ -509,19 +512,19 @@ public class MatrlPriceService extends BaseService {
 	 *   * 요청에 대한 상태를 업데이트하고.. 확정된 가격을 실제 가격 테이블에 insert 한다.
 	 *
 	 * @param userVo
-	 * @param cmpnyId
+	 * @param splCmpnyId
 	 * @param aplStrtDt
 	 * @throws Exception
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public void updateCmpnyMatrlPriceReqInfoConfirm(CmpnyUserVO userVo, String cmpnyId, String aplStrtDt) throws Exception {
-		// 권한 체크 - 공급업체
-		if ( !userVo.hasAnyAuths(ROLE_NAME.VENDOR)) {
-			throw new Exception(ROLE_NAME.VENDOR + " 권한이 없습니다.");
+	public void updateCmpnyMatrlPriceReqInfoConfirm(CmpnyUserVO userVo, String splCmpnyId, String aplStrtDt) throws Exception {
+		// 권한 체크 - 건설업체
+		if ( !userVo.hasAnyAuths(ROLE_NAME.COMPANY)) {
+			throw new Exception(ROLE_NAME.COMPANY + " 권한이 없습니다.");
 		};
 
 		//
-		String splCmpnyId = userVo.getCmpnyId();
+		String cmpnyId = userVo.getCmpnyId();
 		String userId = userVo.getCmpnyUserId();
 
 		// 요청 마스터 확정 처리
@@ -529,7 +532,7 @@ public class MatrlPriceService extends BaseService {
 		paramVO.setCmpnyId(cmpnyId);;
 		paramVO.setSplCmpnyId(splCmpnyId);
 		paramVO.setAplStrtDt(aplStrtDt);
-		paramVO.setPrevReqStatCd("10"); // 확인요청(공급업체) 상태에서
+		paramVO.setPrevReqStatCd("15"); // 확인요청(건설업체) 상태에서
 		paramVO.setReqStatCd("20");     // 확정 상태로 변경한다.
 		paramVO.setRegpeId(userId);
 		paramVO.setModpeId(userId);

@@ -16,4 +16,10 @@ public class CmpnyUserSiteVO {
 
 	private String siteNm;
 
+	private String clmAprvrId1;
+	private String clmAprvrId2;
+	private String clmAprvrId3;
+	private String ordrAprvrId1;
+	private String ordrAprvrId2;
+
 }

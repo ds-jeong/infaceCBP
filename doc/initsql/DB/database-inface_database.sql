@@ -218,7 +218,7 @@ COMMENT ON COLUMN public.cmpny_matrl_price.apl_end_dt IS E'적용_종료_일자'
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price.buy_type_cd IS E'구매_타입_코드';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_matrl_price.lease_perd_cd IS E'임대_주기_코드\n구매방식코드=임대 인 경우\n월,일 등..';
+COMMENT ON COLUMN public.cmpny_matrl_price.lease_perd_cd IS E'임대_주기_코드\n10 - 일\n20 - 주\n30 - 월';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price.price IS E'가격\n구매가격\n임대기본료';
 -- ddl-end --
@@ -257,11 +257,14 @@ CREATE TABLE public.matrl_clm (
     matrl_clm_no varchar(15) NOT NULL,
     clm_stat_cd varchar(4),
     clm_dt varchar(8),
-    in_hope_dts timestamp,
+    clm_chargr_id varchar(10),
+    remark varchar(2000),
+    in_addr_zipcd varchar(6),
     in_addr varchar(200),
+    in_addr_remark varchar(100),
     in_gate_no varchar(10),
-    in_charge_nm varchar(20),
-    in_charge_tel varchar(20),
+    in_chargr_nm varchar(20),
+    in_chargr_tel varchar(20),
     in_remark varchar(300),
     work_site_id varchar(8),
     cmpny_id varchar(6),
@@ -273,19 +276,23 @@ COMMENT ON TABLE public.matrl_clm IS E'자재_청구';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.matrl_clm_no IS E'자재_청구_번호\n결재ID 와는 다른 각 영역별로 유니크한 문서번호 부여..?';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm.clm_stat_cd IS E'청구_상태_코드\n결재.결재상태..와 다르게 관리할까..\n전체 쳥구상태 중에서.. 일부상태가 결재.결재상태가 된다고 봐도 될듯한데..\n즉, 결재상태 완료 전/후로 청구로직만의 상태가 필요할수 있음.';
+COMMENT ON COLUMN public.matrl_clm.clm_stat_cd IS E'청구_상태_코드(그룹코드기입!!)';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.clm_dt IS E'청구_일자';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm.in_hope_dts IS E'입고_희망_일시';
+COMMENT ON COLUMN public.matrl_clm.clm_chargr_id IS E'청구_담당자_ID';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm.remark IS E'비고';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.in_addr IS E'입고_주소';
 -- ddl-end --
+COMMENT ON COLUMN public.matrl_clm.in_addr_remark IS E'입고_주소_비고\n하차위치 설명 등';
+-- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.in_gate_no IS E'입고_게이트_번호\nex. 동3문?';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm.in_charge_nm IS E'입고_담당자_이름';
+COMMENT ON COLUMN public.matrl_clm.in_chargr_nm IS E'입고_담당자_이름';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm.in_charge_tel IS E'입고_담당자_연락처';
+COMMENT ON COLUMN public.matrl_clm.in_chargr_tel IS E'입고_담당자_연락처';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.in_remark IS E'입고_비고';
 -- ddl-end --
@@ -299,6 +306,8 @@ CREATE TABLE public.matrl_clm_dtl (
     matrl_clm_no varchar(15) NOT NULL,
     matrl_id varchar(10) NOT NULL,
     matrl_clm_dtl_no varchar(20) NOT NULL,
+    clm_dtl_stat_cd varchar(4),
+    in_hope_dt varchar(10),
     prev_clm_qty smallint DEFAULT 0,
     clm_qty smallint DEFAULT 0,
     aprv_qty smallint DEFAULT 0,
@@ -311,6 +320,10 @@ CREATE TABLE public.matrl_clm_dtl (
 COMMENT ON TABLE public.matrl_clm_dtl IS E'자재_청구_상세';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_dtl.matrl_clm_dtl_no IS E'자재_청구_상세_번호';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_dtl.clm_dtl_stat_cd IS E'청구_상세_상태_코드(그룹코드기입!!)';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_dtl.in_hope_dt IS E'입고_희망_일자(시간)';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_dtl.prev_clm_qty IS E'기청구_수량\n월별.현장의 기 청구수량?\n미리 집계? -> 컬럼 삭제?';
 -- ddl-end --
@@ -453,7 +466,7 @@ CREATE TABLE public.cmpny_matrl_price_req (
 -- ddl-end --
 COMMENT ON TABLE public.cmpny_matrl_price_req IS E'업체_자재_가격_요청\n1년단위이긴하나.. 임의의 날짜도 가능하도록?';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_matrl_price_req.req_stat_cd IS E'요청_상태_코드\n00 - 작성중\n10 - 진행중\n20 - 확정';
+COMMENT ON COLUMN public.cmpny_matrl_price_req.req_stat_cd IS E'요청_상태_코드\n10 - 진행중\n20 - 확정\n추후 추가되는 경우, 기존에 확정된 데이터와 구분하기 위한 확정여부관리 필요.';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req.req_dt IS E'요청_일자';
 -- ddl-end --
@@ -461,7 +474,7 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req.confirm_dt IS E'확정_일자';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req.buy_type_cd IS E'구매_타입_코드';
 -- ddl-end --
-COMMENT ON COLUMN public.cmpny_matrl_price_req.lease_perd_cd IS E'임대_주기_코드';
+COMMENT ON COLUMN public.cmpny_matrl_price_req.lease_perd_cd IS E'임대_주기_코드\n10 - 일\n20 - 주\n30 - 월';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req.price IS E'가격\n구매가격\n임대기본료';
 -- ddl-end --
@@ -818,6 +831,80 @@ ALTER TABLE public.cmpny_matrl_price_req_memo OWNER TO postgres;
 -- ALTER TABLE public.cmpny_matrl_price_req_memo DROP CONSTRAINT IF EXISTS cmpny_matrl_price_req_mst_fk CASCADE;
 ALTER TABLE public.cmpny_matrl_price_req_memo ADD CONSTRAINT cmpny_matrl_price_req_mst_fk FOREIGN KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
 REFERENCES public.cmpny_matrl_price_req_mst (apl_strt_dt,spl_cmpny_id,cmpny_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: public.matrl_clm_aprv_tmplt | type: TABLE --
+-- DROP TABLE IF EXISTS public.matrl_clm_aprv_tmplt CASCADE;
+CREATE TABLE public.matrl_clm_aprv_tmplt (
+    LIKE public.base_column,
+    work_site_id varchar(8) NOT NULL,
+    clm_aprvr_id_1 varchar(10),
+    clm_aprvr_id_2 varchar(10),
+    clm_aprvr_id_3 varchar(10),
+    ordr_aprvr_id_1 varchar(10),
+    ordr_aprvr_id_2 varchar(10),
+    CONSTRAINT matrl_clm_aprv_tmplt_pk PRIMARY KEY (work_site_id)
+
+);
+-- ddl-end --
+COMMENT ON TABLE public.matrl_clm_aprv_tmplt IS E'자재 청구 결재선 수기관리 템플릿\n청구 결재선 3명 - 현장 : 담당, 소장, 이사\n발주 결재선 2명 - 본사 : 담당, 이사';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.clm_aprvr_id_1 IS E'청구_승인_id_1';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.clm_aprvr_id_2 IS E'청구_승인_id_2';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.clm_aprvr_id_3 IS E'청구_승인_id_3';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.ordr_aprvr_id_1 IS E'발주_승인_id_1';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.ordr_aprvr_id_2 IS E'발주_승인_id_2';
+-- ddl-end --
+ALTER TABLE public.matrl_clm_aprv_tmplt OWNER TO postgres;
+-- ddl-end --
+
+-- object: work_site_fk | type: CONSTRAINT --
+-- ALTER TABLE public.matrl_clm_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
+ALTER TABLE public.matrl_clm_aprv_tmplt ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
+REFERENCES public.work_site (work_site_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: matrl_clm_aprv_tmplt_uq | type: CONSTRAINT --
+-- ALTER TABLE public.matrl_clm_aprv_tmplt DROP CONSTRAINT IF EXISTS matrl_clm_aprv_tmplt_uq CASCADE;
+ALTER TABLE public.matrl_clm_aprv_tmplt ADD CONSTRAINT matrl_clm_aprv_tmplt_uq UNIQUE (work_site_id);
+-- ddl-end --
+
+-- object: public.matrl_clm_file | type: TABLE --
+-- DROP TABLE IF EXISTS public.matrl_clm_file CASCADE;
+CREATE TABLE public.matrl_clm_file (
+    LIKE public.base_column,
+    matrl_clm_no varchar(15) NOT NULL,
+    file_seq smallint NOT NULL,
+    use_yn varchar(1) NOT NULL DEFAULT 'Y',
+    file_desc varchar(100),
+    file_path varchar(300),
+    CONSTRAINT matrl_clm_file_pk PRIMARY KEY (file_seq,matrl_clm_no)
+
+);
+-- ddl-end --
+COMMENT ON TABLE public.matrl_clm_file IS E'자재_청구_파일\n첨부파일 등';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_file.file_seq IS E'파일_순번';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_file.use_yn IS E'사용_여부';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_file.file_desc IS E'파일_설명';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_file.file_path IS E'파일_경로';
+-- ddl-end --
+ALTER TABLE public.matrl_clm_file OWNER TO postgres;
+-- ddl-end --
+
+-- object: matrl_clm_fk | type: CONSTRAINT --
+-- ALTER TABLE public.matrl_clm_file DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
+ALTER TABLE public.matrl_clm_file ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
+REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

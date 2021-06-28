@@ -169,8 +169,8 @@ SET
       , MOD_DTS = CURRENT_TIMESTAMP
       , REQ_STAT_CD = '20' -- 확정상태
       , CONFIRM_DT = TO_CHAR(CURRENT_TIMESTAMP, 'YYYYMMDD')
-      , PRICE = REQ_PRICE
-      , LEASE_PRICE = REQ_LEASE_PRICE
+      , PRICE = SUGST_PRICE             -- 제안가격으로 확정
+      , LEASE_PRICE = SUGST_LEASE_PRICE -- 제안가격으로 확정
 WHERE   1 = 1
 AND     CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
 AND     SPL_CMPNY_ID = #{splCmpnyId, jdbcType=VARCHAR}
@@ -207,8 +207,8 @@ SELECT
       , CMPRM.APL_END_DT
       , CMPR.BUY_TYPE_CD
       , CMPR.LEASE_PERD_CD
-      , CMPR.REQ_PRICE       -- 요청가격을 확정처리
-      , CMPR.REQ_LEASE_PRICE -- 요청가격을 확정처리
+      , CMPR.SUGST_PRICE       -- 제안가격을 확정처리
+      , CMPR.SUGST_LEASE_PRICE -- 제안가격을 확정처리
       , #{regpeId, jdbcType=VARCHAR}
       , CURRENT_TIMESTAMP
       , #{modpeId, jdbcType=VARCHAR}

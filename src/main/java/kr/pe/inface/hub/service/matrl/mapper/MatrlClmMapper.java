@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.pe.inface.hub.service.matrl.vo.MatrlClmAprvVO;
+import kr.pe.inface.hub.service.matrl.vo.MatrlClmFileVO;
 import kr.pe.inface.hub.service.matrl.vo.MatrlClmVO;
 
 @Mapper
@@ -19,5 +21,37 @@ public interface MatrlClmMapper {
 	 * @return
 	 */
 	public List<MatrlClmVO> getMatrlClmList(MatrlClmVO vo);
+
+	/**
+	 * 자재청구 조회
+	 *
+	 * @param matrlClmNo
+	 * @return
+	 */
+	public MatrlClmVO getMatrlClm(String matrlClmNo);
+
+	/**
+	 * 자재청구상세 목록 조회
+	 *
+	 * @param matrlClmNo
+	 * @return
+	 */
+	public List<MatrlClmVO> getMatrlClmDtlList(String matrlClmNo);
+
+	/**
+	 * 자재청구승인 목록 조회
+	 *
+	 * @param matrlClmNo
+	 * @return
+	 */
+	public List<MatrlClmAprvVO> getMatrlClmAprvList(String matrlClmNo);
+
+	/**
+	 * 자재청구파일 목록 조회
+	 *
+	 * @param matrlClmNo
+	 * @return
+	 */
+	public List<MatrlClmFileVO> getMatrlClmFileList(String matrlClmNo);
 
 }

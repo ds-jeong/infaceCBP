@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="759,1179" last-zoom="1" max-obj-count="49"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="798,138" last-zoom="1" max-obj-count="54"
 	 default-owner="postgres"
 	 layers="공통" active-layers="0">
 <database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
@@ -279,7 +279,7 @@ V00001]]></comment>
 </table>
 
 <textbox name="자재" layer="0" z-value="0" font-size="9">
-	<position x="80" y="40"/>
+	<position x="80" y="60"/>
 	<comment><![CDATA[자재, 자재가격. 이력 테이블 생성해야 됨.
 영역별 schema 나눌까..
 상태코드들..정리해서 합친다?
@@ -314,7 +314,7 @@ V00001]]></comment>
 	</constraint>
 </table>
 
-<table name="matrl_clm" layer="0" alias="자재_청구" collapse-mode="2" max-obj-count="18" z-value="0">
+<table name="matrl_clm" layer="0" alias="자재_청구" collapse-mode="2" max-obj-count="21" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[자재_청구]]></comment>
@@ -326,33 +326,42 @@ V00001]]></comment>
 	</column>
 	<column name="clm_stat_cd" alias="청구_상태_코드">
 		<type name="varchar" length="4"/>
-		<comment><![CDATA[청구_상태_코드
-결재.결재상태..와 다르게 관리할까..
-전체 쳥구상태 중에서.. 일부상태가 결재.결재상태가 된다고 봐도 될듯한데..
-즉, 결재상태 완료 전/후로 청구로직만의 상태가 필요할수 있음.]]></comment>
+		<comment><![CDATA[청구_상태_코드(그룹코드기입!!)]]></comment>
 	</column>
 	<column name="clm_dt" alias="청구_일자">
 		<type name="varchar" length="8"/>
 		<comment><![CDATA[청구_일자]]></comment>
 	</column>
-	<column name="in_hope_dts" alias="입고_희망_일시">
-		<type name="timestamp" length="0"/>
-		<comment><![CDATA[입고_희망_일시]]></comment>
+	<column name="clm_chargr_id" alias="청구_담당자_ID">
+		<type name="varchar" length="10"/>
+		<comment><![CDATA[청구_담당자_ID]]></comment>
+	</column>
+	<column name="remark" alias="비고">
+		<type name="varchar" length="2000"/>
+		<comment><![CDATA[비고]]></comment>
+	</column>
+	<column name="in_addr_zipcd" alias="입고_주소_우편번호">
+		<type name="varchar" length="6"/>
 	</column>
 	<column name="in_addr" alias="입고_주소">
 		<type name="varchar" length="200"/>
 		<comment><![CDATA[입고_주소]]></comment>
+	</column>
+	<column name="in_addr_remark" alias="입고_주소_비고">
+		<type name="varchar" length="100"/>
+		<comment><![CDATA[입고_주소_비고
+하차위치 설명 등]]></comment>
 	</column>
 	<column name="in_gate_no" alias="입고_게이트_번호">
 		<type name="varchar" length="10"/>
 		<comment><![CDATA[입고_게이트_번호
 ex. 동3문?]]></comment>
 	</column>
-	<column name="in_charge_nm" alias="입고_담당자_이름">
+	<column name="in_chargr_nm" alias="입고_담당자_이름">
 		<type name="varchar" length="20"/>
 		<comment><![CDATA[입고_담당자_이름]]></comment>
 	</column>
-	<column name="in_charge_tel" alias="입고_담당자_연락처">
+	<column name="in_chargr_tel" alias="입고_담당자_연락처">
 		<type name="varchar" length="20"/>
 		<comment><![CDATA[입고_담당자_연락처]]></comment>
 	</column>
@@ -363,9 +372,19 @@ ex. 동3문?]]></comment>
 	<constraint name="matrl_clm_pk" type="pk-constr" table="public.matrl_clm">
 		<columns names="matrl_clm_no" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="cmpny_id" index="13"/>
+		<object name="work_site_id" index="12"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="cmpny_fk" index="2"/>
+		<object name="work_site_fk" index="1"/>
+	</customidxs>
 </table>
 
-<table name="matrl_clm_dtl" layer="0" alias="자재_청구_상세" collapse-mode="2" max-obj-count="14" z-value="0">
+<table name="matrl_clm_dtl" layer="0" alias="자재_청구_상세" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[자재_청구_상세]]></comment>
@@ -373,6 +392,14 @@ ex. 동3문?]]></comment>
 	<column name="matrl_clm_dtl_no" alias="자재_청구_상세_번호" not-null="true">
 		<type name="varchar" length="20"/>
 		<comment><![CDATA[자재_청구_상세_번호]]></comment>
+	</column>
+	<column name="clm_dtl_stat_cd" alias="청구_상세_상태_코드">
+		<type name="varchar" length="4"/>
+		<comment><![CDATA[청구_상세_상태_코드(그룹코드기입!!)]]></comment>
+	</column>
+	<column name="in_hope_dt" alias="입고_희망_일자(시간)">
+		<type name="varchar" length="10"/>
+		<comment><![CDATA[입고_희망_일자(시간)]]></comment>
 	</column>
 	<column name="prev_clm_qty" alias="기청구_수량" default-value="0">
 		<type name="smallint" length="0"/>
@@ -651,7 +678,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[자재_청구_결재]]></comment>
-	<position x="2200" y="160"/>
+	<position x="2260" y="500"/>
 	<column name="aprv_seq" alias="결재_순번" not-null="true" default-value="1">
 		<type name="smallint" length="0"/>
 		<comment><![CDATA[결재_순번]]></comment>
@@ -803,7 +830,9 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 제안 : sugst
 결재, 결재자 : aprv, aprvr ( approver )
 기안, 기안자 : drft, drftr ( drafter )
-청구, 클레임 : claim, clm]]></comment>
+청구, 클레임 : claim, clm
+템플릿 : tmplt
+담당자 : chargr ( charger )]]></comment>
 </textbox>
 
 <relationship name="matrl_copies_테이블기본컬럼" type="reldep" layer="1"
@@ -852,12 +881,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	 pk-pattern="{dt}_pk"
 	 custom-color="#11c7f5"
 	 src-table="public.cmpny_matrl_price"
-	 dst-table="public.base_column"/>
-
-<relationship name="자재청구_copies_테이블기본컬럼" type="reldep" layer="1"
-	 pk-pattern="{dt}_pk"
-	 custom-color="#25eba0"
-	 src-table="public.matrl_clm"
 	 dst-table="public.base_column"/>
 
 <relationship name="결재_결재선_copies_테이블기본컬럼" type="reldep" layer="1"
@@ -936,12 +959,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 		<position x="-5.97723" y="2.96774"/>
 	</label>
 </relationship>
-
-<relationship name="work_site_copies_테이블기본컬럼" type="reldep" layer="1"
-	 pk-pattern="{dt}_pk"
-	 custom-color="#ff0e76"
-	 src-table="public.work_site"
-	 dst-table="public.base_column"/>
 
 <relationship name="work_site_has_many_자재청구" type="rel1n" layer="0"
 	 src-col-pattern="{sc}"
@@ -1266,21 +1283,17 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	<special-pk-cols indexes="0"/>
 </relationship>
 
-<relationship name="cmpny_user_site_copies_base_column" type="reldep" layer="1"
-	 pk-pattern="{dt}_pk"
-	 custom-color="#1bbee7"
-	 src-table="public.cmpny_user_site"
-	 dst-table="public.base_column"/>
-
 <textbox name="cmpny_user_site_text" layer="0" z-value="0" font-size="9">
 	<position x="520" y="860"/>
 	<comment><![CDATA[직책을 코드로 관리할까..]]></comment>
 </textbox>
 
 <textbox name="work_site_textbox" layer="0" z-value="0" font-size="9">
-	<position x="520" y="460"/>
+	<position x="520" y="420"/>
 	<comment><![CDATA[업체현장은.. 여러 업체(건설사)에서
-공통으로 사용할 수 있을까..]]></comment>
+공통으로 사용할 수 있을까..
+-> 없다.. 같은 현장이라도 건설사별로
+다른 공구등으로 구분된다고 함]]></comment>
 </textbox>
 
 <relationship name="cmpny_has_many_matrl_clm" type="rel1n" layer="0"
@@ -1329,7 +1342,7 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	<schema name="public"/>
 	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_가격_요청_메모]]></comment>
-	<position x="2240" y="1120"/>
+	<position x="2260" y="1360"/>
 	<column name="memo_seq" alias="메모_순번" not-null="true">
 		<type name="smallint" length="0"/>
 		<comment><![CDATA[메모_순번]]></comment>
@@ -1371,6 +1384,145 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	 pk-pattern="{dt}_pk"
 	 custom-color="#4bf76e"
 	 src-table="public.cmpny_matrl_price_req_memo"
+	 dst-table="public.base_column"/>
+
+<table name="matrl_clm_aprv_tmplt" layer="0" alias="자재_청구_결재_템플릿" collapse-mode="2" max-obj-count="12" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[자재 청구 결재선 수기관리 템플릿
+청구 결재선 3명 - 현장 : 담당, 소장, 이사
+발주 결재선 2명 - 본사 : 담당, 이사]]></comment>
+	<position x="2260" y="920"/>
+	<column name="clm_aprvr_id_1" alias="청구_승인_id_1">
+		<type name="varchar" length="10"/>
+		<comment><![CDATA[청구_승인_id_1]]></comment>
+	</column>
+	<column name="clm_aprvr_id_2" alias="청구_승인_id_2">
+		<type name="varchar" length="10"/>
+		<comment><![CDATA[청구_승인_id_2]]></comment>
+	</column>
+	<column name="clm_aprvr_id_3" alias="청구_승인_id_3">
+		<type name="varchar" length="10"/>
+		<comment><![CDATA[청구_승인_id_3]]></comment>
+	</column>
+	<column name="ordr_aprvr_id_1" alias="발주_승인_id_1">
+		<type name="varchar" length="10"/>
+		<comment><![CDATA[발주_승인_id_1]]></comment>
+	</column>
+	<column name="ordr_aprvr_id_2" alias="발주_승인_id_2">
+		<type name="varchar" length="10"/>
+		<comment><![CDATA[발주_승인_id_2]]></comment>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="work_site_id" index="0"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="matrl_clm_aprv_tmplt_pk" index="0"/>
+		<object name="matrl_clm_aprv_tmplt_uq" index="2"/>
+		<object name="work_site_fk" index="1"/>
+	</customidxs>
+</table>
+
+<textbox name="결재템플릿" layer="0" z-value="0" font-size="9">
+	<position x="2260" y="840"/>
+	<comment><![CDATA[수기관리하는 테이블인데..
+현장별로 수기관리할 수는 없으므로, 
+최종으로 자동으로 처리할 수 있는 기준이 나와야 함.
+현재는 기준이 없으므로 수기처리;]]></comment>
+</textbox>
+
+<relationship name="matrl_clm_aprv_tmplt_has_one_work_site" type="rel11" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b2ce6f"
+	 src-table="public.work_site"
+	 dst-table="public.matrl_clm_aprv_tmplt"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="matrl_clm_aprv_tmplt_copies_base_column" type="reldep" layer="1"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#966f32"
+	 src-table="public.matrl_clm_aprv_tmplt"
+	 dst-table="public.base_column"/>
+
+<table name="matrl_clm_file" layer="0" alias="자재_청구_파일" collapse-mode="2" max-obj-count="10" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[자재_청구_파일
+첨부파일 등]]></comment>
+	<position x="2260" y="160"/>
+	<column name="file_seq" alias="파일_순번" not-null="true">
+		<type name="smallint" length="0"/>
+		<comment><![CDATA[파일_순번]]></comment>
+	</column>
+	<column name="use_yn" alias="사용_여부" not-null="true" default-value="'Y'">
+		<type name="varchar" length="1"/>
+		<comment><![CDATA[사용_여부]]></comment>
+	</column>
+	<column name="file_desc" alias="파일_설명">
+		<type name="varchar" length="100"/>
+		<comment><![CDATA[파일_설명]]></comment>
+	</column>
+	<column name="file_path" alias="파일_경로">
+		<type name="varchar" length="300"/>
+		<comment><![CDATA[파일_경로]]></comment>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="matrl_clm_no" index="0"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="matrl_clm_file_pk" index="1"/>
+		<object name="matrl_clm_fk" index="0"/>
+	</customidxs>
+</table>
+
+<relationship name="matrl_clm_has_many_matrl_clm_file" type="rel1n" layer="0"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b181ee"
+	 src-table="public.matrl_clm"
+	 dst-table="public.matrl_clm_file"
+	 src-required="false" dst-required="false"
+	upd-action="NO ACTION"
+	del-action="NO ACTION">
+	<constraint name="matrl_clm_file_pk" type="pk-constr" table="public.matrl_clm_file">
+		<columns names="file_seq" ref-type="src-columns"/>
+	</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="matrl_clm_file_copies_base_column" type="reldep" layer="1"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#a0a2c7"
+	 src-table="public.matrl_clm_file"
+	 dst-table="public.base_column"/>
+
+<relationship name="cmpny_user_site_copies_base_column" type="reldep" layer="1"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#055612"
+	 src-table="public.cmpny_user_site"
+	 dst-table="public.base_column"/>
+
+<relationship name="work_site_copies_base_column" type="reldep" layer="1"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#de1c7c"
+	 src-table="public.work_site"
+	 dst-table="public.base_column"/>
+
+<relationship name="matrl_clm_copies_base_column" type="reldep" layer="1"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#f432c1"
+	 src-table="public.matrl_clm"
 	 dst-table="public.base_column"/>
 
 <constraint name="spl_compny_fk" type="fk-constr" alias="공급_업체_fk" comparison-type="MATCH FULL"

@@ -1,4 +1,4 @@
-package kr.pe.inface.hub.controller.cmpny;
+package kr.pe.inface.hub.controller.site;
 
 import java.util.List;
 
@@ -15,13 +15,13 @@ import kr.pe.inface.hub.service.matrl.vo.MatrlClmVO;
 
 //@Slf4j
 @Controller
-@RequestMapping({ CmpnyMatrlClmController.URL_PREFIX })
-public class CmpnyMatrlClmController {
+@RequestMapping({ SiteMatrlClmController.URL_PREFIX })
+public class SiteMatrlClmController {
 
 	/**
 	 * url, view 의 prefix 를 동일하게 사용.
 	 */
-	public static final String URL_PREFIX = "/cmpny/matrlclm";
+	public static final String URL_PREFIX = "/site/matrlclm";
 
 	@Autowired
 	private MatrlClmService matrlClmService;
@@ -41,6 +41,30 @@ public class CmpnyMatrlClmController {
 		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/matrlClmList";
+	}
+
+	/**
+	 * 자재청구 상세 조회
+	 *
+	 * @param loginVo
+	 * @param model
+	 * @return
+	 */
+	@GetMapping({ "/matrlClmDtl" })
+	public String matrlClmDtl(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
+		return URL_PREFIX + "/matrlClmDtl";
+	}
+
+	/**
+	 * 자재청구 등록 페이지
+	 *
+	 * @param loginVo
+	 * @param model
+	 * @return
+	 */
+	@GetMapping({ "/matrlClmInsPage" })
+	public String matrlClmInsPage(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
+		return URL_PREFIX + "/matrlClmUpd";
 	}
 
 }

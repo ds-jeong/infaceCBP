@@ -46,7 +46,7 @@ public class Const {
 	public static final Object[] SITE_MENU = new Object[] {
 		new Object[] { "청구관리",
 			new Object[] {
-				new String[] { "청구목록", 		"##" }
+				new String[] { "청구목록", 		"/site/matrlclm/matrlClmList" }
 			  , new String[] { "청구합계표", 	"##" }
 			}
 		}

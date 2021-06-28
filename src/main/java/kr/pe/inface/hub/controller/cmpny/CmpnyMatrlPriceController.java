@@ -152,4 +152,26 @@ public class CmpnyMatrlPriceController {
 		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?splCmpnyId=" + paramVO.getSplCmpnyId() + "&aplStrtDt=" + paramVO.getAplStrtDt();
 	}
 
+	/**
+	 * 업체자재단가 요청정보 확정
+	 *
+	 * @param loginVo
+	 * @param cmpnyId
+	 * @param aplStrtDt
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping({ "/cmpnyMatrlPriceReqConfirm" })
+	public String cmpnyMatrlPriceReqConfirm(@AuthenticationPrincipal CmpnyUserVO loginVo,
+			@RequestParam String splCmpnyId,
+			@RequestParam String aplStrtDt,
+			Model model) throws Exception {
+
+		matrlPriceService.updateCmpnyMatrlPriceReqInfoConfirm(loginVo, splCmpnyId, aplStrtDt);
+
+		// 등록된 상세화면으로.
+		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?splCmpnyId=" + splCmpnyId + "&aplStrtDt=" + aplStrtDt;
+	}
+
 }

@@ -1,7 +1,5 @@
 package kr.pe.inface.hub.service.matrl.vo;
 
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,15 +10,27 @@ import lombok.ToString;
 public class MatrlClmVO {
 
 	private String matrlClmNo;
-	private String cmpnyId;
-	private String workSiteId;
 	private String clmStatCd;
 	private String clmDt;
-	private Date inHopeDts;
+	private String clmChargrId;
+	private String remark;
+	private String inAddrZipcd;
 	private String inAddr;
+	private String inAddrRemark;
 	private String inGateNo;
-	private String inChargeNm;
-	private String inChargeTel;
+	private String inChargrNm;
+	private String inChargrTel;
 	private String inRemark;
+	private String workSiteId;
+	private String cmpnyId;
+
+	private String matrlId;
+	private String matrlClmDtlNo;
+	private String clmDtlStatCd;
+	private String inHopeDt;
+	private int prevClmQty;
+	private int clmQty;
+	private int aprvQty;
+	private String reqDesc;
 
 }
