@@ -8,7 +8,7 @@
 /* matrl.MatrlClmMapper.getMatrlClmList */
 SELECT
         MC.MATRL_CLM_NO, MC.CMPNY_ID
-      , MC.CLM_STAT_CD, MC.CLM_DT
+      , MC.CLM_STAT_CD, MC.CLM_DT, MC.DTL_QTY
       , MC.WORK_SITE_ID, WS.SITE_NM
 FROM
         MATRL_CLM MC
@@ -28,17 +28,23 @@ ORDER BY
 <select id="getMatrlClm" parameterType="String" resultType="MatrlClmVO"><![CDATA[
 /* matrl.MatrlClmMapper.getMatrlClm */
 SELECT
-		MATRL_CLM_NO, CLM_STAT_CD, CLM_DT
-      , CLM_CHARGR_ID, REMARK
-      , IN_ADDR_ZIPCD, IN_ADDR
-      , IN_ADDR_REMARK, IN_GATE_NO
-      , IN_CHARGR_NM, IN_CHARGR_TEL
-      , IN_REMARK
-      , WORK_SITE_ID, CMPNY_ID
+		MC.MATRL_CLM_NO, MC.CLM_STAT_CD, MC.CLM_DT
+      , MC.CLM_CHARGR_ID
+      , CU.LOGIN_ID AS CLM_CHARGR_LOGIN_ID
+      , CU.USER_NM AS CLM_CHARGR_NM
+      , MC.REMARK
+      , MC.IN_ADDR_ZIPCD, MC.IN_ADDR
+      , MC.IN_ADDR_REMARK, MC.IN_GATE_NO
+      , MC.IN_CHARGR_NM, MC.IN_CHARGR_TEL
+      , MC.IN_REMARK
+      , MC.WORK_SITE_ID, MC.CMPNY_ID
+      , WS.SITE_NM
 FROM
         MATRL_CLM MC
+        LEFT OUTER JOIN WORK_SITE WS ON WS.WORK_SITE_ID = MC.WORK_SITE_ID
+        LEFT OUTER JOIN CMPNY_USER CU ON CU.CMPNY_USER_ID = MC.CLM_CHARGR_ID
 WHERE   1 = 1
-AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
+AND     MC.MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
 ]]></select>
 
 
@@ -46,17 +52,25 @@ AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
 <select id="getMatrlClmDtlList" parameterType="String" resultType="MatrlClmVO"><![CDATA[
 /* matrl.MatrlClmMapper.getMatrlClmDtlList */
 SELECT
-		MATRL_CLM_NO, MATRL_ID
-	  , MATRL_CLM_DTL_NO, CLM_DTL_STAT_CD
-      , IN_HOPE_DT
-      , PREV_CLM_QTY, CLM_QTY, APRV_QTY
-      , REQ_DESC, REMARK
+		MCD.MATRL_CLM_NO, MCD.MATRL_ID
+	  , MCD.MATRL_CLM_DTL_NO, MCD.CLM_DTL_STAT_CD
+      , MCD.IN_HOPE_DT, MCD.IN_HOPE_HOUR
+      , MCD.PREV_CLM_QTY, MCD.CLM_QTY, MCD.APRV_QTY
+      , MCD.REQ_DESC, MCD.REMARK
+      , VMI.MATRL_MCTG_ID, VMI.MCTG_NM
+      , VMI.MATRL_CTG_ID, VMI.CTG_NM
+      , VMI.MATRL_ITEM_ID, VMI.ITEM_NM
+      , M.MATRL_STD
 FROM
         MATRL_CLM_DTL MCD
+      , MATRL M
+      , V_MATRL_ITEM VMI
 WHERE   1 = 1
-AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
+AND     MCD.MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
+AND     MCD.MATRL_ID = M.MATRL_ID
+AND     M.MATRL_ITEM_ID = VMI.MATRL_ITEM_ID
 ORDER BY
-        MATRL_CLM_DTL_NO
+        MCD.MATRL_CLM_DTL_NO
 ]]></select>
 
 
@@ -64,14 +78,17 @@ ORDER BY
 <select id="getMatrlClmAprvList" parameterType="String" resultType="MatrlClmAprvVO"><![CDATA[
 /* matrl.MatrlClmMapper.getMatrlClmAprvList */
 SELECT
-        MATRL_CLM_NO, APRV_SEQ
-      , APRVR_ID, APRV_STAT_CD
-      , RECV_DTS, APRV_DTS
-      , REMARK
+        MCA.MATRL_CLM_NO, MCA.APRV_SEQ
+      , MCA.APRVR_ID, MCA.APRV_STAT_CD
+      , MCA.APRV_DTS
+      , MCA.REMARK
+      , CU.LOGIN_ID AS APRVR_LOGIN_ID
+      , CU.USER_NM AS APRVR_USER_NM
 FROM
         MATRL_CLM_APRV MCA
+        LEFT OUTER JOIN CMPNY_USER CU ON CU.CMPNY_USER_ID = MCA.APRVR_ID
 WHERE   1 = 1
-AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
+AND     MCA.MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
 ORDER BY
         APRV_SEQ
 ]]></select>
@@ -83,7 +100,7 @@ ORDER BY
 SELECT
         MATRL_CLM_NO, FILE_SEQ
       , USE_YN
-      , FILE_DESC, FILE_PATH
+      , FILE_DESC, FILE_PATH, FILE_NM
 FROM
         MATRL_CLM_FILE MCF
 WHERE   1 = 1

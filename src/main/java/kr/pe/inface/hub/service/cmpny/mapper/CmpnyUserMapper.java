@@ -26,7 +26,7 @@ public interface CmpnyUserMapper {
 	public CmpnyUserVO getCmpnyUser(String loginId);
 
 	/**
-	 * 업체 사용자 현장 목록. 현장별 결재선정보 포함하고 있으나 추후 별도 기준이 생기면 삭제해야 함.
+	 * 업체 사용자 현장 목록
 	 *
 	 * @param cmpnyUserId
 	 * @return

@@ -36,7 +36,7 @@
         <td th:text="${cu.cmpnyTypeCd}">cmpnyTypeCd</td>
         <td th:text="${cu.cmpnyNm}">cmpnyNm</td>
         <td>
-            <span th:each="si : ${cu.siteList}"><span th:text="${si.siteNm}"></span><br /></span>
+            <span th:each="si : ${cu.workSiteMap}"><span th:text="|${si.value.workSiteId} (${si.value.siteNm})|"></span><br /></span>
         </td>
         <td th:text="${cu.userNm}">userNm</td>
         <td style="background-color: #A33; color: yellow;" th:text="${cu.loginId}">loginId</td>

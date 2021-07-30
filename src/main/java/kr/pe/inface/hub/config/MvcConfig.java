@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableCaching // TODO 캐시 설정 필요
+@EnableCaching // TODO 캐시 설정 필요, 적당한 시간의 evict 기준 필요.
 public class MvcConfig implements WebMvcConfigurer {
 
 	@Override

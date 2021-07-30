@@ -168,13 +168,13 @@ function doConfirm() {
                     <td th:text="${rstLi.matrlStd}">matrlStd</td>
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td class="t_right acc">
-                        <input type="text"   th:name="|matrlPriceList[${index.index}].reqPrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqPrice, 3, 'COMMA')}" class="t_inp">
+                        <input type="text"   th:name="|matrlPriceList[${index.index}].reqPrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqPrice, 1, 'COMMA')}" class="t_inp">
                         <input type="hidden" th:name="|matrlPriceList[${index.index}].matrlId|"  th:value="${rstLi.matrlId}" />
                         <input type="hidden" th:name="|matrlPriceList[${index.index}].buyTypeCd|"  th:value="${rstLi.buyTypeCd}" />
                     </td>
-                    <td class="t_right acc" th:text="${#numbers.formatInteger(rstLi.sugstPrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right acc" th:text="${#numbers.formatInteger(rstLi.sugstPrice, 1, 'COMMA')}">0</td>
                     <td class="t_right">0%</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.curPrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.curPrice, 1, 'COMMA')}">0</td>
                 </tr>
 <!--                 <tr> -->
 <!--                     <td>1</td> -->
@@ -224,20 +224,20 @@ function doConfirm() {
                     <td th:text="${rstLi.matrlStd}">matrlStd</td>
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td class="t_right acc sz_100">
-                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqPrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqPrice, 3, 'COMMA')}" class="t_inp">
+                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqPrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqPrice, 1, 'COMMA')}" class="t_inp">
                         <input type="hidden" th:name="|matrlPriceList[${rstList_10_size + index.index}].matrlId|" th:value="${rstLi.matrlId}" />
                         <input type="hidden" th:name="|matrlPriceList[${rstList_10_size + index.index}].buyTypeCd|" th:value="${rstLi.buyTypeCd}" />
                         <input type="hidden" th:name="|matrlPriceList[${rstList_10_size + index.index}].leasePerdCd|" th:value="${rstLi.leasePerdCd}" />
 
                     </td>
                     <td class="t_right acc sz_100">
-                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqLeasePrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqLeasePrice, 3, 'COMMA')}" class="t_inp">
+                        <input type="text"   th:name="|matrlPriceList[${rstList_10_size + index.index}].reqLeasePrice|" th:readonly="${!hasInsert && !hasUpdate}" th:value="${#numbers.formatInteger(rstLi.reqLeasePrice, 1, 'COMMA')}" class="t_inp">
                     </td>
-                    <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstPrice, 3, 'COMMA')}">0</td>
-                    <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstLeasePrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstPrice, 1, 'COMMA')}">0</td>
+                    <td class="t_right acc sz_100" th:text="${#numbers.formatInteger(rstLi.sugstLeasePrice, 1, 'COMMA')}">0</td>
                     <td th:text="${rstLi.leasePerdCd}">일</td>
-                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.curPrice, 3, 'COMMA')}">0</td>
-                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.curLeasePrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.curPrice, 1, 'COMMA')}">0</td>
+                    <td class="t_right sz_100" th:text="${#numbers.formatInteger(rstLi.curLeasePrice, 1, 'COMMA')}">0</td>
                 </tr>
 <!--                 <tr> -->
 <!--                     <td>2</td> -->

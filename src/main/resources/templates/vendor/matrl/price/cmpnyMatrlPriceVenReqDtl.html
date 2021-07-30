@@ -92,7 +92,7 @@
                     <td th:text="${rstLi.matrlStd}">matrlStd</td>
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td th:text="${rstLi.matrlDesc}">matrlDesc</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 1, 'COMMA')}">0</td>
                 </tr>
             </tbody>
         </table>
@@ -126,8 +126,8 @@
                     <td th:text="${rstLi.unitCd}">unitCd</td>
                     <td th:text="${rstLi.matrlDesc}">matrlDesc</td>
                     <td th:text="${rstLi.leasePerdCd}">일</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 3, 'COMMA')}">0</td>
-                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.leasePrice, 3, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.price, 1, 'COMMA')}">0</td>
+                    <td class="t_right" th:text="${#numbers.formatInteger(rstLi.leasePrice, 1, 'COMMA')}">0</td>
                 </tr>
 	        </tbody>
 	    </table>

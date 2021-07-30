@@ -1,9 +1,9 @@
 --====================================================
--- matrl_clm_aprv_tmplt 자재청구 결재 템플릿
+-- work_site_aprv_tmplt 자재청구 결재 템플릿
 --====================================================
 
 INSERT
-INTO    matrl_clm_aprv_tmplt
+INTO    work_site_aprv_tmplt
         (
             work_site_id
           , clm_aprvr_id_1, clm_aprvr_id_2, clm_aprvr_id_3
@@ -22,7 +22,7 @@ VALUES
         )
 ;
 INSERT
-INTO    matrl_clm_aprv_tmplt
+INTO    work_site_aprv_tmplt
         (
             work_site_id
           , clm_aprvr_id_1, clm_aprvr_id_2, clm_aprvr_id_3
@@ -555,13 +555,15 @@ VALUES
 INSERT
 INTO    work_site
         (
-            work_site_id, site_nm, use_yn, cmpny_id
+            work_site_id, site_nm, use_yn, addr_zipcd, addr, cmpny_id
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
 VALUES  (
             '00000001'
           , '건설사1_야적장'
           , 'Y'
+          , '11111'
+          , '건설사1_야적장_주소'
           , 'C00001'
           , current_timestamp
           , 'regpe_id'
@@ -572,13 +574,15 @@ VALUES  (
 INSERT
 INTO    work_site
         (
-            work_site_id, site_nm, use_yn, cmpny_id
+            work_site_id, site_nm, use_yn, addr_zipcd, addr, cmpny_id
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
 VALUES  (
             '00000002'
           , '건설사1_현장1'
           , 'Y'
+          , '22222'
+          , '건설사1_현장1_주소'
           , 'C00001'
           , current_timestamp
           , 'regpe_id'
@@ -589,13 +593,15 @@ VALUES  (
 INSERT
 INTO    work_site
         (
-            work_site_id, site_nm, use_yn, cmpny_id
+            work_site_id, site_nm, use_yn, addr_zipcd, addr, cmpny_id
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
 VALUES  (
             '00000003'
           , '건설사1_현장2'
           , 'Y'
+           , '33333'
+          , '건설사1_현장2_주소'
           , 'C00001'
           , current_timestamp
           , 'regpe_id'
@@ -606,13 +612,15 @@ VALUES  (
 INSERT
 INTO    work_site
         (
-            work_site_id, site_nm, use_yn, cmpny_id
+            work_site_id, site_nm, use_yn, addr_zipcd, addr, cmpny_id
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
 VALUES  (
             '00000004'
           , '건설사2_야적장'
           , 'Y'
+          , '44444'
+          , '건설사2_야적장_주소'
           , 'C00002'
           , current_timestamp
           , 'regpe_id'
@@ -624,13 +632,15 @@ VALUES  (
 INSERT
 INTO    work_site
         (
-            work_site_id, site_nm, use_yn, cmpny_id
+            work_site_id, site_nm, use_yn, addr_zipcd, addr, cmpny_id
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
 VALUES  (
             '00000005'
           , '자재업체1_야적장'
           , 'Y'
+          , '55555'
+          , '자재업체1_야적장_주소'
           , 'V00001'
           , current_timestamp
           , 'regpe_id'
@@ -641,13 +651,15 @@ VALUES  (
 INSERT
 INTO    work_site
         (
-            work_site_id, site_nm, use_yn, cmpny_id
+            work_site_id, site_nm, use_yn, addr_zipcd, addr, cmpny_id
           , reg_dts, regpe_id, mod_dts, modpe_id
         )
 VALUES  (
             '00000006'
           , '자재업체2_야적장'
           , 'Y'
+          , '66666'
+          , '자재업체2_야적장_주소'
           , 'V00002'
           , current_timestamp
           , 'regpe_id'

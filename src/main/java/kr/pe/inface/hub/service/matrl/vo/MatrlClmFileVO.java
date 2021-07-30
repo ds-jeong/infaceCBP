@@ -14,5 +14,8 @@ public class MatrlClmFileVO {
 	private String useYn;
 	private String fileDesc;
 	private String filePath;
+	private String fileNm;
+
+	private String userId;
 
 }

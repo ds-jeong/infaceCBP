@@ -14,9 +14,12 @@ public class MatrlClmAprvVO {
 	private String matrlClmNo;
 	private int aprvSeq;
 	private String aprvrId;
-	private Date recvDts;
 	private Date aprvDts;
 	private String aprvStatCd;
 	private String remark;
+
+	private String aprvrLoginId;
+	private String aprvrUserNm;
+	private String userId;
 
 }

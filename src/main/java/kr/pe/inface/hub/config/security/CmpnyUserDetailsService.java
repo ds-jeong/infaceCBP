@@ -1,6 +1,8 @@
 package kr.pe.inface.hub.config.security;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,14 +34,19 @@ public class CmpnyUserDetailsService implements UserDetailsService {
 				vo = null;
 			}
 
-			// 건설사_현장 사용자인 경우, 현장목록을 조회.
+			// 건설사_현장 사용자인 경우, 현장목록을 조회하여 map 으로 저장.
 			// TODO 코드값을 상수로 정의해야 할텐데..
 			if ("12".equals(vo.getUserTypeCd())) {
 				List<CmpnyUserSiteVO> siteList = cmpnyUserMapper.getCmpnyUserSiteList(vo.getCmpnyUserId());
-				vo.setSiteList(siteList);
 
 				if (siteList == null || siteList.size() == 0) {
 					// TODO 관리현장이 없는 경우..
+				} else {
+					Map<String, CmpnyUserSiteVO> workSiteMap = new HashMap<String, CmpnyUserSiteVO>();
+					for (CmpnyUserSiteVO v : siteList) {
+						workSiteMap.put(v.getWorkSiteId(), v);
+					}
+					vo.setWorkSiteMap(workSiteMap);
 				}
 			}
 		}

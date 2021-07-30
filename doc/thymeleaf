@@ -1,6 +1,9 @@
 https://abbo.tistory.com/56 참고.
 
-임의로 값을 구성하고 싶을때..
+주석
+<!--/* This code will be removed at thymeleaf parsing time! */-->
+
+임의로 값을 구성하고 싶을때..1
 [[${cmdEnum.values()[0].tablename}]]
 th:href="|#${cmdEnum.values()[0].tablename}|"
 
@@ -32,11 +35,13 @@ https://attacomsian.com/blog/thymeleaf-local-variables
 
 숫자포맷. 정수 자릿수, 구분자 종류 설졍. https://frontbackend.com/thymeleaf/thymeleaf-utility-methods-for-numbers 참고
 ${#numbers.formatInteger(num,3,'COMMA')}
+3 숫자는 표시할 최소자리수, 3 으로하면 000 으로 찍힘.. 기본 1로..
 
 
 date 날짜 포맷
-${#calendars.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}
-${#dates.format(mi.modDts,'yyyy-MM-dd HH:mm:ss')}
+${#calendars.format(mi.modDts, 'yyyy-MM-dd HH:mm:ss')}
+${#dates.format(mi.modDts, 'yyyy-MM-dd HH:mm:ss')}
+${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}
 
 
 문자열 형식 날짜 포맷. 기본포맷인 yyyy-MM-dd 형식으로 표시됨.. 다른 포맷으로 바꾸고 싶으면??
@@ -49,3 +54,8 @@ ${#temporals.createDate(mi.reqDt, 'yyyyMMdd')}
 
 조건에 따라 태그에 클래스 추가
 th:classappend="${rstLi.cntrtStatCd != '20'} ? buy_stop"
+
+
+Fix NullPointerException Issue
+In the following example, we will use ? operator to handle nullable role object:
+<p th:text="${user?.role?.role}"></p>

@@ -20,4 +20,22 @@ WHERE   1 = 1
 AND     CMPNY_ID = #{cmpnyId, jdbcType=VARCHAR}
 ]]></select>
 
+
+<!-- 작업현장(수기관리하고있는 결재선 포함)정보 조회 -->
+<select id="getWorkSite" parameterType="String" resultType="WorkSiteVO"><![CDATA[
+/* cmpny.CmpnyMapper.getWorkSite */
+SELECT
+        WS.CMPNY_ID, WS.WORK_SITE_ID, WS.SITE_NM
+      , WS.USE_YN, WS.ADDR_ZIPCD, WS.ADDR
+      , WS.REG_DTS, WS.REGPE_ID
+      , WS.MOD_DTS, WS.MODPE_ID
+      , WSAT.CLM_APRVR_ID_1, WSAT.CLM_APRVR_ID_2, WSAT.CLM_APRVR_ID_3
+      , WSAT.ORDR_APRVR_ID_1, WSAT.ORDR_APRVR_ID_2
+FROM
+        WORK_SITE WS
+        LEFT OUTER JOIN WORK_SITE_APRV_TMPLT WSAT ON WS.WORK_SITE_ID = WSAT.WORK_SITE_ID
+WHERE   1 = 1
+AND     WS.WORK_SITE_ID = #{workSiteId, jdbcType=VARCHAR}
+]]></select>
+
 </mapper>

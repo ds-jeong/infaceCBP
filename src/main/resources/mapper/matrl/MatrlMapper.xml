@@ -11,7 +11,7 @@ SELECT	VMI.*
                     COUNT(*)
             FROM
                     CMPNY_MATRL_ITEM_CNTRT CMIC2
-			WHERE    1 = 1
+			WHERE   1 = 1
 			AND     VMI.CMPNY_TYPE_CD = '20' -- 공급업체
 			AND     VMI.CMPNY_ID = CMIC2.SPL_CMPNY_ID
 			AND     VMI.MATRL_ITEM_ID = CMIC2.MATRL_ITEM_ID

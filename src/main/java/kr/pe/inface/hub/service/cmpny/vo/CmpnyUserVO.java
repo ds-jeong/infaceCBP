@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,11 +48,22 @@ public class CmpnyUserVO implements UserDetails {
 
 	private String cmpnyTypeCd;
 	private String cmpnyNm;
-	private List<CmpnyUserSiteVO> siteList;
 
+	private Map<String, CmpnyUserSiteVO> workSiteMap;
 	private Collection<? extends GrantedAuthority> auths;
 
 	/**
+	 * 해당 현장권한이 있는지 체크
+	 *
+	 * @param workSiteId
+	 * @return
+	 */
+	public boolean hasWorkSite(String workSiteId) {
+		return workSiteMap != null && workSiteMap.containsKey(workSiteId);
+	}
+
+	/**
+	 *
 	 * 지정한 권한이 하나라도 포함되어 있는지 체크
 	 *
 	 * @param params
@@ -96,7 +108,7 @@ public class CmpnyUserVO implements UserDetails {
 				}
 				break;
 			case "11":
-				// 11 - 건설사_본사 ( 모든 현장 권한 가능 )
+				// 11 - 건설사_본사, 권한체크로직등에서 현장권한도 포함해야함.
 				newAuths.add(new Role(ROLE_NAME.COMPANY));
 				newAuths.add(new Role(ROLE_NAME.COMPANY_SITE));
 				break;

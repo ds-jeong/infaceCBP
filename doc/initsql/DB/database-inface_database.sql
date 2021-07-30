@@ -234,6 +234,8 @@ CREATE TABLE public.work_site (
     work_site_id varchar(8) NOT NULL,
     site_nm varchar(100),
     use_yn varchar(1) DEFAULT 'N',
+    addr_zipcd varchar(6),
+    addr varchar(200),
     cmpny_id varchar(6),
     CONSTRAINT work_site_pk PRIMARY KEY (work_site_id)
 
@@ -247,6 +249,10 @@ COMMENT ON COLUMN public.work_site.site_nm IS E'현장_이름';
 -- ddl-end --
 COMMENT ON COLUMN public.work_site.use_yn IS E'사용_여부';
 -- ddl-end --
+COMMENT ON COLUMN public.work_site.addr_zipcd IS E'주소_우편번호';
+-- ddl-end --
+COMMENT ON COLUMN public.work_site.addr IS E'주소';
+-- ddl-end --
 ALTER TABLE public.work_site OWNER TO postgres;
 -- ddl-end --
 
@@ -258,6 +264,7 @@ CREATE TABLE public.matrl_clm (
     clm_stat_cd varchar(4),
     clm_dt varchar(8),
     clm_chargr_id varchar(10),
+    dtl_qty smallint,
     remark varchar(2000),
     in_addr_zipcd varchar(6),
     in_addr varchar(200),
@@ -276,13 +283,17 @@ COMMENT ON TABLE public.matrl_clm IS E'자재_청구';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.matrl_clm_no IS E'자재_청구_번호\n결재ID 와는 다른 각 영역별로 유니크한 문서번호 부여..?';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm.clm_stat_cd IS E'청구_상태_코드(그룹코드기입!!)';
+COMMENT ON COLUMN public.matrl_clm.clm_stat_cd IS E'청구_상태_코드(그룹코드기입!!)\n10 - 작성중\n20 - 승인중\n30 - 수정요청\n40 - 승인완료\n90 - 취소';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.clm_dt IS E'청구_일자';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.clm_chargr_id IS E'청구_담당자_ID';
 -- ddl-end --
+COMMENT ON COLUMN public.matrl_clm.dtl_qty IS E'상세_수량';
+-- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.remark IS E'비고';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm.in_addr_zipcd IS E'입고_주소_우편번호';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.in_addr IS E'입고_주소';
 -- ddl-end --
@@ -305,9 +316,10 @@ CREATE TABLE public.matrl_clm_dtl (
     LIKE public.base_column,
     matrl_clm_no varchar(15) NOT NULL,
     matrl_id varchar(10) NOT NULL,
-    matrl_clm_dtl_no varchar(20) NOT NULL,
+    matrl_clm_dtl_no varchar(20),
     clm_dtl_stat_cd varchar(4),
     in_hope_dt varchar(10),
+    in_hope_hour varchar(2),
     prev_clm_qty smallint DEFAULT 0,
     clm_qty smallint DEFAULT 0,
     aprv_qty smallint DEFAULT 0,
@@ -317,13 +329,15 @@ CREATE TABLE public.matrl_clm_dtl (
 
 );
 -- ddl-end --
-COMMENT ON TABLE public.matrl_clm_dtl IS E'자재_청구_상세';
+COMMENT ON TABLE public.matrl_clm_dtl IS E'자재_청구_상세\n임시저장시에는 생성하지 않음.';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_dtl.matrl_clm_dtl_no IS E'자재_청구_상세_번호';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_dtl.clm_dtl_stat_cd IS E'청구_상세_상태_코드(그룹코드기입!!)';
+COMMENT ON COLUMN public.matrl_clm_dtl.clm_dtl_stat_cd IS E'청구_상세_상태_코드(그룹코드기입!!)\n20 - 완료\n90 - 취소';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_dtl.in_hope_dt IS E'입고_희망_일자(시간)';
+COMMENT ON COLUMN public.matrl_clm_dtl.in_hope_dt IS E'입고_희망_일자';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_dtl.in_hope_hour IS E'입고_희망_시간';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_dtl.prev_clm_qty IS E'기청구_수량\n월별.현장의 기 청구수량?\n미리 집계? -> 컬럼 삭제?';
 -- ddl-end --
@@ -498,7 +512,6 @@ CREATE TABLE public.matrl_clm_aprv (
     matrl_clm_no varchar(15) NOT NULL,
     aprv_seq smallint NOT NULL DEFAULT 1,
     aprvr_id varchar(10) NOT NULL,
-    recv_dts timestamp,
     aprv_dts timestamp,
     aprv_stat_cd varchar(4),
     remark varchar(200),
@@ -512,11 +525,9 @@ COMMENT ON COLUMN public.matrl_clm_aprv.aprv_seq IS E'결재_순번';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_aprv.aprvr_id IS E'결재자_ID';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_aprv.recv_dts IS E'수신_일시\n결재자가 문서를 조회한 일시';
--- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_aprv.aprv_dts IS E'결재_일시';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_aprv.aprv_stat_cd IS E'결재_상태_코드\n결재,반려';
+COMMENT ON COLUMN public.matrl_clm_aprv.aprv_stat_cd IS E'결재_상태_코드\n00 - 대기 ( 결재선에 있지만 차례가 아님 )\n10 - 승인요청 ( 결재할 차례인 경우 )\n20 - 승인\n90 - 반려';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_aprv.remark IS E'비고\n반려사유등.';
 -- ddl-end --
@@ -834,9 +845,9 @@ REFERENCES public.cmpny_matrl_price_req_mst (apl_strt_dt,spl_cmpny_id,cmpny_id) 
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: public.matrl_clm_aprv_tmplt | type: TABLE --
--- DROP TABLE IF EXISTS public.matrl_clm_aprv_tmplt CASCADE;
-CREATE TABLE public.matrl_clm_aprv_tmplt (
+-- object: public.work_site_aprv_tmplt | type: TABLE --
+-- DROP TABLE IF EXISTS public.work_site_aprv_tmplt CASCADE;
+CREATE TABLE public.work_site_aprv_tmplt (
     LIKE public.base_column,
     work_site_id varchar(8) NOT NULL,
     clm_aprvr_id_1 varchar(10),
@@ -844,35 +855,35 @@ CREATE TABLE public.matrl_clm_aprv_tmplt (
     clm_aprvr_id_3 varchar(10),
     ordr_aprvr_id_1 varchar(10),
     ordr_aprvr_id_2 varchar(10),
-    CONSTRAINT matrl_clm_aprv_tmplt_pk PRIMARY KEY (work_site_id)
+    CONSTRAINT work_site_aprv_tmplt_pk PRIMARY KEY (work_site_id)
 
 );
 -- ddl-end --
-COMMENT ON TABLE public.matrl_clm_aprv_tmplt IS E'자재 청구 결재선 수기관리 템플릿\n청구 결재선 3명 - 현장 : 담당, 소장, 이사\n발주 결재선 2명 - 본사 : 담당, 이사';
+COMMENT ON TABLE public.work_site_aprv_tmplt IS E'작업_현장 결재선 수기관리 템플릿\n청구 결재선 3명 - 현장 : 담당, 소장, 이사\n발주 결재선 2명 - 본사 : 담당, 이사';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.clm_aprvr_id_1 IS E'청구_승인_id_1';
+COMMENT ON COLUMN public.work_site_aprv_tmplt.clm_aprvr_id_1 IS E'청구_승인_id_1';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.clm_aprvr_id_2 IS E'청구_승인_id_2';
+COMMENT ON COLUMN public.work_site_aprv_tmplt.clm_aprvr_id_2 IS E'청구_승인_id_2';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.clm_aprvr_id_3 IS E'청구_승인_id_3';
+COMMENT ON COLUMN public.work_site_aprv_tmplt.clm_aprvr_id_3 IS E'청구_승인_id_3';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.ordr_aprvr_id_1 IS E'발주_승인_id_1';
+COMMENT ON COLUMN public.work_site_aprv_tmplt.ordr_aprvr_id_1 IS E'발주_승인_id_1';
 -- ddl-end --
-COMMENT ON COLUMN public.matrl_clm_aprv_tmplt.ordr_aprvr_id_2 IS E'발주_승인_id_2';
+COMMENT ON COLUMN public.work_site_aprv_tmplt.ordr_aprvr_id_2 IS E'발주_승인_id_2';
 -- ddl-end --
-ALTER TABLE public.matrl_clm_aprv_tmplt OWNER TO postgres;
+ALTER TABLE public.work_site_aprv_tmplt OWNER TO postgres;
 -- ddl-end --
 
 -- object: work_site_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
-ALTER TABLE public.matrl_clm_aprv_tmplt ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
+-- ALTER TABLE public.work_site_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
+ALTER TABLE public.work_site_aprv_tmplt ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
 REFERENCES public.work_site (work_site_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: matrl_clm_aprv_tmplt_uq | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm_aprv_tmplt DROP CONSTRAINT IF EXISTS matrl_clm_aprv_tmplt_uq CASCADE;
-ALTER TABLE public.matrl_clm_aprv_tmplt ADD CONSTRAINT matrl_clm_aprv_tmplt_uq UNIQUE (work_site_id);
+-- object: work_site_aprv_tmplt_uq | type: CONSTRAINT --
+-- ALTER TABLE public.work_site_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_aprv_tmplt_uq CASCADE;
+ALTER TABLE public.work_site_aprv_tmplt ADD CONSTRAINT work_site_aprv_tmplt_uq UNIQUE (work_site_id);
 -- ddl-end --
 
 -- object: public.matrl_clm_file | type: TABLE --
@@ -884,6 +895,7 @@ CREATE TABLE public.matrl_clm_file (
     use_yn varchar(1) NOT NULL DEFAULT 'Y',
     file_desc varchar(100),
     file_path varchar(300),
+    file_nm varchar(50),
     CONSTRAINT matrl_clm_file_pk PRIMARY KEY (file_seq,matrl_clm_no)
 
 );
@@ -897,6 +909,8 @@ COMMENT ON COLUMN public.matrl_clm_file.use_yn IS E'사용_여부';
 COMMENT ON COLUMN public.matrl_clm_file.file_desc IS E'파일_설명';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_file.file_path IS E'파일_경로';
+-- ddl-end --
+COMMENT ON COLUMN public.matrl_clm_file.file_nm IS E'파일_이름';
 -- ddl-end --
 ALTER TABLE public.matrl_clm_file OWNER TO postgres;
 -- ddl-end --

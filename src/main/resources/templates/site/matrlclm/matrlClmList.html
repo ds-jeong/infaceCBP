@@ -2,6 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
 <th:block layout:fragment="contentFragment">
 
+<script type="text/javascript">
+var t = null;
+var dupReqCheck = false;
+function doAprv(tobj) {
+	var matrlCmlNo = tobj.dataset.no;
+	var aprvSeq = tobj.dataset.seq;
+    if ( dupReqCheck ) {
+        alert("처리중입니다.");
+        return;
+    } else if ( confirm("선택한 자재청구건을 승인처리합니다.") ) {
+        dupReqCheck = true;
+        var url = "/site/matrlclm/matrlClmAprv?matrlClmNo=" + matrlCmlNo + "&aprvSeq=" + aprvSeq;
+        location.href = url;
+    }
+}
+</script>
+
 <h1 class="page_title">자재 청구 관리</h1>
 <div class="page_top">
     <!-- Search Area -->
@@ -27,9 +44,7 @@
         </div>
         <!-- Button Area -->
         <div class="fuc_btns_box">
-            <a href="#" th:href="@{/site/matrlclm/matrlClmDtl}" class="BTNS icon write"><span>상세</span></a>
-            <a href="#" th:href="@{/site/matrlclm/matrlClmInsPage}" class="BTNS icon write"><span>자재 청구서 작성</span></a>
-
+            <a href="#" th:href="@{/site/matrlclm/matrlClmUpdPage}" class="BTNS icon write"><span>자재 청구서 작성</span></a>
         </div>
     </div>
 </div>
@@ -100,73 +115,37 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>작성중</td>
-                    <td>2020/12/14</td>
-                    <td>현대ENG-관악 뉴포레</td>
-                    <td><a href="#">20-12140001</a></td>
-                    <td>5</td>
-                    <td class="man">
-                        <span>Genie(홍길동)</span>
-                        <span>2020/12/14</span>
+                <tr th:each="rstLi,index : ${rstList}">
+                    <td th:text="${index.count}">1</td>
+                    <td th:text="${rstLi.clmStatCd}">clmStatCd</td>
+                    <td th:text="|${#temporals.createDate(rstLi.clmDt, 'yyyyMMdd')}">2020/12/14</td>
+                    <td th:text="${rstLi.siteNm}">siteNm</td>
+                    <td>
+                        <a href="#" th:href="@{/site/matrlclm/matrlClmDtl(matrlClmNo=${rstLi.matrlClmNo})}"
+                            th:text="|${#strings.substring(rstLi.matrlClmNo,0,6)}-${#strings.substring(rstLi.matrlClmNo,6,14)}|">20-12140001</a>
+                    </td>
+                    <td th:text="${rstLi.dtlQty}">5</td>
+                    <td class="man" th:with="aprvVo = ${rstLi.aprvList.size > 0 ? rstLi.aprvList[0] : null}">
+                        <span th:if="${aprvVo != null}" th:text="|${aprvVo?.aprvrLoginId}(${aprvVo?.aprvrUserNm})|">id(이름)</span>
+                        <span th:if="${aprvVo != null}" th:text="${#dates.format(aprvVo?.aprvDts, 'yyyy/MM/dd')}">2020/12/14</span>
+                        <span th:if="${aprvVo != null && aprvVo.aprvStatCd == '10' && LOGIN_VO.cmpnyUserId == aprvVo.aprvrId}"
+                            onclick="doAprv(this);" th:attr="data-no=${aprvVo.matrlClmNo},data-seq=${aprvVo.aprvSeq}" class="tb_btn">결재</span>
+                    </td>
+                    <td class="man" th:with="aprvVo = ${rstLi.aprvList.size > 1 ? rstLi.aprvList[1] : null}">
+                         <span th:if="${aprvVo != null}" th:text="|${aprvVo?.aprvrLoginId}(${aprvVo?.aprvrUserNm})|">id(이름)</span>
+                        <span th:if="${aprvVo != null}" th:text="${#dates.format(aprvVo?.aprvDts, 'yyyy/MM/dd')}">2020/12/14</span>
+                        <span th:if="${aprvVo != null && aprvVo.aprvStatCd == '10' && LOGIN_VO.cmpnyUserId == aprvVo.aprvrId}"
+                            onclick="doAprv(this);" th:attr="data-no=${aprvVo.matrlClmNo},data-seq=${aprvVo.aprvSeq}" class="tb_btn">결재</span>
+                   </td>
+                    <td class="man" th:with="aprvVo = ${rstLi.aprvList.size > 2 ? rstLi.aprvList[2] : null}">
+                        <span th:if="${aprvVo != null}" th:text="|${aprvVo?.aprvrLoginId}(${aprvVo?.aprvrUserNm})|">id(이름)</span>
+                        <span th:if="${aprvVo != null}" th:text="${#dates.format(aprvVo?.aprvDts, 'yyyy/MM/dd')}">2020/12/14</span>
+                        <span th:if="${aprvVo != null && aprvVo.aprvStatCd == '10' && LOGIN_VO.cmpnyUserId == aprvVo.aprvrId}"
+                            onclick="doAprv(this);" th:attr="data-no=${aprvVo.matrlClmNo},data-seq=${aprvVo.aprvSeq}" class="tb_btn">결재</span>
                     </td>
                     <td class="man">
-                        <span>Genie(홍길동)</span>
-                        <span>2020/12/14</span>
-                    </td>
-                    <td class="man">
-                        <span>Genie(홍길동)</span>
-                        <span>2020/12/14</span>
-                    </td>
-                    <td class="man">
-                        <span>발주완료</span>
-                        <span>2020/12/14</span>
-                    </td>
-                </tr>
-                <tr class="ing">
-                    <td>1</td>
-                    <td>작성중</td>
-                    <td>2020/12/14</td>
-                    <td>현대ENG-관악 뉴포레</td>
-                    <td><a href="#">20-12140001</a></td>
-                    <td>5</td>
-                    <td class="man">
-                        <span>Genie(홍길동)</span>
-                        <span>2020/12/14</span>
-                    </td>
-                    <td class="man">
-                        <span class="tb_btn">결재</span>
-                    </td>
-                    <td class="man">
-                        -
-                    </td>
-                    <td class="man">
-                        -
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>작성중</td>
-                    <td>2020/12/14</td>
-                    <td>현대ENG-관악 뉴포레</td>
-                    <td><a href="#">20-12140001</a></td>
-                    <td>5</td>
-                    <td class="man">
-                        <span>Genie(홍길동)</span>
-                        <span>2020/12/14</span>
-                    </td>
-                    <td class="man">
-                        <span>Genie(홍길동)</span>
-                        <span>2020/12/14</span>
-                    </td>
-                    <td class="man">
-                        <span>Genie(홍길동)</span>
-                        <span>2020/12/14</span>
-                    </td>
-                    <td class="man">
-                        <span>발주완료</span>
-                        <span>2020/12/14</span>
+                        <span>발주상태</span>
+                        <span>발주일자</span>
                     </td>
                 </tr>
             </tbody>
