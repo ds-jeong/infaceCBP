@@ -7,9 +7,9 @@ spring:
 
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
+    url: jdbc:log4jdbc:postgresql://1.255.226.146:5432/inface_hub
+    username: inface
+    password: inface0125
     hikari:
       minimum-idle: 1
       maximum-pool-size: 10
