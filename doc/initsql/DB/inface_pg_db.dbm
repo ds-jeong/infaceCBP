@@ -3,10 +3,12 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="784,274" last-zoom="1" max-obj-count="54"
-	 default-owner="postgres"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="782,0" last-zoom="1" max-obj-count="54"
 	 layers="공통" active-layers="0">
-<database name="inface_database" encoding="UTF8" is-template="false" allow-conns="true">
+<role name="inface">
+</role>
+
+<database name="inface_hub" encoding="UTF8" is-template="false" allow-conns="true">
 </database>
 
 <schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
@@ -14,7 +16,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="base_column" layer="1" alias="기본_컬럼" collapse-mode="2" max-obj-count="4" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<position x="280" y="1340"/>
 	<column name="reg_dts" alias="등록_일시" not-null="true" default-value="current_timestamp">
 		<type name="timestamp" length="0"/>
@@ -36,7 +37,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="matrl" layer="0" alias="자재" collapse-mode="2" max-obj-count="13" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재정보]]></comment>
 	<position x="1340" y="600"/>
 	<column name="matrl_id" alias="자재_ID" not-null="true">
@@ -72,7 +72,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="matrl_ctg" layer="0" alias="자재_분류" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재_분류]]></comment>
 	<position x="920" y="160"/>
 	<column name="matrl_ctg_id" alias="자재_분류_ID" not-null="true">
@@ -98,11 +97,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="matrl_ctg_pk" type="pk-constr" table="public.matrl_ctg">
 		<columns names="matrl_ctg_id" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="matrl_mctg_id" index="9"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="matrl_mctg_fk" index="1"/>
+	</customidxs>
 </table>
 
 <table name="matrl_item" layer="0" alias="자재_품목" collapse-mode="2" max-obj-count="13" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재_품목]]></comment>
 	<position x="920" y="600"/>
 	<column name="matrl_item_id" alias="자재_품목_ID" not-null="true">
@@ -136,7 +142,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="cmpny" layer="0" alias="업체" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체
 건설업체,자재업체 등
 종류별로 prefix 를 지정하고, 구분자코드를 만들까..
@@ -197,7 +202,6 @@ V00001]]></comment>
 
 <table name="cmpny_matrl_item" layer="0" alias="업체_자재_품목" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_품목
 건설사는 별도로 구매타입을 설정하지 않음.
 공급업체는 품목별로 구매타입을 지정해야 함.]]></comment>
@@ -228,7 +232,6 @@ V00001]]></comment>
 
 <table name="cmpny_matrl_price" layer="0" alias="업체_자재_가격" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_가격
 확정되면.. 요청/제안가격에서 실제 가격컬럼으로 업데이트]]></comment>
 	<position x="1340" y="1120"/>
@@ -291,7 +294,6 @@ V00001]]></comment>
 
 <table name="work_site" layer="0" alias="작업_현장" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[건설현장 - 건설현장의 소유자는 누구?
 야적장 - 건설업체는 기본 야적장을 가진다.
 자재창고 - 자재업체는 기본창고를 가진다.
@@ -332,7 +334,6 @@ V00001]]></comment>
 
 <table name="matrl_clm" layer="0" alias="자재_청구" collapse-mode="2" max-obj-count="22" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재_청구]]></comment>
 	<position x="1800" y="160"/>
 	<column name="matrl_clm_no" alias="자재_청구_번호" not-null="true">
@@ -412,7 +413,6 @@ ex. 동3문?]]></comment>
 
 <table name="matrl_clm_dtl" layer="0" alias="자재_청구_상세" collapse-mode="2" max-obj-count="18" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재_청구_상세
 임시저장시에는 생성하지 않음.]]></comment>
 	<position x="1800" y="660"/>
@@ -471,7 +471,6 @@ ex. 동3문?]]></comment>
 
 <table name="matrl_mctg" layer="0" alias="자재_중분류" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재_중분류]]></comment>
 	<position x="1340" y="180"/>
 	<column name="matrl_mctg_id" alias="자재_중분류_ID" not-null="true">
@@ -512,7 +511,6 @@ pk 구조가 xxyy 상위id 연동..개편이 잦을것으로 예상..각자 가�
 
 <table name="comm_grp_cd" layer="1" alias="공통_그룹_코드" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[공통_그룹_코드
 XXYY ( 영역,코드번호 ? )]]></comment>
 	<position x="480" y="1560"/>
@@ -539,7 +537,6 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 
 <table name="comm_cd" layer="1" alias="공통_코드" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[공통_코드]]></comment>
 	<position x="80" y="1560"/>
 	<column name="comm_cd" alias="공통_코드" not-null="true">
@@ -582,7 +579,6 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 
 <table name="cmpny_matrl_item_cntrt" layer="0" alias="업체_자재_품목_계약" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_품목_계약]]></comment>
 	<position x="920" y="1480"/>
 	<column name="spl_cmpny_id" alias="공급_업체_ID" not-null="true">
@@ -626,7 +622,6 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 
 <table name="cmpny_matrl_price_req" layer="0" alias="업체_자재_가격_요청" collapse-mode="2" max-obj-count="22" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_가격_요청
 1년단위이긴하나.. 임의의 날짜도 가능하도록?
 ]]></comment>
@@ -709,7 +704,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 
 <table name="matrl_clm_aprv" layer="0" alias="자재_청구_결재" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재_청구_결재]]></comment>
 	<position x="2260" y="500"/>
 	<column name="aprv_seq" alias="결재_순번" not-null="true" default-value="1">
@@ -759,7 +753,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 
 <table name="cmpny_user" layer="0" alias="업체_사용자" collapse-mode="2" max-obj-count="21" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_사용자
 근로자..와 구분하는게 나을듯..
 건설사.공급업체?
@@ -1128,7 +1121,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 
 <table name="cmpny_matrl_price_req_mst" layer="0" alias="업체_자재_가격_요청_마스터" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_가격_요청_마스터]]></comment>
 	<position x="1760" y="1120"/>
 	<column name="spl_cmpny_id" alias="공급_업체_ID" not-null="true">
@@ -1241,7 +1233,6 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 
 <view name="v_matrl_item" layer="0" alias="뷰_자재_품목" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[뷰_자재_품목]]></comment>
 	<position x="1200" y="480"/>
 	<reference>
@@ -1261,7 +1252,6 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 
 <table name="cmpny_user_site" layer="0" alias="업체_사용자_현장" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_사용자_현장]]></comment>
 	<position x="520" y="520"/>
 	<column name="posi_nm" alias="직책_이름">
@@ -1370,7 +1360,6 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 
 <table name="cmpny_matrl_price_req_memo" layer="0" alias="업체_자재_가격_요청_메모" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[업체_자재_가격_요청_메모]]></comment>
 	<position x="2260" y="1360"/>
 	<column name="memo_seq" alias="메모_순번" not-null="true">
@@ -1418,7 +1407,6 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 
 <table name="work_site_aprv_tmplt" layer="0" alias="작업_현장_결재_템플릿" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[작업_현장 결재선 수기관리 템플릿
 청구 결재선 3명 - 현장 : 담당, 소장, 이사
 발주 결재선 2명 - 본사 : 담당, 이사]]></comment>
@@ -1458,7 +1446,7 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 <textbox name="결재템플릿" layer="0" z-value="0" font-size="9">
 	<position x="80" y="1200"/>
 	<comment><![CDATA[수기관리하는 테이블인데..
-현장별로 수기관리할 수는 없으므로, 
+현장별로 수기관리할 수는 없으므로,
 최종으로 자동으로 처리할 수 있는 기준이 나와야 함.
 현재는 기준이 없으므로 수기처리;]]></comment>
 </textbox>
@@ -1484,7 +1472,6 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 
 <table name="matrl_clm_file" layer="0" alias="자재_청구_파일" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
-	<role name="postgres"/>
 	<comment><![CDATA[자재_청구_파일
 첨부파일 등]]></comment>
 	<position x="2260" y="160"/>

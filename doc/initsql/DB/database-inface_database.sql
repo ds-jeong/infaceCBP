@@ -3,13 +3,18 @@
 -- PostgreSQL version: 13.0
 -- Project Site: pgmodeler.io
 -- Model Author: ---
+-- object: inface | type: ROLE --
+-- DROP ROLE IF EXISTS inface;
+--CREATE ROLE inface WITH ;
+-- ddl-end --
+
 
 -- Database creation must be performed outside a multi lined SQL file.
 -- These commands were put in this file only as a convenience.
 --
--- object: inface_database | type: DATABASE --
--- DROP DATABASE IF EXISTS inface_database;
---CREATE DATABASE inface_database
+-- object: inface_hub | type: DATABASE --
+-- DROP DATABASE IF EXISTS inface_hub;
+--CREATE DATABASE inface_hub
 --    ENCODING = 'UTF8';
 -- ddl-end --
 
@@ -30,8 +35,6 @@ COMMENT ON COLUMN public.base_column.regpe_id IS E'등록자_ID';
 COMMENT ON COLUMN public.base_column.mod_dts IS E'수정_일시';
 -- ddl-end --
 COMMENT ON COLUMN public.base_column.modpe_id IS E'수정자_ID';
--- ddl-end --
-ALTER TABLE public.base_column OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.matrl | type: TABLE --
@@ -63,8 +66,6 @@ COMMENT ON COLUMN public.matrl.matrl_img IS E'자재_이미지';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl.use_yn IS E'사용_여부';
 -- ddl-end --
-ALTER TABLE public.matrl OWNER TO postgres;
--- ddl-end --
 
 -- object: public.matrl_ctg | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_ctg CASCADE;
@@ -91,8 +92,6 @@ COMMENT ON COLUMN public.matrl_ctg.ctg_desc IS E'분류_설명';
 COMMENT ON COLUMN public.matrl_ctg.disp_ordr IS E'노출_순서';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_ctg.use_yn IS E'사용_여부';
--- ddl-end --
-ALTER TABLE public.matrl_ctg OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.matrl_item | type: TABLE --
@@ -123,8 +122,6 @@ COMMENT ON COLUMN public.matrl_item.item_desc IS E'품목_설명';
 COMMENT ON COLUMN public.matrl_item.disp_ordr IS E'노출_순서';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_item.use_yn IS E'사용_여부';
--- ddl-end --
-ALTER TABLE public.matrl_item OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.cmpny | type: TABLE --
@@ -167,8 +164,6 @@ COMMENT ON COLUMN public.cmpny.tax_bill_email IS E'세금_계산서_이메일';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny.biz_reg_img IS E'사업자_등록_이미지';
 -- ddl-end --
-ALTER TABLE public.cmpny OWNER TO postgres;
--- ddl-end --
 
 -- object: public.cmpny_matrl_item | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_item CASCADE;
@@ -187,8 +182,6 @@ COMMENT ON TABLE public.cmpny_matrl_item IS E'업체_자재_품목\n건설사는
 COMMENT ON COLUMN public.cmpny_matrl_item.buy_type_cd IS E'구매_타입_코드\n10 - 구매\n20 - 임대\n공급업체인 경우는 필수.';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_item.use_yn IS E'사용_여부';
--- ddl-end --
-ALTER TABLE public.cmpny_matrl_item OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.cmpny_matrl_price | type: TABLE --
@@ -224,8 +217,6 @@ COMMENT ON COLUMN public.cmpny_matrl_price.price IS E'가격\n구매가격\n임�
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price.lease_price IS E'임대_가격';
 -- ddl-end --
-ALTER TABLE public.cmpny_matrl_price OWNER TO postgres;
--- ddl-end --
 
 -- object: public.work_site | type: TABLE --
 -- DROP TABLE IF EXISTS public.work_site CASCADE;
@@ -252,8 +243,6 @@ COMMENT ON COLUMN public.work_site.use_yn IS E'사용_여부';
 COMMENT ON COLUMN public.work_site.addr_zipcd IS E'주소_우편번호';
 -- ddl-end --
 COMMENT ON COLUMN public.work_site.addr IS E'주소';
--- ddl-end --
-ALTER TABLE public.work_site OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.matrl_clm | type: TABLE --
@@ -307,8 +296,6 @@ COMMENT ON COLUMN public.matrl_clm.in_chargr_tel IS E'입고_담당자_연락처
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm.in_remark IS E'입고_비고';
 -- ddl-end --
-ALTER TABLE public.matrl_clm OWNER TO postgres;
--- ddl-end --
 
 -- object: public.matrl_clm_dtl | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_clm_dtl CASCADE;
@@ -349,8 +336,6 @@ COMMENT ON COLUMN public.matrl_clm_dtl.req_desc IS E'요청_내용';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_dtl.remark IS E'비고';
 -- ddl-end --
-ALTER TABLE public.matrl_clm_dtl OWNER TO postgres;
--- ddl-end --
 
 -- object: public.matrl_mctg | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_mctg CASCADE;
@@ -377,8 +362,6 @@ COMMENT ON COLUMN public.matrl_mctg.disp_ordr IS E'노출_순서';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_mctg.use_yn IS E'사용_여부';
 -- ddl-end --
-ALTER TABLE public.matrl_mctg OWNER TO postgres;
--- ddl-end --
 
 -- object: public.comm_grp_cd | type: TABLE --
 -- DROP TABLE IF EXISTS public.comm_grp_cd CASCADE;
@@ -401,8 +384,6 @@ COMMENT ON COLUMN public.comm_grp_cd.grp_cd_nm IS E'그룹_코드_이름';
 COMMENT ON COLUMN public.comm_grp_cd.use_yn IS E'사용_여부';
 -- ddl-end --
 COMMENT ON COLUMN public.comm_grp_cd.remark IS E'비고';
--- ddl-end --
-ALTER TABLE public.comm_grp_cd OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.comm_cd | type: TABLE --
@@ -428,8 +409,6 @@ COMMENT ON COLUMN public.comm_cd.use_yn IS E'사용_여부';
 -- ddl-end --
 COMMENT ON COLUMN public.comm_cd.remark IS E'비고';
 -- ddl-end --
-ALTER TABLE public.comm_cd OWNER TO postgres;
--- ddl-end --
 
 -- object: public.cmpny_matrl_item_cntrt | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_item_cntrt CASCADE;
@@ -451,8 +430,6 @@ COMMENT ON COLUMN public.cmpny_matrl_item_cntrt.spl_cmpny_id IS E'공급_업체_
 COMMENT ON COLUMN public.cmpny_matrl_item_cntrt.buy_type_cd IS E'구매_타입_코드\n10 - 구매\n20 - 임대';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_item_cntrt.cntrt_stat_cd IS E'계약_상태_코드(코드)\n10 - 검토중\n20 - 거래중\n90 - 거래중지';
--- ddl-end --
-ALTER TABLE public.cmpny_matrl_item_cntrt OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.cmpny_matrl_price_req | type: TABLE --
@@ -502,8 +479,6 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req.req_lease_price IS E'요청_임�
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req.sugst_lease_price IS E'제안_임대_가격';
 -- ddl-end --
-ALTER TABLE public.cmpny_matrl_price_req OWNER TO postgres;
--- ddl-end --
 
 -- object: public.matrl_clm_aprv | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_clm_aprv CASCADE;
@@ -530,8 +505,6 @@ COMMENT ON COLUMN public.matrl_clm_aprv.aprv_dts IS E'결재_일시';
 COMMENT ON COLUMN public.matrl_clm_aprv.aprv_stat_cd IS E'결재_상태_코드\n00 - 대기 ( 결재선에 있지만 차례가 아님 )\n10 - 승인요청 ( 결재할 차례인 경우 )\n20 - 승인\n90 - 반려';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_aprv.remark IS E'비고\n반려사유등.';
--- ddl-end --
-ALTER TABLE public.matrl_clm_aprv OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.cmpny_user | type: TABLE --
@@ -584,8 +557,6 @@ COMMENT ON COLUMN public.cmpny_user.fax_no IS E'팩스_번호';
 COMMENT ON COLUMN public.cmpny_user.hp_no IS E'핸드폰_번호';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_user.email IS E'이메일';
--- ddl-end --
-ALTER TABLE public.cmpny_user OWNER TO postgres;
 -- ddl-end --
 
 -- object: matrl_mctg_fk | type: CONSTRAINT --
@@ -714,8 +685,6 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.confirm_dt IS E'확정_일자
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.remark IS E'비고';
 -- ddl-end --
-ALTER TABLE public.cmpny_matrl_price_req_mst OWNER TO postgres;
--- ddl-end --
 
 -- object: cmpny_fk | type: CONSTRAINT --
 -- ALTER TABLE public.cmpny_matrl_price_req_mst DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
@@ -757,8 +726,6 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;
 -- ddl-end --
 COMMENT ON VIEW public.v_matrl_item IS E'뷰_자재_품목';
 -- ddl-end --
-ALTER VIEW public.v_matrl_item OWNER TO postgres;
--- ddl-end --
 
 -- object: public.cmpny_user_site | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_user_site CASCADE;
@@ -777,8 +744,6 @@ COMMENT ON TABLE public.cmpny_user_site IS E'업체_사용자_현장';
 COMMENT ON COLUMN public.cmpny_user_site.posi_nm IS E'직책_이름';
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_user_site.use_yn IS E'사용_여부';
--- ddl-end --
-ALTER TABLE public.cmpny_user_site OWNER TO postgres;
 -- ddl-end --
 
 -- object: work_site_fk | type: CONSTRAINT --
@@ -835,8 +800,6 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req_memo.memo_seq IS E'메모_순번'
 -- ddl-end --
 COMMENT ON COLUMN public.cmpny_matrl_price_req_memo.memo_cont IS E'메모_내용';
 -- ddl-end --
-ALTER TABLE public.cmpny_matrl_price_req_memo OWNER TO postgres;
--- ddl-end --
 
 -- object: cmpny_matrl_price_req_mst_fk | type: CONSTRAINT --
 -- ALTER TABLE public.cmpny_matrl_price_req_memo DROP CONSTRAINT IF EXISTS cmpny_matrl_price_req_mst_fk CASCADE;
@@ -870,8 +833,6 @@ COMMENT ON COLUMN public.work_site_aprv_tmplt.clm_aprvr_id_3 IS E'청구_승인_
 COMMENT ON COLUMN public.work_site_aprv_tmplt.ordr_aprvr_id_1 IS E'발주_승인_id_1';
 -- ddl-end --
 COMMENT ON COLUMN public.work_site_aprv_tmplt.ordr_aprvr_id_2 IS E'발주_승인_id_2';
--- ddl-end --
-ALTER TABLE public.work_site_aprv_tmplt OWNER TO postgres;
 -- ddl-end --
 
 -- object: work_site_fk | type: CONSTRAINT --
@@ -911,8 +872,6 @@ COMMENT ON COLUMN public.matrl_clm_file.file_desc IS E'파일_설명';
 COMMENT ON COLUMN public.matrl_clm_file.file_path IS E'파일_경로';
 -- ddl-end --
 COMMENT ON COLUMN public.matrl_clm_file.file_nm IS E'파일_이름';
--- ddl-end --
-ALTER TABLE public.matrl_clm_file OWNER TO postgres;
 -- ddl-end --
 
 -- object: matrl_clm_fk | type: CONSTRAINT --
