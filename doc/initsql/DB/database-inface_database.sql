@@ -3,21 +3,16 @@
 -- PostgreSQL version: 13.0
 -- Project Site: pgmodeler.io
 -- Model Author: ---
--- object: inface | type: ROLE --
--- DROP ROLE IF EXISTS inface;
---CREATE ROLE inface WITH ;
--- ddl-end --
-
 
 -- Database creation must be performed outside a multi lined SQL file.
 -- These commands were put in this file only as a convenience.
 --
--- object: inface_hub | type: DATABASE --
--- DROP DATABASE IF EXISTS inface_hub;
---CREATE DATABASE inface_hub
---    ENCODING = 'UTF8';
--- ddl-end --
-
+-- -- object: inface_hub | type: DATABASE --
+-- -- DROP DATABASE IF EXISTS inface_hub;
+-- CREATE DATABASE inface_hub
+--  ENCODING = 'UTF8';
+-- -- ddl-end --
+--
 
 -- object: public.base_column | type: TABLE --
 -- DROP TABLE IF EXISTS public.base_column CASCADE;
@@ -559,97 +554,97 @@ COMMENT ON COLUMN public.cmpny_user.hp_no IS E'핸드폰_번호';
 COMMENT ON COLUMN public.cmpny_user.email IS E'이메일';
 -- ddl-end --
 
--- object: matrl_mctg_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_ctg DROP CONSTRAINT IF EXISTS matrl_mctg_fk CASCADE;
-ALTER TABLE public.matrl_ctg ADD CONSTRAINT matrl_mctg_fk FOREIGN KEY (matrl_mctg_id)
-REFERENCES public.matrl_mctg (matrl_mctg_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_item_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl DROP CONSTRAINT IF EXISTS matrl_item_fk CASCADE;
-ALTER TABLE public.matrl ADD CONSTRAINT matrl_item_fk FOREIGN KEY (matrl_item_id)
-REFERENCES public.matrl_item (matrl_item_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_ctg_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_item DROP CONSTRAINT IF EXISTS matrl_ctg_fk CASCADE;
-ALTER TABLE public.matrl_item ADD CONSTRAINT matrl_ctg_fk FOREIGN KEY (matrl_ctg_id)
-REFERENCES public.matrl_ctg (matrl_ctg_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: work_site_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
-ALTER TABLE public.matrl_clm ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
-REFERENCES public.work_site (work_site_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm_dtl DROP CONSTRAINT IF EXISTS matrl_fk CASCADE;
-ALTER TABLE public.matrl_clm_dtl ADD CONSTRAINT matrl_fk FOREIGN KEY (matrl_id)
-REFERENCES public.matrl (matrl_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_item_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_item DROP CONSTRAINT IF EXISTS matrl_item_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_item ADD CONSTRAINT matrl_item_fk FOREIGN KEY (matrl_item_id)
-REFERENCES public.matrl_item (matrl_item_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_item DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_item ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.work_site DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
-ALTER TABLE public.work_site ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_user DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
-ALTER TABLE public.cmpny_user ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price DROP CONSTRAINT IF EXISTS matrl_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price ADD CONSTRAINT matrl_fk FOREIGN KEY (matrl_id)
-REFERENCES public.matrl (matrl_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price_req DROP CONSTRAINT IF EXISTS matrl_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price_req ADD CONSTRAINT matrl_fk FOREIGN KEY (matrl_id)
-REFERENCES public.matrl (matrl_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: comm_grp_cd_fk | type: CONSTRAINT --
--- ALTER TABLE public.comm_cd DROP CONSTRAINT IF EXISTS comm_grp_cd_fk CASCADE;
-ALTER TABLE public.comm_cd ADD CONSTRAINT comm_grp_cd_fk FOREIGN KEY (comm_grp_cd)
-REFERENCES public.comm_grp_cd (comm_grp_cd) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
+-- -- object: matrl_mctg_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_ctg DROP CONSTRAINT IF EXISTS matrl_mctg_fk CASCADE;
+-- ALTER TABLE public.matrl_ctg ADD CONSTRAINT matrl_mctg_fk FOREIGN KEY (matrl_mctg_id)
+-- REFERENCES public.matrl_mctg (matrl_mctg_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_item_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl DROP CONSTRAINT IF EXISTS matrl_item_fk CASCADE;
+-- ALTER TABLE public.matrl ADD CONSTRAINT matrl_item_fk FOREIGN KEY (matrl_item_id)
+-- REFERENCES public.matrl_item (matrl_item_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_ctg_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_item DROP CONSTRAINT IF EXISTS matrl_ctg_fk CASCADE;
+-- ALTER TABLE public.matrl_item ADD CONSTRAINT matrl_ctg_fk FOREIGN KEY (matrl_ctg_id)
+-- REFERENCES public.matrl_ctg (matrl_ctg_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: work_site_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
+-- ALTER TABLE public.matrl_clm ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
+-- REFERENCES public.work_site (work_site_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_clm_dtl DROP CONSTRAINT IF EXISTS matrl_fk CASCADE;
+-- ALTER TABLE public.matrl_clm_dtl ADD CONSTRAINT matrl_fk FOREIGN KEY (matrl_id)
+-- REFERENCES public.matrl (matrl_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_item_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_item DROP CONSTRAINT IF EXISTS matrl_item_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_item ADD CONSTRAINT matrl_item_fk FOREIGN KEY (matrl_item_id)
+-- REFERENCES public.matrl_item (matrl_item_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_item DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_item ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
+-- REFERENCES public.cmpny (cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.work_site DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
+-- ALTER TABLE public.work_site ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
+-- REFERENCES public.cmpny (cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_user DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
+-- ALTER TABLE public.cmpny_user ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
+-- REFERENCES public.cmpny (cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_price DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_price ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
+-- REFERENCES public.cmpny (cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_price DROP CONSTRAINT IF EXISTS matrl_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_price ADD CONSTRAINT matrl_fk FOREIGN KEY (matrl_id)
+-- REFERENCES public.matrl (matrl_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_price_req DROP CONSTRAINT IF EXISTS matrl_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_price_req ADD CONSTRAINT matrl_fk FOREIGN KEY (matrl_id)
+-- REFERENCES public.matrl (matrl_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: comm_grp_cd_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.comm_cd DROP CONSTRAINT IF EXISTS comm_grp_cd_fk CASCADE;
+-- ALTER TABLE public.comm_cd ADD CONSTRAINT comm_grp_cd_fk FOREIGN KEY (comm_grp_cd)
+-- REFERENCES public.comm_grp_cd (comm_grp_cd) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
 -- object: public.cmpny_matrl_price_req_mst | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_price_req_mst CASCADE;
 CREATE TABLE public.cmpny_matrl_price_req_mst (
@@ -686,27 +681,27 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.confirm_dt IS E'확정_일자
 COMMENT ON COLUMN public.cmpny_matrl_price_req_mst.remark IS E'비고';
 -- ddl-end --
 
--- object: cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price_req_mst DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price_req_mst ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_matrl_price_req_mst_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price_req DROP CONSTRAINT IF EXISTS cmpny_matrl_price_req_mst_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price_req ADD CONSTRAINT cmpny_matrl_price_req_mst_fk FOREIGN KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
-REFERENCES public.cmpny_matrl_price_req_mst (apl_strt_dt,spl_cmpny_id,cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_matrl_item_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_item_cntrt DROP CONSTRAINT IF EXISTS cmpny_matrl_item_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_item_cntrt ADD CONSTRAINT cmpny_matrl_item_fk FOREIGN KEY (matrl_item_id,cmpny_id)
-REFERENCES public.cmpny_matrl_item (matrl_item_id,cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
+-- -- object: cmpny_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_price_req_mst DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_price_req_mst ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
+-- REFERENCES public.cmpny (cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_matrl_price_req_mst_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_price_req DROP CONSTRAINT IF EXISTS cmpny_matrl_price_req_mst_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_price_req ADD CONSTRAINT cmpny_matrl_price_req_mst_fk FOREIGN KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
+-- REFERENCES public.cmpny_matrl_price_req_mst (apl_strt_dt,spl_cmpny_id,cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_matrl_item_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_item_cntrt DROP CONSTRAINT IF EXISTS cmpny_matrl_item_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_item_cntrt ADD CONSTRAINT cmpny_matrl_item_fk FOREIGN KEY (matrl_item_id,cmpny_id)
+-- REFERENCES public.cmpny_matrl_item (matrl_item_id,cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
 -- object: public.v_matrl_item | type: VIEW --
 -- DROP VIEW IF EXISTS public.v_matrl_item CASCADE;
 CREATE VIEW public.v_matrl_item
@@ -746,41 +741,41 @@ COMMENT ON COLUMN public.cmpny_user_site.posi_nm IS E'직책_이름';
 COMMENT ON COLUMN public.cmpny_user_site.use_yn IS E'사용_여부';
 -- ddl-end --
 
--- object: work_site_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_user_site DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
-ALTER TABLE public.cmpny_user_site ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
-REFERENCES public.work_site (work_site_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_user_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_user_site DROP CONSTRAINT IF EXISTS cmpny_user_fk CASCADE;
-ALTER TABLE public.cmpny_user_site ADD CONSTRAINT cmpny_user_fk FOREIGN KEY (cmpny_user_id)
-REFERENCES public.cmpny_user (cmpny_user_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
-ALTER TABLE public.matrl_clm ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_clm_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm_dtl DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
-ALTER TABLE public.matrl_clm_dtl ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
-REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: matrl_clm_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm_aprv DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
-ALTER TABLE public.matrl_clm_aprv ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
-REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
+-- -- object: work_site_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_user_site DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
+-- ALTER TABLE public.cmpny_user_site ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
+-- REFERENCES public.work_site (work_site_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_user_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_user_site DROP CONSTRAINT IF EXISTS cmpny_user_fk CASCADE;
+-- ALTER TABLE public.cmpny_user_site ADD CONSTRAINT cmpny_user_fk FOREIGN KEY (cmpny_user_id)
+-- REFERENCES public.cmpny_user (cmpny_user_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: cmpny_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_clm DROP CONSTRAINT IF EXISTS cmpny_fk CASCADE;
+-- ALTER TABLE public.matrl_clm ADD CONSTRAINT cmpny_fk FOREIGN KEY (cmpny_id)
+-- REFERENCES public.cmpny (cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_clm_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_clm_dtl DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
+-- ALTER TABLE public.matrl_clm_dtl ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
+-- REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: matrl_clm_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_clm_aprv DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
+-- ALTER TABLE public.matrl_clm_aprv ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
+-- REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
 -- object: public.cmpny_matrl_price_req_memo | type: TABLE --
 -- DROP TABLE IF EXISTS public.cmpny_matrl_price_req_memo CASCADE;
 CREATE TABLE public.cmpny_matrl_price_req_memo (
@@ -801,13 +796,13 @@ COMMENT ON COLUMN public.cmpny_matrl_price_req_memo.memo_seq IS E'메모_순번'
 COMMENT ON COLUMN public.cmpny_matrl_price_req_memo.memo_cont IS E'메모_내용';
 -- ddl-end --
 
--- object: cmpny_matrl_price_req_mst_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price_req_memo DROP CONSTRAINT IF EXISTS cmpny_matrl_price_req_mst_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price_req_memo ADD CONSTRAINT cmpny_matrl_price_req_mst_fk FOREIGN KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
-REFERENCES public.cmpny_matrl_price_req_mst (apl_strt_dt,spl_cmpny_id,cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
+-- -- object: cmpny_matrl_price_req_mst_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.cmpny_matrl_price_req_memo DROP CONSTRAINT IF EXISTS cmpny_matrl_price_req_mst_fk CASCADE;
+-- ALTER TABLE public.cmpny_matrl_price_req_memo ADD CONSTRAINT cmpny_matrl_price_req_mst_fk FOREIGN KEY (apl_strt_dt,spl_cmpny_id,cmpny_id)
+-- REFERENCES public.cmpny_matrl_price_req_mst (apl_strt_dt,spl_cmpny_id,cmpny_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
 -- object: public.work_site_aprv_tmplt | type: TABLE --
 -- DROP TABLE IF EXISTS public.work_site_aprv_tmplt CASCADE;
 CREATE TABLE public.work_site_aprv_tmplt (
@@ -835,18 +830,18 @@ COMMENT ON COLUMN public.work_site_aprv_tmplt.ordr_aprvr_id_1 IS E'발주_승인
 COMMENT ON COLUMN public.work_site_aprv_tmplt.ordr_aprvr_id_2 IS E'발주_승인_id_2';
 -- ddl-end --
 
--- object: work_site_fk | type: CONSTRAINT --
--- ALTER TABLE public.work_site_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
-ALTER TABLE public.work_site_aprv_tmplt ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
-REFERENCES public.work_site (work_site_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: work_site_aprv_tmplt_uq | type: CONSTRAINT --
--- ALTER TABLE public.work_site_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_aprv_tmplt_uq CASCADE;
-ALTER TABLE public.work_site_aprv_tmplt ADD CONSTRAINT work_site_aprv_tmplt_uq UNIQUE (work_site_id);
--- ddl-end --
-
+-- -- object: work_site_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.work_site_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_fk CASCADE;
+-- ALTER TABLE public.work_site_aprv_tmplt ADD CONSTRAINT work_site_fk FOREIGN KEY (work_site_id)
+-- REFERENCES public.work_site (work_site_id) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
+-- -- object: work_site_aprv_tmplt_uq | type: CONSTRAINT --
+-- -- ALTER TABLE public.work_site_aprv_tmplt DROP CONSTRAINT IF EXISTS work_site_aprv_tmplt_uq CASCADE;
+-- ALTER TABLE public.work_site_aprv_tmplt ADD CONSTRAINT work_site_aprv_tmplt_uq UNIQUE (work_site_id);
+-- -- ddl-end --
+--
 -- object: public.matrl_clm_file | type: TABLE --
 -- DROP TABLE IF EXISTS public.matrl_clm_file CASCADE;
 CREATE TABLE public.matrl_clm_file (
@@ -874,13 +869,13 @@ COMMENT ON COLUMN public.matrl_clm_file.file_path IS E'파일_경로';
 COMMENT ON COLUMN public.matrl_clm_file.file_nm IS E'파일_이름';
 -- ddl-end --
 
--- object: matrl_clm_fk | type: CONSTRAINT --
--- ALTER TABLE public.matrl_clm_file DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
-ALTER TABLE public.matrl_clm_file ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
-REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
+-- -- object: matrl_clm_fk | type: CONSTRAINT --
+-- -- ALTER TABLE public.matrl_clm_file DROP CONSTRAINT IF EXISTS matrl_clm_fk CASCADE;
+-- ALTER TABLE public.matrl_clm_file ADD CONSTRAINT matrl_clm_fk FOREIGN KEY (matrl_clm_no)
+-- REFERENCES public.matrl_clm (matrl_clm_no) MATCH FULL
+-- ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- -- ddl-end --
+--
 -- object: spl_compny_fk | type: CONSTRAINT --
 -- ALTER TABLE public.cmpny_matrl_price DROP CONSTRAINT IF EXISTS spl_compny_fk CASCADE;
 ALTER TABLE public.cmpny_matrl_price ADD CONSTRAINT spl_compny_fk FOREIGN KEY (spl_cmpny_id)
