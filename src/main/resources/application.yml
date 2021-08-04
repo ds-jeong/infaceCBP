@@ -22,7 +22,7 @@ spring:
 ## mybatis java config 검토
 mybatis:
   mapper-locations: mapper/**/*.xml
-  type-aliases-package: kr.pe.inface.hub.service
+  type-aliases-package: kr.co.inface.hub.service
   configuration:
     mapUnderscoreToCamelCase: true
     aggressiveLazyLoading: false
@@ -49,8 +49,8 @@ logging:
     jdbc.resultset: OFF        ### ResultSet을 포함한 모든 JDBC 호출 정보를 로그로 남기므로 매우 방대한 양의 로그가 생성된다. ###
     jdbc.resultsettable: DEBUG ### SQL 결과 조회된 데이터의 table을 로그로 남긴다. ###
 
-    kr.pe.inface: DEBUG
-    kr.pe.inface.hub.mapper: OFF ### mybatis mapper 로그 제외 처리
+    kr.co.inface: DEBUG
+    kr.co.inface.hub.mapper: OFF ### mybatis mapper 로그 제외 처리
 
 
 server:

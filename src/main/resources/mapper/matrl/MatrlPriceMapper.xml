@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.pe.inface.hub.service.matrl.mapper.MatrlPriceMapper">
+<mapper namespace="kr.co.inface.hub.service.matrl.mapper.MatrlPriceMapper">
 
 <!-- 건설업체/공급업체 기준으로 계약된 단가업체 목록을 조회 -->
 <select id="getCmpnyMatrlPriceVenList" parameterType="MatrlPriceVO" resultType="MatrlPriceVO"><![CDATA[

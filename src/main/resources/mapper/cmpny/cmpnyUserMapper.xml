@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.pe.inface.hub.service.cmpny.mapper.CmpnyUserMapper">
+<mapper namespace="kr.co.inface.hub.service.cmpny.mapper.CmpnyUserMapper">
 
 <!-- 업체 사용자 목록 -->
 <select id="getCmpnyUserList" resultType="CmpnyUserVO"><![CDATA[
