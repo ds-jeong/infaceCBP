@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import kr.pe.inface.hub.service.cmpny.mapper.CmpnyMapper;
 import kr.pe.inface.hub.service.cmpny.mapper.CmpnyUserMapper;
-import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserSiteVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyVO;
 import kr.pe.inface.hub.service.cmpny.vo.WorkSiteVO;
@@ -42,11 +41,11 @@ public class CmpnyService extends BaseService {
 		// TODO 코드값을 상수로 정의해야 할텐데..
 		for (CmpnyUserVO vo : userList) {
 			if ("12".equals(vo.getUserTypeCd())) {
-				List<CmpnyUserSiteVO> siteList = cmpnyUserMapper.getCmpnyUserSiteList(vo.getCmpnyUserId());
+				List<WorkSiteVO> siteList = cmpnyUserMapper.getCmpnyUserSiteList(vo.getCmpnyUserId());
 				if (siteList == null || siteList.size() == 0) {
 				} else {
-					Map<String, CmpnyUserSiteVO> workSiteMap = new HashMap<String, CmpnyUserSiteVO>();
-					for (CmpnyUserSiteVO v : siteList) {
+					Map<String, WorkSiteVO> workSiteMap = new HashMap<String, WorkSiteVO>();
+					for (WorkSiteVO v : siteList) {
 						workSiteMap.put(v.getWorkSiteId(), v);
 					}
 					vo.setWorkSiteMap(workSiteMap);

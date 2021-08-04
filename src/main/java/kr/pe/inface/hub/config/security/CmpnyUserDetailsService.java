@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import kr.pe.inface.hub.service.cmpny.mapper.CmpnyUserMapper;
-import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserSiteVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
+import kr.pe.inface.hub.service.cmpny.vo.WorkSiteVO;
 
 @Service
 public class CmpnyUserDetailsService implements UserDetailsService {
@@ -37,17 +37,18 @@ public class CmpnyUserDetailsService implements UserDetailsService {
 			// 건설사_현장 사용자인 경우, 현장목록을 조회하여 map 으로 저장.
 			// TODO 코드값을 상수로 정의해야 할텐데..
 			if ("12".equals(vo.getUserTypeCd())) {
-				List<CmpnyUserSiteVO> siteList = cmpnyUserMapper.getCmpnyUserSiteList(vo.getCmpnyUserId());
+				List<WorkSiteVO> siteList = cmpnyUserMapper.getCmpnyUserSiteList(vo.getCmpnyUserId());
 
+				Map<String, WorkSiteVO> workSiteMap = new HashMap<String, WorkSiteVO>();
 				if (siteList == null || siteList.size() == 0) {
 					// TODO 관리현장이 없는 경우..
 				} else {
-					Map<String, CmpnyUserSiteVO> workSiteMap = new HashMap<String, CmpnyUserSiteVO>();
-					for (CmpnyUserSiteVO v : siteList) {
+					for (WorkSiteVO v : siteList) {
 						workSiteMap.put(v.getWorkSiteId(), v);
 					}
-					vo.setWorkSiteMap(workSiteMap);
 				}
+				vo.setWorkSiteList(siteList);
+				vo.setWorkSiteMap(workSiteMap);
 			}
 		}
 		return vo;

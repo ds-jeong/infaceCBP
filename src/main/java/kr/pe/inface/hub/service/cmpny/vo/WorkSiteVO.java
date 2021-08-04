@@ -29,4 +29,6 @@ public class WorkSiteVO {
 	private String ordrAprvrId1;
 	private String ordrAprvrId2;
 
+	private String cmpnyUserId;
+	private String posiNm;
 }

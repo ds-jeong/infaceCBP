@@ -107,7 +107,7 @@ function doAprv(tobj) {
             </thead>
             <tbody>
                 <tr>
-                    <td th:text="${matrlVo.inAddr}">inAddr</td>
+                    <td th:text="|(${matrlVo.inAddrZipcd}) ${matrlVo.inAddr}|">inAddr</td>
                     <td th:text="${matrlVo.inAddrRemark}">inAddrRemark</td>
                     <td th:text="${matrlVo.inGateNo}">inGateNo</td>
                     <td th:text="|${matrlVo.inChargrNm}(${matrlVo.inChargrTel})|">inChargrNm</td>

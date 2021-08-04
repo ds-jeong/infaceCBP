@@ -11,15 +11,7 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-    jQuery(document.forms.sForm).submit(false); // 다른 이벤트로 submit 되지 않도록, 순수 js이벤트로만 처리.
-
-//    $( function() {
-//        $( "#datepicker" ).datepicker();
-//       $( "#format" ).on( "change", function() {
-//          $( "#datepicker" ).datepicker( "option", "dateFormat", $( this ).val() );
-//        });
-//      } );
-
+    jQuery(document.forms.sForm).submit(false); // 다른 이벤트로 submit 되지 않도록, js이벤트 호출로만 처리.
 });
 
 var isSubmit = false; // 처리중 여부
@@ -32,12 +24,44 @@ function validate() {
 		alert("이미 처리중입니다.");
 		return false;
 	}
-	// TODO
-	// 필수 - 현장, 청구수량, 입고요청일/일시
-	// 형식 - 청구수량, 입고요청일
-	// 승인요청인 경우는 자재품목 필수.
+
+	// TODO 정규표현식을 활용한 validate 모듈 구성 필요.
+	var sf = document.forms.sForm;
+	if ( !isObjEmpty(sf.workSiteId, "작업현장을 선택하세요.") ) return false;
+
+	var trArr = jQuery("tr.matrlTrObj");
+	if ( trArr.length == 0 ) {
+		alert("청구할 자재를 선택하세요.");
+		return false;
+	}
+	for ( var i=0 ; i<trArr.length ; i++ ) {
+		var idx = trArr.get(i).dataset.idx;
+
+		if ( !isObjNumericMinMax(sf["dtlList[" + idx + "].clmQty"], 1, null, "청구수량을 1개이상 입력해주세요.") ) return false;
+		if ( !isObjEmpty(sf["dtlList[" + idx + "].inHopeDt"], "입고요청일을 선택하세요.") ) return false;
+		if ( !isObjEmpty(sf["dtlList[" + idx + "].inHopeHour"], "입고요청시간을 선택하세요.") ) return false;
+	}
 
 	return true;
+}
+
+function isObjEmpty(domObj, errMsg) {
+	if ( domObj.value == "" ) {
+	     alert(errMsg);
+	     domObj.focus();
+	     return false;
+	 }
+	return true;
+}
+function isObjNumericMinMax(domObj, minVal, maxVal, errMsg) {
+    if ( domObj.value == "" || !jQuery.isNumeric(domObj.value)
+    		|| ( minVal && parseInt(domObj.value)<minVal )
+    		|| ( maxVal && parseInt(domObj.value)>maxVal ) ) {
+         alert(errMsg);
+         domObj.focus();
+         return false;
+     }
+    return true;
 }
 
 // 작업현장 select 선택
@@ -83,11 +107,11 @@ function doCancel() {
 function genMatrlTr(matrlId, mctgNm, ctgNm, itemNm, matrlStd, unitCd, matrlDesc) {
 	var tmpltObj = jQuery("#matrlTrTemplt");
 	var tmpltParentObj = tmpltObj.parent();
-    var idx = tmpltParentObj.find("tr").length; // 순서
+    var idx = tmpltParentObj.find("tr").length - 1; // 순서
     var tmpObj = tmpltObj.clone();
     var tdArr = tmpObj.find("td");
 
-    tdArr.eq(0).text(idx);
+    tdArr.eq(0).text(idx + 1);
     tdArr.eq(1).text("-");
     tdArr.eq(2).text(itemNm);
     tdArr.eq(3).text(matrlStd);
@@ -95,12 +119,23 @@ function genMatrlTr(matrlId, mctgNm, ctgNm, itemNm, matrlStd, unitCd, matrlDesc)
     tdArr.eq(5).find("input" ).attr({"name" : "dtlList[" + idx + "].clmQty"});
     tdArr.eq(6).find("input" ).attr({"name" : "dtlList[" + idx + "].remark"});
     tdArr.eq(7).find("input" ).attr({"name" : "dtlList[" + idx + "].inHopeDt"});
+    tdArr.eq(7).find("input" ).datepicker({
+    	   dateFormat: "yymmdd"
+//    	 , altFormat: "yy/mm/dd"
+    	 , showAnim: "drop"
+    });
     tdArr.eq(8).find("select").attr({"name" : "dtlList[" + idx + "].inHopeHour"});
     tdArr.eq(9).find("input" ).eq(0).attr({"id" : "matrlIdInput_"+matrlId, "name" : "dtlList[" + idx + "].matrlId", "value" : matrlId});
     tdArr.eq(9).find("input" ).eq(1).attr({"name" : "dtlList[" + idx + "].modFlag"});
     tdArr.eq(9).find("span" ).attr({"data-idx" : idx});
-    tmpltParentObj.append(tmpObj);
+
+    //
+    tmpObj.removeAttr("id style");
+    tmpObj.addClass("matrlTrObj");
+    tmpObj.attr("data-idx", idx);
     tmpObj.find("input, select").prop("disabled", "");
+
+    tmpltParentObj.append(tmpObj);
     tmpObj.show();
 }
 
@@ -148,13 +183,13 @@ function deleteToggleMatrl(obj) {
     <th:block th:if="${#strings.isEmpty(matrlVo.matrlClmNo)}" th:text="|작성|">작성</th:block>
     <th:block th:if="${!#strings.isEmpty(matrlVo.matrlClmNo)}" th:text="|수정|">수정</th:block>
     <div class="tit_btn_area">
-        <a href="#" onclick="doCancel();" class="BTNS icon cancel"><span>작성 취소</span></a>
-        <a href="#" onclick="doTempSave();" class="BTNS icon save_extra"><span>임시저장</span></a>
-        <a href="#" onclick="doConfirmSave();" class="BTNS icon confirm"><span>작성완료</span></a>
+        <a href="#" onclick="doCancel(); return false;" class="BTNS icon cancel"><span>작성 취소</span></a>
+        <a href="#" onclick="doTempSave(); return false;" class="BTNS icon save_extra"><span>임시저장</span></a>
+        <a href="#" onclick="doConfirmSave(); return false;" class="BTNS icon confirm"><span>작성완료</span></a>
     </div>
 </h1>
 <!-- //////////////////// Content List -->
-<form name="sForm" method="post" th:action="|/site/matrlclm/matrlClmInsert|">
+<form name="sForm" method="post" th:action="|/site/matrlclm/matrlClm${#strings.isEmpty(matrlVo.matrlClmNo) ? 'Insert' : 'Update'}|">
 <input type="hidden" name="clmStatCd" th:value=${matrlVo.clmStatCd} />
 
 <div class="LIST_BOX">
@@ -352,9 +387,10 @@ function deleteToggleMatrl(obj) {
                     <td>-</td>
                     <td class="t_right"><input type="text" name="dtlList[].clmQty" value="0" disabled="disabled" placeholder="0" class="t_inp" /></td>
                     <td><input type="text" name="dtlList[].remark" disabled="disabled" placeholder="용도를 입력하세요" class="t_inp" /></td>
-                    <td class="sz_120"><input type="text" name="dtlList[].inHopeDt" disabled="disabled" class="t_inp center" /></td>
+                    <td class="sz_120"><input type="text" name="dtlList[].inHopeDt" disabled="disabled" readonly="readonly" class="t_inp center" /></td>
                     <td class="sz_70">
                         <select name="dtlList[].inHopeHour" disabled="disabled" class="t_inp">
+                            <option value="">시간</option>
                             <option th:each="thour : ${#numbers.sequence(0,23)}"
                                 th:value="${#numbers.formatInteger(thour,2)}"
                                 th:text="|${#numbers.formatInteger(thour,2)}시|">00시</option>
@@ -366,7 +402,7 @@ function deleteToggleMatrl(obj) {
                         <span class="tb_btn delete" onclick="deleteToggleMatrl(this)" data-idx="">삭제</span>
                     </td>
                 </tr>
-                <tr th:each="rstLi,index : ${matrlVo.dtlList}">
+                <tr th:each="rstLi,index : ${matrlVo.dtlList}" class="matrlTrObj" th:attr="data-idx=${index.index}">
                     <td th:text="${index.count}">1</td>
                     <td th:text="${#strings.defaultString(rstLi.matrlClmDtlNo,'-')}">-</td>
                     <td th:text="${rstLi.itemNm}">itemNm</td>
@@ -374,9 +410,10 @@ function deleteToggleMatrl(obj) {
                     <td>0</td>
                     <td class="t_right"><input type="text" th:name="|dtlList[${index.index}].clmQty|" th:value="${rstLi.clmQty}" placeholder="0" class="t_inp" /></td>
                     <td><input type="text" th:name="|dtlList[${index.index}].remark|" th:value="${rstLi.remark}" placeholder="용도를 입력하세요" class="t_inp" /></td>
-                    <td class="sz_120"><input type="text" th:name="|dtlList[${index.index}].inHopeDt|" th:value="${rstLi.inHopeDt}" class="t_inp center" /></td>
+                    <td class="sz_120"><input type="text" th:name="|dtlList[${index.index}].inHopeDt|" th:readonly="readonly" th:value="${rstLi.inHopeDt}" class="t_inp center" /></td>
                     <td class="sz_70">
                         <select th:name="|dtlList[${index.index}].inHopeHour|" class="t_inp">
+                            <option value="">시간</option>
                             <option th:each="thour : ${#numbers.sequence(0,23)}"
                                 th:selected="${#numbers.formatInteger(thour,2) == rstLi.inHopeHour}"
                                 th:value="${#numbers.formatInteger(thour,2)}"
@@ -433,9 +470,9 @@ function deleteToggleMatrl(obj) {
 </form>
 <!-- Content List //////////////////// -->
 <div class="ListButtonArea">
-    <a href="#" class="BTNS icon cancel"><span>작성 취소</span></a>
-    <a href="#" onclick="doTempSave();" class="BTNS icon save_extra"><span>임시저장</span></a>
-    <a href="#" onclick="doConfirmSave();" class="BTNS icon confirm"><span>작성완료</span></a>
+    <a href="#" onclick="doCancel(); return false;" class="BTNS icon cancel"><span>작성 취소</span></a>
+    <a href="#" onclick="doTempSave(); return false;" class="BTNS icon save_extra"><span>임시저장</span></a>
+    <a href="#" onclick="doConfirmSave(); return false;" class="BTNS icon confirm"><span>작성완료</span></a>
 </div>
 
 </th:block>

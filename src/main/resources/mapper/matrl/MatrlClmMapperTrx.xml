@@ -51,7 +51,6 @@ VALUES
 	 )
 ]]></insert>
 
-
 <!-- 자재청구 상태 수정 -->
 <update id="updateMatrlClmStat" parameterType="MatrlClmVO"><![CDATA[
 /* matrl.MatrlClmMapperTrx.updateMatrlClmStat */
@@ -65,9 +64,35 @@ WHERE   1 = 1
 AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
 ]]></update>
 
-<!-- 자재청구상세 등록 -->
-<insert id="insertMatrlClmDtl" parameterType="MatrlClmVO"><![CDATA[
-/* matrl.MatrlClmMapperTrx.insertMatrlClmDtl */
+<!-- 자재청구 정보 수정 -->
+<!-- 작성중(10),수정요청(30) 및 등록자만 가능 -->
+<!-- 수정불가한 항목이 있음. ex. workSiteId -->
+<update id="updateMatrlClmInfo" parameterType="MatrlClmVO"><![CDATA[
+/* matrl.MatrlClmMapperTrx.updateMatrlClmInfo */
+UPDATE
+        MATRL_CLM
+SET
+        MODPE_ID = #{userId, jdbcType=VARCHAR}
+      , MOD_DTS = CURRENT_TIMESTAMP
+      , CLM_STAT_CD = #{clmStatCd, jdbcType=VARCHAR}
+      , REMARK = #{remark, jdbcType=VARCHAR}
+      , IN_ADDR_ZIPCD = #{inAddrZipcd, jdbcType=VARCHAR}
+      , IN_ADDR = #{inAddr, jdbcType=VARCHAR}
+      , IN_ADDR_REMARK = #{inAddrRemark, jdbcType=VARCHAR}
+      , IN_GATE_NO = #{inGateNo, jdbcType=VARCHAR}
+      , IN_CHARGR_NM = #{inChargrNm, jdbcType=VARCHAR}
+      , IN_CHARGR_TEL = #{inChargrTel, jdbcType=VARCHAR}
+      , IN_REMARK = #{inRemark, jdbcType=VARCHAR}
+WHERE   1 = 1
+AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
+AND     CLM_STAT_CD IN ( '10','30' )
+AND     REGPE_ID = #{userId, jdbcType=VARCHAR}
+]]></update>
+
+
+<!-- 자재청구상세 등록/수정 upsert -->
+<update id="upsertMatrlClmDtl" parameterType="MatrlClmVO"><![CDATA[
+/* matrl.MatrlClmMapperTrx.upsertMatrlClmDtl */
 INSERT
 INTO    MATRL_CLM_DTL
     (
@@ -80,7 +105,6 @@ INTO    MATRL_CLM_DTL
       , PREV_CLM_QTY
       , CLM_QTY
       , APRV_QTY
-      , REQ_DESC
       , REMARK
       , REGPE_ID
       , REG_DTS
@@ -98,14 +122,36 @@ VALUES
       , #{prevClmQty, jdbcType=NUMERIC}
       , #{clmQty, jdbcType=NUMERIC}
       , #{aprvQty, jdbcType=NUMERIC}
-      , #{reqDesc, jdbcType=VARCHAR}
       , #{remark, jdbcType=VARCHAR}
       , #{userId, jdbcType=VARCHAR}
       , CURRENT_TIMESTAMP
       , #{userId, jdbcType=VARCHAR}
       , CURRENT_TIMESTAMP
      )
-]]></insert>
+ON CONFLICT
+    (
+        MATRL_CLM_NO
+      , MATRL_ID
+    )
+DO UPDATE
+SET     IN_HOPE_DT = #{inHopeDt, jdbcType=VARCHAR}
+      , IN_HOPE_HOUR = #{inHopeHour, jdbcType=VARCHAR}
+      , CLM_QTY = #{clmQty, jdbcType=NUMERIC}
+      , REMARK = #{remark, jdbcType=VARCHAR}
+      , MODPE_ID = #{userId, jdbcType=VARCHAR}
+      , MOD_DTS = CURRENT_TIMESTAMP
+]]></update>
+
+<!-- 자재청구상세 삭제 -->
+<delete id="deleteMatrlClmDtl" parameterType="MatrlClmVO"><![CDATA[
+/* matrl.MatrlClmMapperTrx.deleteMatrlClmDtl */
+DELETE
+FROM
+        MATRL_CLM_DTL
+WHERE   1 = 1
+AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
+AND     MATRL_ID = #{matrlId, jdbcType=VARCHAR}
+]]></delete>
 
 
 <!-- 자재청구승인 등록, 승인/반려인 경우만, 승인일시 등록 -->

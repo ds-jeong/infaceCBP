@@ -46,7 +46,7 @@ AND     CU.LOGIN_ID = #{loginId, jdbcType=VARCHAR}
 ]]></select>
 
 <!-- 업체 사용자 현장 목록 -->
-<select id="getCmpnyUserSiteList" parameterType="String" resultType="cmpnyUserSiteVO"><![CDATA[
+<select id="getCmpnyUserSiteList" parameterType="String" resultType="WorkSiteVO"><![CDATA[
 /* cmpny.CmpnyUserMapper.getCmpnyUserSiteList */
 SELECT
         CUS.CMPNY_USER_ID

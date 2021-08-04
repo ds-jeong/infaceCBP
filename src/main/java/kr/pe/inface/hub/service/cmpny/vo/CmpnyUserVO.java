@@ -49,7 +49,8 @@ public class CmpnyUserVO implements UserDetails {
 	private String cmpnyTypeCd;
 	private String cmpnyNm;
 
-	private Map<String, CmpnyUserSiteVO> workSiteMap;
+	private List<WorkSiteVO> workSiteList;
+	private Map<String, WorkSiteVO> workSiteMap;
 	private Collection<? extends GrantedAuthority> auths;
 
 	/**

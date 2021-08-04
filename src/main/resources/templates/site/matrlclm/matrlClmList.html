@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
 <th:block layout:fragment="contentFragment">
 
+<!-- TODO DELETE -->
+<pre id="DEV_MEMO_DIV" style="padding:0; margin:0; display:none;">
+관리 현장을 선택하도록...
+</pre>
+
 <script type="text/javascript">
 var t = null;
 var dupReqCheck = false;
@@ -122,7 +127,7 @@ function doAprv(tobj) {
                     <td th:text="${rstLi.siteNm}">siteNm</td>
                     <td>
                         <a href="#" th:href="@{/site/matrlclm/matrlClmDtl(matrlClmNo=${rstLi.matrlClmNo})}"
-                            th:text="|${#strings.substring(rstLi.matrlClmNo,0,6)}-${#strings.substring(rstLi.matrlClmNo,6,14)}|">20-12140001</a>
+                            th:text="|${#strings.substring(rstLi.matrlClmNo,0,6)}-${#strings.substring(rstLi.matrlClmNo,6)}|">20-12140001</a>
                     </td>
                     <td th:text="${rstLi.dtlQty}">5</td>
                     <td class="man" th:with="aprvVo = ${rstLi.aprvList.size > 0 ? rstLi.aprvList[0] : null}">

@@ -2,32 +2,156 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="_layout/layout">
 <th:block layout:fragment="contentFragment">
 
-<h1>자재청구 목록</h1>
+<script type="text/javascript">
+var t = null;
+var dupReqCheck = false;
+function doAprv(tobj) {
+    var matrlCmlNo = tobj.dataset.no;
+    var aprvSeq = tobj.dataset.seq;
+    if ( dupReqCheck ) {
+        alert("처리중입니다.");
+        return;
+    } else if ( confirm("선택한 자재청구건을 승인처리합니다.") ) {
+        dupReqCheck = true;
+        var url = "/site/matrlclm/matrlClmAprv?matrlClmNo=" + matrlCmlNo + "&aprvSeq=" + aprvSeq;
+        location.href = url;
+    }
+}
+</script>
 
-<table border="1">
-<thead>
-    <tr>
-       <th>matrlClmNo 자재청구번호</th><th>cmpnyId 업체ID</th><th>workSiteId 작업현장ID</th>
-       <th>clmStatCd 청구상태코드</th><th>clmDt 청구일자</th>
-       <th>inHopeDts 입고희망일시</th><th>inAddr 입고주소</th><th>inGateNo 입고게이트번호</th>
-       <th>inChargeNm 입고담당자명</th><th>inChargeTel 입고담당자연락처</th><th>inRemark 입고_비고</th>
-    </tr>
-</thead>
-<tbody>
-    <tr th:each="rstLi : ${rstList}">
-        <td th:text="${rstLi.matrlMctgId}">matrlClmNo</td>
-        <td th:text="${rstLi.mctgNm}">cmpnyId</td>
-        <td th:text="${rstLi.mctgDesc}">workSiteId</td>
-        <td th:text="${rstLi.matrlCtgId}">clmStatCd</td>
-        <td th:text="${rstLi.ctgNm}">clmDt</td>
-        <td th:text="${rstLi.ctgDesc}">inHopeDts</td>
-        <td th:text="${rstLi.matrlItemId}">inAddr</td>
-        <td th:text="${rstLi.itemNm}">inGateNo</td>
-        <td th:text="${rstLi.itemDesc}">inChargeNm</td>
-        <td th:text="${rstLi.itemImg}">inChargeTel</td>
-        <td th:text="${rstLi.itemImg}">inRemark</td>
-    </tr>
-</tbody>
-</table>
+<h1 class="page_title">자재 청구 관리</h1>
+<div class="page_top">
+    <!-- Search Area -->
+    <div class="con_search_box">
+        <!-- Select -->
+        <div class="search_inp_box">
+            <div class="date_inp">
+                <i class="iconDate"></i>
+                <input type="text" value="2020.12. 11" class="date_inp" />
+                <span class="dtx">~</span>
+                <i class="iconDate"></i>
+                <input type="text" value="2020.12. 11" class="date_inp" />
+            </div>
+            <select class="top_inp">
+                <option>진행상태</option>
+            </select>
+            <select class="top_inp">
+                <option>현장을 선택하세요</option>
+            </select>
+            <input type="text" class="top_inp" placeholder="청구번호 or 품목명을 입력하세요." />
+            <a href="#" class="BTNS icon search"><span>검색</span></a>
+            <a href="#" class="BTNS icon reset"><span>초기화</span></a>
+        </div>
+        <!-- Button Area -->
+        <div class="fuc_btns_box">
+            <a href="#" th:href="@{/site/matrlclm/matrlClmUpdPage}" class="BTNS icon write"><span>자재 청구서 작성</span></a>
+        </div>
+    </div>
+</div>
+<!-- //////////////////// Content List -->
+<div class="LIST_BOX">
+    <!-- Search Result, buttons -->
+    <div class="list_top_area">
+        <div class="list_search_result">
+            <b>조회기간</b>2020년 12월
+        </div>
+        <div class="list_top_btn_box">
+            <select>
+                <option>전체보기</option>
+            </select>
+        </div>
+    </div>
+    <!-- Info list Top -->
+    <div class="con_info_top">
+        <table>
+            <thead>
+                <tr>
+                    <th>현장명</th>
+                    <th class="sz_120">작성중</th>
+                    <th class="sz_120">수정 청구요청</th>
+                    <th class="sz_120">당일청구</th>
+                    <th class="sz_120">월청구</th>
+                    <th class="sz_120">전체청구</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>삼성-부산EDC스마트빌리지</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>100</td>
+                    <td>1,000</td>
+                </tr>
+                <tr>
+                    <td>삼성-부산EDC스마트빌리지</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>100</td>
+                    <td>1,000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- List Table -->
+    <div class="list_table">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2" class="sz_50">No</th>
+                    <th rowspan="2" class="sz_60">진행상태</th>
+                    <th rowspan="2">청구일</th>
+                    <th rowspan="2">현장명</th>
+                    <th rowspan="2">청구번호</th>
+                    <th rowspan="2" class="sz_60">청구품목</th>
+                    <th colspan="3">현장 결재</th>
+                    <th rowspan="2" class="sz_100">발주 여부</th>
+                </tr>
+                <tr>
+                    <th class="sz_200">담당자</th>
+                    <th class="sz_200">소장</th>
+                    <th class="sz_200">이사</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="rstLi,index : ${rstList}">
+                    <td th:text="${index.count}">1</td>
+                    <td th:text="${rstLi.clmStatCd}">clmStatCd</td>
+                    <td th:text="|${#temporals.createDate(rstLi.clmDt, 'yyyyMMdd')}">2020/12/14</td>
+                    <td th:text="${rstLi.siteNm}">siteNm</td>
+                    <td>
+                        <a href="#" th:href="@{/site/matrlclm/matrlClmDtl(matrlClmNo=${rstLi.matrlClmNo})}"
+                            th:text="|${#strings.substring(rstLi.matrlClmNo,0,6)}-${#strings.substring(rstLi.matrlClmNo,6)}|">20-12140001</a>
+                    </td>
+                    <td th:text="${rstLi.dtlQty}">5</td>
+                    <td class="man" th:with="aprvVo = ${rstLi.aprvList.size > 0 ? rstLi.aprvList[0] : null}">
+                        <span th:if="${aprvVo != null}" th:text="|${aprvVo?.aprvrLoginId}(${aprvVo?.aprvrUserNm})|">id(이름)</span>
+                        <span th:if="${aprvVo != null}" th:text="${#dates.format(aprvVo?.aprvDts, 'yyyy/MM/dd')}">2020/12/14</span>
+                        <span th:if="${aprvVo != null && aprvVo.aprvStatCd == '10' && LOGIN_VO.cmpnyUserId == aprvVo.aprvrId}"
+                            onclick="doAprv(this);" th:attr="data-no=${aprvVo.matrlClmNo},data-seq=${aprvVo.aprvSeq}" class="tb_btn">결재</span>
+                    </td>
+                    <td class="man" th:with="aprvVo = ${rstLi.aprvList.size > 1 ? rstLi.aprvList[1] : null}">
+                         <span th:if="${aprvVo != null}" th:text="|${aprvVo?.aprvrLoginId}(${aprvVo?.aprvrUserNm})|">id(이름)</span>
+                        <span th:if="${aprvVo != null}" th:text="${#dates.format(aprvVo?.aprvDts, 'yyyy/MM/dd')}">2020/12/14</span>
+                        <span th:if="${aprvVo != null && aprvVo.aprvStatCd == '10' && LOGIN_VO.cmpnyUserId == aprvVo.aprvrId}"
+                            onclick="doAprv(this);" th:attr="data-no=${aprvVo.matrlClmNo},data-seq=${aprvVo.aprvSeq}" class="tb_btn">결재</span>
+                   </td>
+                    <td class="man" th:with="aprvVo = ${rstLi.aprvList.size > 2 ? rstLi.aprvList[2] : null}">
+                        <span th:if="${aprvVo != null}" th:text="|${aprvVo?.aprvrLoginId}(${aprvVo?.aprvrUserNm})|">id(이름)</span>
+                        <span th:if="${aprvVo != null}" th:text="${#dates.format(aprvVo?.aprvDts, 'yyyy/MM/dd')}">2020/12/14</span>
+                        <span th:if="${aprvVo != null && aprvVo.aprvStatCd == '10' && LOGIN_VO.cmpnyUserId == aprvVo.aprvrId}"
+                            onclick="doAprv(this);" th:attr="data-no=${aprvVo.matrlClmNo},data-seq=${aprvVo.aprvSeq}" class="tb_btn">결재</span>
+                    </td>
+                    <td class="man">
+                        <span>발주상태</span>
+                        <span>발주일자</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Content List //////////////////// -->
 
 </th:block>

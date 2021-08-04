@@ -1,9 +1,7 @@
 package kr.pe.inface.hub.controller.site;
 
-import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -39,17 +37,20 @@ public class SiteMatrlClmController {
 	 * 자재청구 목록 조회
 	 *
 	 * @param loginVo
+	 * @param workSiteId
+	 * @param clmStatCd
+	 * @param clmDt
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "/matrlClmList" })
-	public String matrlClmList(@AuthenticationPrincipal CmpnyUserVO loginVo, Model model) {
-		Calendar clmDtCal = Calendar.getInstance();
-		clmDtCal.add(Calendar.MONTH, -1); // 지정하지 않으면 최근 1개월
+	public String matrlClmList(@AuthenticationPrincipal CmpnyUserVO loginVo,
+			@RequestParam(required = false) String workSiteId,
+			@RequestParam(required = false) String clmStatCd,
+			@RequestParam(required = false) String clmDt,
+			Model model) throws Exception {
 
-		String clmStatCd = null;
-		String clmDt = FastDateFormat.getInstance("yyyyMMdd").format(clmDtCal);
-		List<MatrlClmVO> rstList = matrlClmService.getMatrlClmList(loginVo.getCmpnyId(), null, clmStatCd, clmDt);
+		List<MatrlClmVO> rstList = matrlClmService.getMatrlClmList(loginVo, workSiteId, clmStatCd, clmDt);
 		model.addAttribute("rstList", rstList);
 
 		return URL_PREFIX + "/matrlClmList";
@@ -124,12 +125,12 @@ public class SiteMatrlClmController {
 	@PostMapping({ "/matrlClmUpdate" })
 	public String matrlClmUpdate(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			MatrlClmVO paramVo,
-			Model model) {
+			Model model) throws Exception {
 
-		String matrlClmNo = null;
+		matrlClmService.updateMatrlClm(loginVo, paramVo);
 
-		// 등록된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/matrlClmDtl?matrlClmNo=" + matrlClmNo;
+		// 수정된 상세화면으로.
+		return "redirect:" + URL_PREFIX + "/matrlClmDtl?matrlClmNo=" + paramVo.getMatrlClmNo();
 	}
 
 	/**

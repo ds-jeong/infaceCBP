@@ -3,16 +3,15 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="54"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="798,504" last-zoom="1" max-obj-count="54"
 	 layers="공통" active-layers="0">
-
 <database name="inface_hub" encoding="UTF8" is-template="false" allow-conns="true" sql-disabled="true">
 </database>
 
 <schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
 
-<table name="base_column" layer="1" alias="기본_컬럼" collapse-mode="2" max-obj-count="4" z-value="0">
+<table name="base_column" layer="1" alias="기본_컬럼" collapse-mode="1" max-obj-count="4" z-value="0">
 	<schema name="public"/>
 	<position x="280" y="1340"/>
 	<column name="reg_dts" alias="등록_일시" not-null="true" default-value="current_timestamp">
@@ -33,7 +32,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 </table>
 
-<table name="matrl" layer="0" alias="자재" collapse-mode="2" max-obj-count="13" z-value="0">
+<table name="matrl" layer="0" alias="자재" collapse-mode="1" max-obj-count="13" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재정보]]></comment>
 	<position x="1340" y="600"/>
@@ -68,7 +67,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="matrl_ctg" layer="0" alias="자재_분류" collapse-mode="2" max-obj-count="12" z-value="0">
+<table name="matrl_ctg" layer="0" alias="자재_분류" collapse-mode="1" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재_분류]]></comment>
 	<position x="920" y="160"/>
@@ -105,7 +104,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</customidxs>
 </table>
 
-<table name="matrl_item" layer="0" alias="자재_품목" collapse-mode="2" max-obj-count="13" z-value="0">
+<table name="matrl_item" layer="0" alias="자재_품목" collapse-mode="1" max-obj-count="13" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재_품목]]></comment>
 	<position x="920" y="600"/>
@@ -138,7 +137,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="cmpny" layer="0" alias="업체" collapse-mode="2" max-obj-count="16" z-value="0">
+<table name="cmpny" layer="0" alias="업체" collapse-mode="1" max-obj-count="16" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체
 건설업체,자재업체 등
@@ -198,7 +197,7 @@ V00001]]></comment>
 	</constraint>
 </table>
 
-<table name="cmpny_matrl_item" layer="0" alias="업체_자재_품목" collapse-mode="2" max-obj-count="9" z-value="0">
+<table name="cmpny_matrl_item" layer="0" alias="업체_자재_품목" collapse-mode="1" max-obj-count="9" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_자재_품목
 건설사는 별도로 구매타입을 설정하지 않음.
@@ -228,7 +227,7 @@ V00001]]></comment>
 	</customidxs>
 </table>
 
-<table name="cmpny_matrl_price" layer="0" alias="업체_자재_가격" collapse-mode="2" max-obj-count="15" z-value="0">
+<table name="cmpny_matrl_price" layer="0" alias="업체_자재_가격" collapse-mode="1" max-obj-count="15" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_자재_가격
 확정되면.. 요청/제안가격에서 실제 가격컬럼으로 업데이트]]></comment>
@@ -290,7 +289,7 @@ V00001]]></comment>
 코드 - 확정은 20, 취소는 90 을 기준으로 잡자.]]></comment>
 </textbox>
 
-<table name="work_site" layer="0" alias="작업_현장" collapse-mode="2" max-obj-count="12" z-value="0">
+<table name="work_site" layer="0" alias="작업_현장" collapse-mode="1" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[건설현장 - 건설현장의 소유자는 누구?
 야적장 - 건설업체는 기본 야적장을 가진다.
@@ -330,7 +329,7 @@ V00001]]></comment>
 	</customidxs>
 </table>
 
-<table name="matrl_clm" layer="0" alias="자재_청구" collapse-mode="2" max-obj-count="22" z-value="0">
+<table name="matrl_clm" layer="0" alias="자재_청구" collapse-mode="1" max-obj-count="22" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재_청구]]></comment>
 	<position x="1800" y="160"/>
@@ -409,7 +408,7 @@ ex. 동3문?]]></comment>
 	</customidxs>
 </table>
 
-<table name="matrl_clm_dtl" layer="0" alias="자재_청구_상세" collapse-mode="2" max-obj-count="18" z-value="0">
+<table name="matrl_clm_dtl" layer="0" alias="자재_청구_상세" collapse-mode="1" max-obj-count="18" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재_청구_상세
 임시저장시에는 생성하지 않음.]]></comment>
@@ -425,7 +424,7 @@ ex. 동3문?]]></comment>
 90 - 취소]]></comment>
 	</column>
 	<column name="in_hope_dt" alias="입고_희망_일자">
-		<type name="varchar" length="10"/>
+		<type name="varchar" length="8"/>
 		<comment><![CDATA[입고_희망_일자]]></comment>
 	</column>
 	<column name="in_hope_hour" alias="입고_희망_시간">
@@ -467,7 +466,7 @@ ex. 동3문?]]></comment>
 	</customidxs>
 </table>
 
-<table name="matrl_mctg" layer="0" alias="자재_중분류" collapse-mode="2" max-obj-count="10" z-value="0">
+<table name="matrl_mctg" layer="0" alias="자재_중분류" collapse-mode="1" max-obj-count="10" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재_중분류]]></comment>
 	<position x="1340" y="180"/>
@@ -507,7 +506,7 @@ pk 구조가 xxyy 상위id 연동..개편이 잦을것으로 예상..각자 가�
 공통 카테고리를 만들어서..이건 누구나 접근. ( ex, 안전관련 )]]></comment>
 </textbox>
 
-<table name="comm_grp_cd" layer="1" alias="공통_그룹_코드" collapse-mode="2" max-obj-count="9" z-value="0">
+<table name="comm_grp_cd" layer="1" alias="공통_그룹_코드" collapse-mode="1" max-obj-count="9" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[공통_그룹_코드
 XXYY ( 영역,코드번호 ? )]]></comment>
@@ -533,7 +532,7 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 	</constraint>
 </table>
 
-<table name="comm_cd" layer="1" alias="공통_코드" collapse-mode="2" max-obj-count="10" z-value="0">
+<table name="comm_cd" layer="1" alias="공통_코드" collapse-mode="1" max-obj-count="10" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[공통_코드]]></comment>
 	<position x="80" y="1560"/>
@@ -575,7 +574,7 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 공급업체가.. 품목별로 구매타입을 어디서 설정할까?]]></comment>
 </textbox>
 
-<table name="cmpny_matrl_item_cntrt" layer="0" alias="업체_자재_품목_계약" collapse-mode="2" max-obj-count="10" z-value="0">
+<table name="cmpny_matrl_item_cntrt" layer="0" alias="업체_자재_품목_계약" collapse-mode="1" max-obj-count="10" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_자재_품목_계약]]></comment>
 	<position x="920" y="1480"/>
@@ -618,7 +617,7 @@ XXYY ( 영역,코드번호 ? )]]></comment>
 미래단가가 등록되지 않은 상품만 처리 가능하도록 해야 할듯.]]></comment>
 </textbox>
 
-<table name="cmpny_matrl_price_req" layer="0" alias="업체_자재_가격_요청" collapse-mode="2" max-obj-count="22" z-value="0">
+<table name="cmpny_matrl_price_req" layer="0" alias="업체_자재_가격_요청" collapse-mode="1" max-obj-count="22" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_자재_가격_요청
 1년단위이긴하나.. 임의의 날짜도 가능하도록?
@@ -700,7 +699,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 추후 추가되는 자재도 있을 수 있으므로, 개별 상태관리 필요]]></comment>
 </textbox>
 
-<table name="matrl_clm_aprv" layer="0" alias="자재_청구_결재" collapse-mode="2" max-obj-count="12" z-value="0">
+<table name="matrl_clm_aprv" layer="0" alias="자재_청구_결재" collapse-mode="1" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재_청구_결재]]></comment>
 	<position x="2260" y="500"/>
@@ -749,7 +748,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 결재선을 그냥.. 컬럼으로 만들까..]]></comment>
 </textbox>
 
-<table name="cmpny_user" layer="0" alias="업체_사용자" collapse-mode="2" max-obj-count="21" z-value="0">
+<table name="cmpny_user" layer="0" alias="업체_사용자" collapse-mode="1" max-obj-count="21" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_사용자
 근로자..와 구분하는게 나을듯..
@@ -1130,7 +1129,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 단가요청이나..등등 기능에서 영향이 없을지..]]></comment>
 </textbox>
 
-<table name="cmpny_matrl_price_req_mst" layer="0" alias="업체_자재_가격_요청_마스터" collapse-mode="2" max-obj-count="15" z-value="0">
+<table name="cmpny_matrl_price_req_mst" layer="0" alias="업체_자재_가격_요청_마스터" collapse-mode="1" max-obj-count="15" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_자재_가격_요청_마스터]]></comment>
 	<position x="1760" y="1120"/>
@@ -1245,7 +1244,7 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	<special-pk-cols indexes="0,1"/>
 </relationship>
 
-<view name="v_matrl_item" layer="0" alias="뷰_자재_품목" collapse-mode="2" max-obj-count="1" z-value="0">
+<view name="v_matrl_item" layer="0" alias="뷰_자재_품목" collapse-mode="1" max-obj-count="1" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[뷰_자재_품목]]></comment>
 	<position x="1200" y="480"/>
@@ -1264,7 +1263,7 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	</reference>
 </view>
 
-<table name="cmpny_user_site" layer="0" alias="업체_사용자_현장" collapse-mode="2" max-obj-count="9" z-value="0">
+<table name="cmpny_user_site" layer="0" alias="업체_사용자_현장" collapse-mode="1" max-obj-count="9" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_사용자_현장]]></comment>
 	<position x="520" y="520"/>
@@ -1377,7 +1376,7 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	<special-pk-cols indexes="0"/>
 </relationship>
 
-<table name="cmpny_matrl_price_req_memo" layer="0" alias="업체_자재_가격_요청_메모" collapse-mode="2" max-obj-count="10" z-value="0">
+<table name="cmpny_matrl_price_req_memo" layer="0" alias="업체_자재_가격_요청_메모" collapse-mode="1" max-obj-count="10" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[업체_자재_가격_요청_메모]]></comment>
 	<position x="2260" y="1360"/>
@@ -1425,7 +1424,7 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	 src-table="public.cmpny_matrl_price_req_memo"
 	 dst-table="public.base_column"/>
 
-<table name="work_site_aprv_tmplt" layer="0" alias="작업_현장_결재_템플릿" collapse-mode="2" max-obj-count="12" z-value="0">
+<table name="work_site_aprv_tmplt" layer="0" alias="작업_현장_결재_템플릿" collapse-mode="1" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[작업_현장 결재선 수기관리 템플릿
 청구 결재선 3명 - 현장 : 담당, 소장, 이사
@@ -1491,7 +1490,7 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	 src-table="public.work_site_aprv_tmplt"
 	 dst-table="public.base_column"/>
 
-<table name="matrl_clm_file" layer="0" alias="자재_청구_파일" collapse-mode="2" max-obj-count="12" z-value="0">
+<table name="matrl_clm_file" layer="0" alias="자재_청구_파일" collapse-mode="1" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<comment><![CDATA[자재_청구_파일
 첨부파일 등]]></comment>

@@ -1,11 +1,13 @@
 package kr.pe.inface.hub.service.matrl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.pe.inface.hub.config.security.Role.ROLE_NAME;
 import kr.pe.inface.hub.service.cmpny.mapper.CmpnyMapper;
-import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserSiteVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
 import kr.pe.inface.hub.service.cmpny.vo.WorkSiteVO;
 import kr.pe.inface.hub.service.matrl.mapper.MatrlClmMapper;
@@ -39,19 +40,46 @@ public class MatrlClmService extends BaseService {
 	/**
 	 * 자재청구목록 조회
 	 *
-	 * @param cmpnyId    필수, 업체 조건 설정
-	 * @param workSiteId 값을 지정하면, 현장 조건 설정
+	 * @param userVo 사용자의 업체 조건 확인
+	 * @param workSiteId 값을 지정하면, 현장 조건 설정, 기본값 - 본사는 현장전체, 현장유저는 관리현장
 	 * @param clmStatCd  값을 지정하면, 상태 조건 설정
-	 * @param clmDt      값을 지정하면, 청구일자 조건 설정
+	 * @param clmDt      값을 지정하면, 청구일자 조건 설정, 기본값 - 최근 1개월
 	 * @return
 	 */
-	public List<MatrlClmVO> getMatrlClmList(String cmpnyId, String workSiteId, String clmStatCd, String clmDt) {
-		// TODO 서비스객체에서.. 유저의 role 따라 파라미터를 조정하도록 하는게 나을지.. controller 에서 하는게 나을지..
+	public List<MatrlClmVO> getMatrlClmList(CmpnyUserVO userVo,
+			String workSiteId,
+			String clmStatCd,
+			String clmDt) throws Exception {
+
+		String cmpnyId = userVo.getCmpnyId();
+		List<WorkSiteVO> workSiteList = userVo.getWorkSiteList();
+
+		// 지정하지 않으면 최근 1개월
+		if (StringUtils.isBlank(clmDt)) {
+			Calendar clmDtCal = Calendar.getInstance();
+			clmDtCal.add(Calendar.MONTH, -1);
+			clmDt = FastDateFormat.getInstance("yyyyMMdd").format(clmDtCal);
+		}
+
 		MatrlClmVO vo = new MatrlClmVO();
 		vo.setCmpnyId(cmpnyId);
 		vo.setWorkSiteId(workSiteId);
 		vo.setClmStatCd(clmStatCd);
 		vo.setClmDt(clmDt);
+
+		// 현장 권한 체크 - 본사는 전체권한, 현장은 관리현장여부 체크 필요
+		if (!userVo.hasAnyAuths(ROLE_NAME.COMPANY)) {
+			if (workSiteId == null) {
+				if (workSiteList == null || workSiteList.size() == 0) {
+					throw new Exception("조회할 수 있는 현장이 없습니다.");
+				}
+				vo.setSiteList(workSiteList);
+			} else {
+				if (!userVo.hasWorkSite(workSiteId)) {
+					throw new Exception("현장에 대한 조회권한이 없습니다.");
+				}
+			}
+		}
 
 		List<MatrlClmVO> retList = matrlClmMapper.getMatrlClmList(vo);
 		if (retList != null && retList.size() > 0) {
@@ -80,6 +108,22 @@ public class MatrlClmService extends BaseService {
 				.hasAnyAuths(ROLE_NAME.COMPANY)
 				|| (userVo.hasAnyAuths(ROLE_NAME.COMPANY_SITE) && userVo.hasWorkSite(matrlClm.getWorkSiteId()))))) {
 			throw new Exception("자재청구 조회권한이 없습니다.");
+		}
+	}
+
+	/**
+	 * 자재청구 수정 권한 체크. 권한없으면 예외 발생
+	 *
+	 * @param userVo
+	 * @param matrlClm
+	 * @throws Exception
+	 */
+	public void checkMatrlClmUpd(CmpnyUserVO userVo, MatrlClmVO matrlClm) throws Exception {
+		// 작성중(10),수정요청(30), 등록자만 수정 가능
+		if (matrlClm == null || !userVo.getCmpnyUserId().equals(matrlClm.getRegpeId())) {
+			throw new Exception("자재청구 수정권한이 없습니다.");
+		} else if (!"10".equals(matrlClm.getClmStatCd()) && !"30".equals(matrlClm.getClmStatCd())) {
+			throw new Exception("승인중인 자재청구건은 수정할 수 없습니다.");
 		}
 	}
 
@@ -129,9 +173,9 @@ public class MatrlClmService extends BaseService {
 			// TODO 현장 담당자 권한이 있는지 체크. 현재는 별도 기준이 없으므로 결재템플릿의 첫 승인자와 매핑 체크
 			// 로그인유저의 현장 목록 조회
 			List<WorkSiteVO> siteList = new ArrayList<WorkSiteVO>();
-			Map<String, CmpnyUserSiteVO> userSiteMap = userVo.getWorkSiteMap();
+			Map<String, WorkSiteVO> userSiteMap = userVo.getWorkSiteMap();
 			if (userSiteMap != null) {
-				for (CmpnyUserSiteVO cusVo : userSiteMap.values() ) {
+				for (WorkSiteVO cusVo : userSiteMap.values() ) {
 					WorkSiteVO wsVo = cmpnyMapper.getWorkSite(cusVo.getWorkSiteId());
 					if (wsVo != null && userVo.getCmpnyUserId().equals(wsVo.getClmAprvrId1())) {
 						// 첫 승인자로 지정된 경우만.
@@ -147,6 +191,9 @@ public class MatrlClmService extends BaseService {
 		} else {
 			// 수정페이지 - 상세조회
 			retVo = this.getMatrlClm(userVo, matrlClmNo);
+
+			// 수정권한 체크
+			checkMatrlClmUpd(userVo, retVo);
 		}
 
 		return retVo;
@@ -162,20 +209,34 @@ public class MatrlClmService extends BaseService {
 	@Transactional(rollbackFor = Exception.class)
 	public String insertMatrlClm(CmpnyUserVO userVo, MatrlClmVO paramVo) throws Exception {
 
-		// TODO 등록 권한 체크
-//		rthis.checkMatrlClmDtl(userVo, paramVo);
-
-		// TODO 저장상태에 따른 체크 필요.. 임시저장은 검증없음. 승인요청이면 모두 체크..등
-
-		String nowDts = DateFormatUtils.format(new Date(), "yyMMdd-SSS");
-		String matrlClmNo = nowDts.substring(0, 6) + RandomUtils.nextInt(10000, 99999) + nowDts.substring(7, 10); // TODO 청구번호 생성 룰?
 		String cmpnyId = userVo.getCmpnyId();
 		String userId = userVo.getCmpnyUserId();
 		String workSiteId = paramVo.getWorkSiteId();
 		String clmStatCd = paramVo.getClmStatCd();
-		boolean isTemp = !"20".equals(clmStatCd); // 임시저장 여부.
 		List<MatrlClmVO> clmDtlList = paramVo.getDtlList();
 		List<MatrlClmFileVO> clmFileList = paramVo.getFileList();
+
+		// 현장, 자재는 필수. 상태값 체크
+		if (workSiteId == null) {
+			throw new Exception("현장 정보는 필수 항목입니다.");
+		} else if (clmDtlList == null || clmDtlList.size() == 0) {
+			throw new Exception("청구자재 정보는 필수 항목입니다.");
+		} else if (!"10".equals(clmStatCd) && !"20".equals(clmStatCd)) {
+			// 작성중(10), 승인중(20)
+			throw new Exception("등록을 위한 처리상태가 아닙니다.");
+		}
+
+		String nowDts = DateFormatUtils.format(new Date(), "yyMMdd-SSS");
+		String matrlClmNo = nowDts.substring(0, 6) + RandomUtils.nextInt(10000, 99999) + nowDts.substring(7, 10); // TODO 청구번호 생성 룰?
+		boolean isTemp = !"20".equals(clmStatCd); // 임시저장 여부.
+		WorkSiteVO workSiteVo = cmpnyMapper.getWorkSite(workSiteId); // 청구 승인자 목록 등록
+
+		// 등록 권한 체크 - 현장의 첫 승인자만 등록가능.
+		if (!userId.equals(workSiteVo.getClmAprvrId1())) {
+			throw new Exception("자재청구 등록권한이 없습니다.");
+		}
+
+		// TODO 저장상태에 따른 체크 필요.. 임시저장은 검증없음. 승인요청이면 모두 체크..등
 
 		// 청구 마스터 등록
 		paramVo.setMatrlClmNo(matrlClmNo);
@@ -192,18 +253,16 @@ public class MatrlClmService extends BaseService {
 				v.setMatrlClmDtlNo(null); // TODO 계속 수정될수 있는데... 청구완료되는 시점에 생성? 그냥 순서대로?
 				v.setClmDtlStatCd("20"); // 청구상세코드 '완료'
 				v.setUserId(userId);
-				matrlClmMapperTrx.insertMatrlClmDtl(v);
+				matrlClmMapperTrx.upsertMatrlClmDtl(v);
 			}
 		}
 
-		// 청구 승인자 목록 등록
-		WorkSiteVO workSiteVo = cmpnyMapper.getWorkSite(workSiteId);
 		// 청구 승인자 1
 		MatrlClmAprvVO clmAprvVo1 = new MatrlClmAprvVO();
 		clmAprvVo1.setMatrlClmNo(matrlClmNo);
 		clmAprvVo1.setAprvSeq(1);
 		clmAprvVo1.setAprvrId(workSiteVo.getClmAprvrId1());
-		clmAprvVo1.setAprvStatCd(isTemp ? "00" : "20"); // 확정등록시 본인으로 결재자 승인처리
+		clmAprvVo1.setAprvStatCd(isTemp ? "10" : "20"); // 확정등록시 본인으로 결재자 승인처리
 		clmAprvVo1.setUserId(userId);
 		matrlClmMapperTrx.insertMatrlClmAprv(clmAprvVo1);
 		// 청구 승인자 2
@@ -240,6 +299,69 @@ public class MatrlClmService extends BaseService {
 		return matrlClmNo;
 	}
 
+	/**
+	 * 자재청구 수정 처리
+	 *
+	 * @param userVo
+	 * @param paramVo
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public void updateMatrlClm(CmpnyUserVO userVo, MatrlClmVO paramVo) throws Exception {
+		String matrlClmNo = paramVo.getMatrlClmNo();
+		String userId = userVo.getCmpnyUserId();
+		String clmStatCd = paramVo.getClmStatCd();
+		List<MatrlClmVO> clmDtlList = paramVo.getDtlList();
+		//List<MatrlClmFileVO> clmFileList = paramVo.getFileList();
+
+		// 작성중   -> 작성중(10), 승인중(20)
+		// 수정요청 -> 승인중
+		// 둘 다 승인중으로 전환 가능, 작성중인 상태만 다르나 현재단계보다 이전으로 가는것이 되므로 굳이 이전/이후를 검증할 필요는 없들 듯.
+		// 이후 단계가, 작성중,승인중인지만 체크
+		if ( !"10".equals(clmStatCd) && !"20".equals(clmStatCd) ) {
+			throw new Exception("수정을 위한 처리상태가 아닙니다.");
+		}
+
+		// 청구자재 - 수정,삭제 체크
+		List<MatrlClmVO> clmDtlList_upd = new ArrayList<MatrlClmVO>();
+		List<MatrlClmVO> clmDtlList_del = new ArrayList<MatrlClmVO>();
+		for (MatrlClmVO v : clmDtlList) {
+			v.setMatrlClmNo(matrlClmNo);
+			if ( "D".equals(v.getModFlag()) ) {
+				clmDtlList_del.add(v);
+			} else {
+				// upsert 처리.
+				v.setClmDtlStatCd("20"); // 청구상세코드 '완료'
+				v.setUserId(userId);
+				clmDtlList_upd.add(v);
+			}
+		}
+
+		// 청구정보 수정. 현장수정 불가. 작성중,수정요청 상태의 등록자만 수정 가능
+		paramVo.setDtlQty(clmDtlList_upd.size());
+		paramVo.setUserId(userId);
+		if (matrlClmMapperTrx.updateMatrlClmInfo(paramVo) == 0) {
+			throw new Exception("자재청구 마스터 수정에 실패하였습니다.");
+		}
+
+		// 청구자재 수정
+		for (MatrlClmVO v : clmDtlList_upd) {
+			matrlClmMapperTrx.upsertMatrlClmDtl(v);
+		}
+		// 청구자재 삭제
+		for (MatrlClmVO v : clmDtlList_del) {
+			matrlClmMapperTrx.deleteMatrlClmDtl(v);
+		}
+
+		// TODO 첨부파일 수정
+
+		// 결재선 처리
+		// 자재청구상태=승인중.으로 수정되는 경우, 내 결재상태를 승인처리하여 결재진행시킴.
+		// 수정은 첫 결재자이므로 승인순번 = 1 임.
+		if ("20".equals(clmStatCd)) {
+			this.updateMatrlClmAprv(userVo, matrlClmNo, 1);
+		}
+	}
 
 	/**
 	 * 자재청구 승인 처리

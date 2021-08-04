@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserSiteVO;
 import kr.pe.inface.hub.service.cmpny.vo.CmpnyUserVO;
+import kr.pe.inface.hub.service.cmpny.vo.WorkSiteVO;
 
 @Mapper
 public interface CmpnyUserMapper {
@@ -31,6 +31,6 @@ public interface CmpnyUserMapper {
 	 * @param cmpnyUserId
 	 * @return
 	 */
-	public List<CmpnyUserSiteVO> getCmpnyUserSiteList(String cmpnyUserId);
+	public List<WorkSiteVO> getCmpnyUserSiteList(String cmpnyUserId);
 
 }
