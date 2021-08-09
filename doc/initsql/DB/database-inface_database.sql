@@ -300,7 +300,7 @@ CREATE TABLE public.matrl_clm_dtl (
     matrl_id varchar(10) NOT NULL,
     matrl_clm_dtl_no varchar(20),
     clm_dtl_stat_cd varchar(4),
-    in_hope_dt varchar(10),
+    in_hope_dt varchar(8),
     in_hope_hour varchar(2),
     prev_clm_qty smallint DEFAULT 0,
     clm_qty smallint DEFAULT 0,
@@ -876,34 +876,4 @@ COMMENT ON COLUMN public.matrl_clm_file.file_nm IS E'파일_이름';
 -- ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- -- ddl-end --
 --
--- object: spl_compny_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price DROP CONSTRAINT IF EXISTS spl_compny_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price ADD CONSTRAINT spl_compny_fk FOREIGN KEY (spl_cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-COMMENT ON CONSTRAINT spl_compny_fk ON public.cmpny_matrl_price  IS E'공급_업체_fk';
--- ddl-end --
-
-
--- object: spl_cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_item_cntrt DROP CONSTRAINT IF EXISTS spl_cmpny_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_item_cntrt ADD CONSTRAINT spl_cmpny_fk FOREIGN KEY (spl_cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-COMMENT ON CONSTRAINT spl_cmpny_fk ON public.cmpny_matrl_item_cntrt  IS E'공급_업체_fk';
--- ddl-end --
-
-
--- object: spl_cmpny_fk | type: CONSTRAINT --
--- ALTER TABLE public.cmpny_matrl_price_req_mst DROP CONSTRAINT IF EXISTS spl_cmpny_fk CASCADE;
-ALTER TABLE public.cmpny_matrl_price_req_mst ADD CONSTRAINT spl_cmpny_fk FOREIGN KEY (spl_cmpny_id)
-REFERENCES public.cmpny (cmpny_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-COMMENT ON CONSTRAINT spl_cmpny_fk ON public.cmpny_matrl_price_req_mst  IS E'공급_업체_fk';
--- ddl-end --
-
-
 

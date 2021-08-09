@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="798,504" last-zoom="1" max-obj-count="54"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="445,1111" last-zoom="1" max-obj-count="54"
 	 layers="공통" active-layers="0">
 <database name="inface_hub" encoding="UTF8" is-template="false" allow-conns="true" sql-disabled="true">
 </database>
@@ -272,9 +272,9 @@ V00001]]></comment>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="cmpny_fk" index="1"/>
-		<object name="cmpny_matrl_price_pk" index="2"/>
-		<object name="matrl_fk" index="3"/>
+		<object name="cmpny_fk" index="0"/>
+		<object name="cmpny_matrl_price_pk" index="1"/>
+		<object name="matrl_fk" index="2"/>
 	</customidxs>
 </table>
 
@@ -1176,8 +1176,8 @@ req 테이블에 관련 정보 넣고..완료되면 price 테이블로 복사하
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="cmpny_fk" index="2"/>
-		<object name="cmpny_matrl_price_req_mst_pk" index="1"/>
+		<object name="cmpny_fk" index="1"/>
+		<object name="cmpny_matrl_price_req_mst_pk" index="0"/>
 	</customidxs>
 </table>
 
@@ -1566,41 +1566,5 @@ AND     MC.MATRL_CTG_ID = MI.MATRL_CTG_ID;]]></expression>
 	 custom-color="#f432c1"
 	 src-table="public.matrl_clm"
 	 dst-table="public.base_column"/>
-
-<constraint name="spl_compny_fk" type="fk-constr" alias="공급_업체_fk" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cmpny" table="public.cmpny_matrl_price">
-	<columns names="spl_cmpny_id" ref-type="src-columns"/>
-	<columns names="cmpny_id" ref-type="dst-columns"/>
-		<comment><![CDATA[공급_업체_fk]]></comment>
-</constraint>
-
-<constraint name="spl_cmpny_fk" type="fk-constr" alias="공급_업체_fk" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cmpny" table="public.cmpny_matrl_item_cntrt">
-	<columns names="spl_cmpny_id" ref-type="src-columns"/>
-	<columns names="cmpny_id" ref-type="dst-columns"/>
-		<comment><![CDATA[공급_업체_fk]]></comment>
-</constraint>
-
-<constraint name="spl_cmpny_fk" type="fk-constr" alias="공급_업체_fk" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cmpny" table="public.cmpny_matrl_price_req_mst">
-	<columns names="spl_cmpny_id" ref-type="src-columns"/>
-	<columns names="cmpny_id" ref-type="dst-columns"/>
-		<comment><![CDATA[공급_업체_fk]]></comment>
-</constraint>
-
-<relationship name="rel_cmpny_matrl_price_cmpny" type="relfk" layer="0"
-	 src-table="public.cmpny_matrl_price"
-	 dst-table="public.cmpny" reference-fk="spl_compny_fk"
-	 src-required="false" dst-required="true"/>
-
-<relationship name="rel_cmpny_matrl_item_cntrt_cmpny" type="relfk" layer="0"
-	 src-table="public.cmpny_matrl_item_cntrt"
-	 dst-table="public.cmpny" reference-fk="spl_cmpny_fk"
-	 src-required="false" dst-required="true"/>
-
-<relationship name="rel_cmpny_matrl_price_req_mst_cmpny" type="relfk" layer="0"
-	 src-table="public.cmpny_matrl_price_req_mst"
-	 dst-table="public.cmpny" reference-fk="spl_cmpny_fk"
-	 src-required="false" dst-required="true"/>
 
 </dbmodel>
