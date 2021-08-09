@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.inface.hub.service.cmpny.CmpnyService;
 import kr.co.inface.hub.service.cmpny.vo.CmpnyUserVO;
@@ -123,13 +124,15 @@ public class CmpnyMatrlPriceController {
 	@PostMapping({ "/cmpnyMatrlPriceReqInsert" })
 	public String cmpnyMatrlPriceReqInsert(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			MatrlPriceVO paramVO,
-			Model model) throws Exception {
+			RedirectAttributes rediAttr) throws Exception {
 
 		log.debug("paramVo : " + paramVO);
 		matrlPriceService.insertCmpnyMatrlPriceReqInfo(loginVo, paramVO);
 
 		// 등록된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?splCmpnyId=" + paramVO.getSplCmpnyId() + "&aplStrtDt=" + paramVO.getAplStrtDt();
+		rediAttr.addAttribute("splCmpnyId", paramVO.getSplCmpnyId());
+		rediAttr.addAttribute("aplStrtDt", paramVO.getAplStrtDt());
+		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl";
 	}
 
 	/**
@@ -143,13 +146,15 @@ public class CmpnyMatrlPriceController {
 	@PostMapping({ "/cmpnyMatrlPriceReqUpdate" })
 	public String cmpnyMatrlPriceReqUpdate(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			MatrlPriceVO paramVO,
-			Model model) throws Exception {
+			RedirectAttributes rediAttr) throws Exception {
 
 		log.debug("paramVo : " + paramVO);
 		matrlPriceService.updateCmpnyMatrlPriceReqInfoForCmpny(loginVo, paramVO);
 
 		// 등록된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?splCmpnyId=" + paramVO.getSplCmpnyId() + "&aplStrtDt=" + paramVO.getAplStrtDt();
+		rediAttr.addAttribute("splCmpnyId", paramVO.getSplCmpnyId());
+		rediAttr.addAttribute("aplStrtDt", paramVO.getAplStrtDt());
+		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl";
 	}
 
 	/**
@@ -166,12 +171,14 @@ public class CmpnyMatrlPriceController {
 	public String cmpnyMatrlPriceReqConfirm(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			@RequestParam String splCmpnyId,
 			@RequestParam String aplStrtDt,
-			Model model) throws Exception {
+			RedirectAttributes rediAttr) throws Exception {
 
 		matrlPriceService.updateCmpnyMatrlPriceReqInfoConfirm(loginVo, splCmpnyId, aplStrtDt);
 
 		// 등록된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?splCmpnyId=" + splCmpnyId + "&aplStrtDt=" + aplStrtDt;
+		rediAttr.addAttribute("splCmpnyId", splCmpnyId);
+		rediAttr.addAttribute("aplStrtDt", aplStrtDt);
+		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl";
 	}
 
 }

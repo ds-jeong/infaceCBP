@@ -5,6 +5,7 @@
 <!-- TODO DELETE -->
 <pre id="DEV_MEMO_DIV" style="padding:0; margin:0; display:none;">
 * 청구 수정,취소는..언제 가능하고 어떤 기능인지
+* 파일 다운로드 기능.. 권한체크?
 </pre>
 
 <script type="text/javascript">
@@ -202,7 +203,7 @@ function doAprv(tobj) {
                 <tr th:each="rstLi,index : ${matrlVo.fileList}">
                     <td th:text="${index.count}">1</td>
                     <td th:text="${rstLi.fileDesc}">fileDesc</td>
-                    <td><a href="#" th:text="${rstLi.fileNm}">fileNm</a></td>
+                    <td><a th:href="${rstLi.filePath}" th:text="${rstLi.fileNm}">fileNm</a></td>
                 </tr>
             </tbody>
         </table>

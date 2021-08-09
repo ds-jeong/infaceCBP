@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.inface.hub.service.cmpny.vo.CmpnyUserVO;
 import kr.co.inface.hub.service.matrl.MatrlService;
@@ -55,7 +56,8 @@ public class VenMatrlController {
 	public String useMyMatrlItem(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			@RequestParam String matrlItemId,
 			@RequestParam(required = false) String buyTypeCd,
-			@RequestParam String useYn) {
+			@RequestParam String useYn,
+			RedirectAttributes rediAttr) {
 
 		// TODO get -> post 로 설정..
 		matrlService.useMyMatrlItem(loginVo.getCmpnyUserId(), loginVo.getCmpnyId(), matrlItemId, buyTypeCd, useYn);

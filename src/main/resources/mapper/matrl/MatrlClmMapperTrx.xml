@@ -234,4 +234,18 @@ VALUES
      )
 ]]></insert>
 
+<!-- 자재청구파일 삭제 -->
+<update id="deleteMatrlClmFile" parameterType="MatrlClmFileVO"><![CDATA[
+/* matrl.MatrlClmMapperTrx.deleteMatrlClmFile */
+UPDATE
+        MATRL_CLM_FILE
+SET
+        MODPE_ID = #{userId, jdbcType=VARCHAR}
+      , MOD_DTS = CURRENT_TIMESTAMP
+      , USE_YN = 'N'
+WHERE   1 = 1
+AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
+AND     FILE_SEQ = #{fileSeq, jdbcType=NUMERIC}
+]]></update>
+
 </mapper>

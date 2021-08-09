@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.inface.hub.service.cmpny.CmpnyService;
 import kr.co.inface.hub.service.cmpny.vo.CmpnyUserVO;
@@ -121,13 +122,15 @@ public class VenMatrlPriceController {
 	@PostMapping({ "/cmpnyMatrlPriceReqUpdate" })
 	public String cmpnyMatrlPriceReqUpdate(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			MatrlPriceVO paramVO,
-			Model model) throws Exception {
+			RedirectAttributes rediAttr) throws Exception {
 
 		log.debug("paramVo : " + paramVO);
 		matrlPriceService.updateCmpnyMatrlPriceReqInfoForSplCmpny(loginVo, paramVO);
 
 		// 등록된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl?cmpnyId=" + paramVO.getCmpnyId() + "&aplStrtDt=" + paramVO.getAplStrtDt();
+		rediAttr.addAttribute("cmpnyId", paramVO.getCmpnyId());
+		rediAttr.addAttribute("aplStrtDt", paramVO.getAplStrtDt());
+		return "redirect:" + URL_PREFIX + "/cmpnyMatrlPriceVenReqDtl";
 	}
 
 }

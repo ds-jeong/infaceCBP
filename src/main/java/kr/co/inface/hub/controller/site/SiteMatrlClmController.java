@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.inface.hub.service.cmpny.vo.CmpnyUserVO;
 import kr.co.inface.hub.service.matrl.MatrlClmService;
@@ -107,12 +108,13 @@ public class SiteMatrlClmController {
 	@PostMapping({ "/matrlClmInsert" })
 	public String matrlClmInsert(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			MatrlClmVO paramVo,
-			Model model) throws Exception {
+			RedirectAttributes rediAttr) throws Exception {
 
 		String matrlClmNo = matrlClmService.insertMatrlClm(loginVo, paramVo);
 
 		// 등록된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/matrlClmDtl?matrlClmNo=" + matrlClmNo;
+		rediAttr.addAttribute("matrlClmNo", matrlClmNo);
+		return "redirect:" + URL_PREFIX + "/matrlClmDtl";
 	}
 
 	/**
@@ -125,12 +127,13 @@ public class SiteMatrlClmController {
 	@PostMapping({ "/matrlClmUpdate" })
 	public String matrlClmUpdate(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			MatrlClmVO paramVo,
-			Model model) throws Exception {
+			RedirectAttributes rediAttr) throws Exception {
 
 		matrlClmService.updateMatrlClm(loginVo, paramVo);
 
 		// 수정된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/matrlClmDtl?matrlClmNo=" + paramVo.getMatrlClmNo();
+		rediAttr.addAttribute("matrlClmNo", paramVo.getMatrlClmNo());
+		return "redirect:" + URL_PREFIX + "/matrlClmDtl";
 	}
 
 	/**
@@ -145,13 +148,14 @@ public class SiteMatrlClmController {
 	public String matrlClmAprv(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			@RequestParam String matrlClmNo,
 			@RequestParam int aprvSeq,
-			Model model) throws Exception {
+			RedirectAttributes rediAttr) throws Exception {
 
 		// TODO
 		matrlClmService.updateMatrlClmAprv(loginVo, matrlClmNo, aprvSeq);
 
 		// 등록된 상세화면으로.
-		return "redirect:" + URL_PREFIX + "/matrlClmDtl?matrlClmNo=" + matrlClmNo;
+		rediAttr.addAttribute("matrlClmNo", matrlClmNo);
+		return "redirect:" + URL_PREFIX + "/matrlClmDtl";
 	}
 
 }

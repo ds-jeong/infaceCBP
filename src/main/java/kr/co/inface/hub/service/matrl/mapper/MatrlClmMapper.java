@@ -54,4 +54,12 @@ public interface MatrlClmMapper {
 	 */
 	public List<MatrlClmFileVO> getMatrlClmFileList(String matrlClmNo);
 
+	/**
+	 * 자재청구파일 다음 순번 조회. 신규생성시 seq 판단용
+	 *
+	 * @param matrlClmNo
+	 * @return
+	 */
+	public int getMatrlClmFileSeqNext(String matrlClmNo);
+
 }

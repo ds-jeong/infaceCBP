@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.inface.hub.service.cmpny.vo.CmpnyUserVO;
 import kr.co.inface.hub.service.matrl.MatrlService;
@@ -55,7 +56,8 @@ public class CmpnyMatrlController {
 	@GetMapping({ "/useMyMatrlItem" })
 	public String useMyMatrlItem(@AuthenticationPrincipal CmpnyUserVO loginVo,
 			@RequestParam String matrlItemId,
-			@RequestParam String useYn) {
+			@RequestParam String useYn,
+			RedirectAttributes rediAttr) {
 
 		// TODO get -> post 로 설정..
 		String buyTypeCd = null; // 건설사는 구매타입을 별도로 지정하지 않음.
@@ -129,12 +131,15 @@ public class CmpnyMatrlController {
 			@RequestParam String matrlItemId,
 			@RequestParam String splCmpnyId,
 			@RequestParam String buyTypeCd,
-			@RequestParam String cntrtStatCd) {
+			@RequestParam String cntrtStatCd,
+			RedirectAttributes rediAttr) {
 
 		// TODO get -> post 로 설정..
 		matrlService.updMatrlItemCntrtStat(loginVo.getCmpnyUserId(), loginVo.getCmpnyId(), matrlItemId, splCmpnyId, buyTypeCd, cntrtStatCd);
 
-		return "redirect:" + URL_PREFIX + "/matrlItemCntrtList?matrlItemId=" + matrlItemId + "&buyTypeCd=" + buyTypeCd;
+		rediAttr.addAttribute("matrlItemId", matrlItemId);
+		rediAttr.addAttribute("buyTypeCd", buyTypeCd);
+		return "redirect:" + URL_PREFIX + "/matrlItemCntrtList";
 	}
 
 }

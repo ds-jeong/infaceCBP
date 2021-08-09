@@ -13,6 +13,7 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.inface.framework.web.BaseService;
 import kr.co.inface.hub.config.security.Role.ROLE_NAME;
@@ -24,6 +25,7 @@ import kr.co.inface.hub.service.matrl.mapper.MatrlClmMapperTrx;
 import kr.co.inface.hub.service.matrl.vo.MatrlClmAprvVO;
 import kr.co.inface.hub.service.matrl.vo.MatrlClmFileVO;
 import kr.co.inface.hub.service.matrl.vo.MatrlClmVO;
+import kr.co.inface.hub.util.FileUpDnUtil;
 
 @Service
 public class MatrlClmService extends BaseService {
@@ -238,6 +240,26 @@ public class MatrlClmService extends BaseService {
 
 		// TODO 저장상태에 따른 체크 필요.. 임시저장은 검증없음. 승인요청이면 모두 체크..등
 
+		// 트랜잭션 처리전에 오래 걸리는 작업을 미리 처리함. 트랜잭션 시간을 최대한 줄이는게 좋음.
+		// 청구 첨부 목록 등록
+		if ( clmFileList != null && clmFileList.size() > 0 ) {
+			int seq = 1;
+			for ( MatrlClmFileVO v : clmFileList ) {
+				MultipartFile file = v.getFile();
+				String destPath = null;
+				if (file == null || file.isEmpty() || StringUtils.isBlank(destPath = FileUpDnUtil.uploadFile(file)))
+					continue;
+
+				v.setMatrlClmNo(matrlClmNo);
+				v.setFileSeq(seq++);
+				v.setFileNm(file.getOriginalFilename());
+				v.setFilePath(destPath);
+				v.setUseYn("Y");
+				v.setUserId(userId);
+				matrlClmMapperTrx.insertMatrlClmFile(v);
+			}
+		}
+
 		// 청구 마스터 등록
 		paramVo.setMatrlClmNo(matrlClmNo);
 		paramVo.setDtlQty(clmDtlList.size());
@@ -283,19 +305,6 @@ public class MatrlClmService extends BaseService {
 		matrlClmMapperTrx.insertMatrlClmAprv(clmAprvVo3);
 		// TODO 발주 승인정보를 같이 기록할 것인지..
 
-		// 청구 첨부 목록 등록
-		if ( clmFileList != null && clmFileList.size() > 0 ) {
-			int seq = 1;
-			for ( MatrlClmFileVO v : clmFileList ) {
-				v.setMatrlClmNo(matrlClmNo);
-				v.setFileSeq(seq++);
-				v.setFileNm(v.getFilePath()); // TODO 파일명 별도 저장.
-				v.setUseYn("Y");
-				v.setUserId(userId);
-				matrlClmMapperTrx.insertMatrlClmFile(v);
-			}
-		}
-
 		return matrlClmNo;
 	}
 
@@ -312,7 +321,7 @@ public class MatrlClmService extends BaseService {
 		String userId = userVo.getCmpnyUserId();
 		String clmStatCd = paramVo.getClmStatCd();
 		List<MatrlClmVO> clmDtlList = paramVo.getDtlList();
-		//List<MatrlClmFileVO> clmFileList = paramVo.getFileList();
+		List<MatrlClmFileVO> clmFileList = paramVo.getFileList();
 
 		// 작성중   -> 작성중(10), 승인중(20)
 		// 수정요청 -> 승인중
@@ -337,6 +346,46 @@ public class MatrlClmService extends BaseService {
 			}
 		}
 
+		// 트랜잭션 처리전에 오래 걸리는 작업을 미리 처리함. 트랜잭션 시간을 최대한 줄이는게 좋음.
+		// 첨부파일 수정
+		List<MatrlClmFileVO> clmFileList_ins = new ArrayList<MatrlClmFileVO>();
+		List<MatrlClmFileVO> clmFileList_del = new ArrayList<MatrlClmFileVO>();
+		if ( clmFileList != null && clmFileList.size() > 0 ) {
+			for ( MatrlClmFileVO v : clmFileList ) {
+				// 추가,삭제만 존재. 삭제플래그가 있으면 지우고, 순번이 없으면 신규로 등록한다.
+				v.setMatrlClmNo(matrlClmNo);
+				v.setUserId(userId);
+				if ( "D".equals(v.getModFlag()) ) {
+					v.setUseYn("N");
+					clmFileList_del.add(v);
+				} else if (v.getFileSeq() < 1) {
+					MultipartFile file = v.getFile();
+					String destPath = null;
+					if (file == null || file.isEmpty() || StringUtils.isBlank(destPath = FileUpDnUtil.uploadFile(file)))
+						continue;
+
+					//v.setFileSeq(seq++);
+					v.setFileNm(file.getOriginalFilename());
+					v.setFilePath(destPath);
+					v.setUseYn("Y");
+					clmFileList_ins.add(v);
+				}
+			}
+		}
+
+		// 첨부파일 추가
+		if (clmFileList_ins.size() > 0) {
+			int nextSeq = matrlClmMapper.getMatrlClmFileSeqNext(matrlClmNo);
+			for (MatrlClmFileVO v : clmFileList_ins) {
+				v.setFileSeq(nextSeq++);
+				matrlClmMapperTrx.insertMatrlClmFile(v);
+			}
+		}
+		// 첨부파일 삭제
+		for (MatrlClmFileVO v : clmFileList_del) {
+			matrlClmMapperTrx.deleteMatrlClmFile(v);
+		}
+
 		// 청구정보 수정. 현장수정 불가. 작성중,수정요청 상태의 등록자만 수정 가능
 		paramVo.setDtlQty(clmDtlList_upd.size());
 		paramVo.setUserId(userId);
@@ -352,8 +401,6 @@ public class MatrlClmService extends BaseService {
 		for (MatrlClmVO v : clmDtlList_del) {
 			matrlClmMapperTrx.deleteMatrlClmDtl(v);
 		}
-
-		// TODO 첨부파일 수정
 
 		// 결재선 처리
 		// 자재청구상태=승인중.으로 수정되는 경우, 내 결재상태를 승인처리하여 결재진행시킴.

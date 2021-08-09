@@ -27,8 +27,8 @@ AND     MC.WORK_SITE_ID IN
 AND     ( #{clmStatCd, jdbcType=VARCHAR} IS NULL OR MC.CLM_STAT_CD = #{clmStatCd, jdbcType=VARCHAR} )
 AND     CLM_DT >= #{clmDt, jdbcType=VARCHAR}
 ORDER BY
-        CLM_DT DESC
-      , MATRL_CLM_NO DESC
+        MC.CLM_DT DESC
+      , MC.REG_DTS DESC
 ]]></select>
 
 
@@ -118,6 +118,17 @@ AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
 AND     USE_YN = 'Y'
 ORDER BY
         FILE_SEQ
+]]></select>
+
+<!-- 자재청구파일 다음 순번 조회. 신규생성시 seq 판단용 -->
+<select id="getMatrlClmFileSeqNext" parameterType="String" resultType="int"><![CDATA[
+/* matrl.MatrlClmMapper.getMatrlClmFileSeqNext */
+SELECT
+        COALESCE(MAX(FILE_SEQ), 0) + 1
+FROM
+        MATRL_CLM_FILE MCF
+WHERE   1 = 1
+AND     MATRL_CLM_NO = #{matrlClmNo, jdbcType=VARCHAR}
 ]]></select>
 
 </mapper>

@@ -19,6 +19,14 @@ spring:
       auto-commit: true
       connection-test-query: SELECT 1
 
+  servlet:
+    multipart:
+      #file-size-threshold: 1MB  ## 기준보다 작으면 임시스토리지에 저장하지 않고 메모리에서 생성.
+      #location: C:/Temp         ## 기본값은 jvm 임시경로임
+      max-file-size: 2MB         ## 파일 1개 제한
+      max-request-size: 20MB     ## 요청 전체 제한
+
+
 ## mybatis java config 검토
 mybatis:
   mapper-locations: mapper/**/*.xml

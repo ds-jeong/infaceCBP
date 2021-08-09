@@ -15,8 +15,9 @@ jQuery(document).ready(function() {
 });
 
 var isSubmit = false; // 처리중 여부
-var DEL_FLAG = "D"; // 자재 삭제 플래그
-var UPD_FLAG = "U"; // 자재 수정 플래그
+var DEL_FLAG = "D"; // 삭제 플래그
+var UPD_FLAG = "U"; // 수정 플래그
+var DEL_COLOR = "red";
 
 // validate
 function validate() {
@@ -166,17 +167,72 @@ function selectMatrl(obj) {
 function deleteToggleMatrl(obj) {
 	var idx = obj.dataset.idx;
     var trObj = jQuery(obj).parent().parent();
-    var modFlagObj = trObj.find("input[name='dtlList\[" + idx + "\].modFlag']");
+    var modFlagObj = trObj.find("input[name='dtlList[" + idx + "].modFlag']");
     var modFlag = modFlagObj.val();
 
     if ( !confirm(modFlag==DEL_FLAG ? "해당 자재를 삭제취소합니다." : "해당 자재를 삭제합니다.") ) return false;
 
-    trObj.css("background-color", modFlag==DEL_FLAG ? "" : "red");
+    trObj.css("background-color", modFlag==DEL_FLAG ? "" : DEL_COLOR);
     jQuery(obj).text(modFlag==DEL_FLAG ? "삭제" : "삭제 취소");
 
     modFlagObj.val(modFlag==DEL_FLAG ? UPD_FLAG : DEL_FLAG); // 삭제전에 수정되었는지 체크가 애매하므로, 삭제취소시 UPD_FLAG 셋팅
 }
+
+
+// 파일 템플릿 tr 생성/추가
+function genFileTr() {
+    var tmpltObj = jQuery("#fileTrTemplt");
+    var tmpltParentObj = tmpltObj.parent();
+    var idx = parseInt(tmpltParentObj.find("tr:last").get(0).dataset.idx) + 1; // 순서
+    var tmpObj = tmpltObj.clone();
+    var tdArr = tmpObj.find("td");
+
+    tdArr.eq(0).text(idx + 1);
+    tdArr.eq(1).find("input").attr({"name" : "fileList[" + idx + "].fileDesc"});
+    tdArr.eq(2).find("input[type=text]").attr({"name" : "fileList[" + idx + "].filePath"});
+    tdArr.eq(2).find("label").attr({"for" : "ex_filename_" + idx});
+    tdArr.eq(2).find("input[type=file]").attr({"name" : "fileList[" + idx + "].file", "id" : "ex_filename_" + idx});
+    tdArr.eq(3).find("input[type=hidden]").attr({"name" : "fileList[" + idx + "].modFlag"});
+    tdArr.eq(3).find("span" ).attr({"data-idx" : idx});
+
+    //
+    tmpObj.removeAttr("id style");
+    tmpObj.attr("data-idx", idx);
+    tmpObj.find("input, select").prop("disabled", "");
+
+    tmpltParentObj.append(tmpObj);
+    tmpObj.show();
+}
+
+// 파일 삭제
+function deleteToggleFile(obj) {
+    var idx = obj.dataset.idx;
+    var trObj = jQuery(obj).parent().parent();
+    var fileSeqObj = trObj.find("input[name='fileList[" + idx + "].fileSeq']");
+    var fileSeq = fileSeqObj.val();
+    var modFlagObj = trObj.find("input[name='fileList[" + idx + "].modFlag']");
+    var modFlag = modFlagObj.val();
+
+    // 새로 추가된 항목이면 그냥 삭제, 기존 항목이면 toggle 처리
+    if ( fileSeq==undefined ) {
+    	trObj.remove();
+    	return false;
+    } else {
+	    if ( !confirm(modFlag==DEL_FLAG ? "해당 파일을 삭제취소합니다." : "해당 파일을 삭제합니다.") ) return false;
+
+	    trObj.css("background-color", modFlag==DEL_FLAG ? "" : DEL_COLOR);
+	    jQuery(obj).text(modFlag==DEL_FLAG ? "삭제" : "삭제 취소");
+
+	    modFlagObj.val(modFlag==DEL_FLAG ? UPD_FLAG : DEL_FLAG);
+    }
+}
+
+// 파일선택
+function changeFileName(obj) {
+	jQuery(obj).parent().find("input[type=text]").val(obj.value);
+}
 </script>
+
 
 <h1 class="page_title">
     자재 청구서
@@ -189,7 +245,7 @@ function deleteToggleMatrl(obj) {
     </div>
 </h1>
 <!-- //////////////////// Content List -->
-<form name="sForm" method="post" th:action="|/site/matrlclm/matrlClm${#strings.isEmpty(matrlVo.matrlClmNo) ? 'Insert' : 'Update'}|">
+<form name="sForm" th:action="|/site/matrlclm/matrlClm${#strings.isEmpty(matrlVo.matrlClmNo) ? 'Insert' : 'Update'}|" method="post" enctype="multipart/form-data">
 <input type="hidden" name="clmStatCd" th:value=${matrlVo.clmStatCd} />
 
 <div class="LIST_BOX">
@@ -435,7 +491,7 @@ function deleteToggleMatrl(obj) {
             <b>청구 관련 서류</b>
         </div>
         <div class="list_top_btn_box">
-            <a href="#" class="BTNS icon add"><span>추가</span></a>
+            <a href="#" onclick="genFileTr(); return false;" class="BTNS icon add"><span>추가</span></a>
         </div>
     </div>
     <div class="list_table">
@@ -449,18 +505,30 @@ function deleteToggleMatrl(obj) {
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!--/* 수정시 tr 템플릿과 복사하는 스크립트도 같이 수정 필요. input disable 풀기, value 셋팅. */-->
+                <tr id="fileTrTemplt" style="display:none;" data-idx="-1">
                     <td>1</td>
-                    <td><input type="text" name="fileList[0].fileDesc" placeholder="서류 내용을 입력하세요" class="t_inp" /></td>
+                    <td><input type="text" name="|fileList[${index.index}].fileDesc|" disabled="disabled" placeholder="서류 내용을 입력하세요" class="t_inp" /></td>
                     <td>
                         <div class="filebox">
-                            <input class="upload-name" type="text" name="fileList[0].filePath" value="첨부파일 선택">
-                            <label for="ex_filename" class="file_search">찾기</label>
-                            <input type="file" id="ex_filename" class="upload-hidden fileinp">
+                            <input class="upload-name" type="text" name="|fileList[${index.index}].filePath|" disabled="disabled" readonly="readonly" placeholder="첨부파일 선택">
+                            <label for="|ex_filename_${index.index}|" class="file_search">찾기</label>
+                            <input type="file" onchange="changeFileName(this);" id="|ex_filename_${index.index}|" name="|fileList[${index.index}].file|" class="upload-hidden fileinp">
                         </div>
                     </td>
                     <td class="sz_50">
-                        <span class="tb_btn delete">삭제</span>
+                        <input type="hidden" name="|fileList[${index.index}].modFlag|" />
+                        <span class="tb_btn delete" onclick="deleteToggleFile(this)">삭제</span>
+                    </td>
+                </tr>
+                <tr th:each="rstLi,index : ${matrlVo.fileList}" th:attr="data-idx=${index.index}">
+                    <td th:text="${index.count}">1</td>
+                    <td th:text="${rstLi.fileDesc}">fileDesc</td>
+                    <td><a th:href="${rstLi.filePath}" th:text="${rstLi.fileNm}">fileNm</a></td>
+                    <td class="sz_50">
+                        <input type="hidden" th:name="|fileList[${index.index}].fileSeq|" th:value="${rstLi.fileSeq}" />
+                        <input type="hidden" th:name="|fileList[${index.index}].modFlag|" />
+                        <span class="tb_btn delete" onclick="deleteToggleFile(this)" th:attr="data-idx=${index.index}">삭제</span>
                     </td>
                 </tr>
             </tbody>
